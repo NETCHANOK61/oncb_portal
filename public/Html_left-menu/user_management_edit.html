@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="msapplication-TileColor" content="#0061da" />
+	<meta name="theme-color" content="#1643a3" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="mobile-web-app-capable" content="yes" />
+	<meta name="HandheldFriendly" content="True" />
+	<meta name="MobileOptimized" content="320" />
+	<link rel="icon" href="favicon.ico" type="image/x-icon" />
+	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+
+	<!-- TITLE -->
+	<title>NISPA-2024</title>
+
+	<!-- DASHBOARD CSS -->
+	<link href="../assets/css/dashboard.css" rel="stylesheet" />
+
+	<!-- COLOR-THEMES CSS -->
+	<link href="../assets/css/color-themes.css" rel="stylesheet" />
+
+	<!-- Sidemenu css -->
+	<link id="side" href="../assets/plugins/side-menu/full-sidemenu.css" rel="stylesheet" />
+
+	<!-- Sidebar Accordions css -->
+	<link href="../assets/plugins/sidemenu-responsive-tabs/css/easy-responsive-tabs.css" rel="stylesheet" />
+
+	<!-- Perfect scroll bar css-->
+	<link href="../assets/plugins/pscrollbar/perfect-scrollbar.css" rel="stylesheet" />
+
+	<!--C3.JS CHARTS PLUGIN -->
+	<link href="../assets/plugins/charts-c3/c3-chart.css" rel="stylesheet" />
+
+	<!-- TABS CSS -->
+	<link href="../assets/plugins/tabs/tabs-style2.css" rel="stylesheet" type="text/css" />
+
+	<!-- CUSTOM SCROLL BAR CSS-->
+	<link href="../assets/plugins/mcustomscrollbar/jquery.mCustomScrollbar.css" rel="stylesheet" />
+
+	<!--- FONT-ICONS CSS -->
+	<link href="../assets/css/icons.css" rel="stylesheet" />
+
+	<!-- RIGHT-MENU CSS -->
+	<link href="../assets/plugins/sidebar/sidebar.css" rel="stylesheet" />
+
+	<!-- LEFT-SIDEMENU CSS -->
+	<link href="../assets/plugins/jquery-jside-menu-master/css/jside-menu.css" rel="stylesheet" />
+	<link href="../assets/plugins/jquery-jside-menu-master/css/jside-skins.css" rel="stylesheet" />
+
+	<!-- SELECT2 CSS -->
+	<link href="../assets/plugins/select2/select2.min.css" rel="stylesheet" />
+
+	<!-- TIME PICKER CSS -->
+	<link href="../assets/plugins/time-picker/jquery.timepicker.css" rel="stylesheet" />
+
+	<!-- DATE PICKER CSS -->
+	<link href="../assets/plugins/spectrum-date-picker/spectrum.css" rel="stylesheet" />
+
+	<!-- MULTI SELECT CSS -->
+	<link rel="stylesheet" href="../assets/plugins/multipleselect/multiple-select.css" />
+
+	<!-- FILE UPLODES -->
+	<link href="../assets/plugins/fileuploads/css/dropify.min.css" rel="stylesheet" type="text/css" />
+
+	<!-- TABS STYLES -->
+	<link href="../assets/plugins/tabs/tabs-style.css" rel="stylesheet" />
+</head>
+
+<body class="app sidebar-mini rtl">
+	<!-- GLOBAL-LOADER -->
+	<div id="global-loader">
+		<img src="../assets/images/loader.svg" class="loader-img" alt="Loader" />
+	</div>
+	<div class="page">
+		<div class="page-main">
+
+			<!-- Sidebar menu-->
+			<navbar-component></navbar-component>
+			<!--sidemenu end-->
+
+			<!-- app-content-->
+			<div class="app-content my-3 my-md-5">
+
+				<!-- HEADER -->
+				<!-- <header-component></header-component> -->
+				<!-- HEADER END -->
+
+				<!--Resposnisve Navbar-->
+				<responsive-navbar></responsive-navbar>
+				<!--/Resposnisve Navbar-->
+
+				<div class="side-app">
+					<!-- PAGE-HEADER -->
+					<div class="page-header">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item"><a href="#">บริหารจัดการผู้ใช้งาน</a></li>
+							<li class="breadcrumb-item"><a href="user_management.html">จัดการผู้ใช้งาน
+								</a></li>
+							<li class="breadcrumb-item active" aria-current="page">
+								แก้ไขข้อมูล
+							</li>
+						</ol>
+					</div>
+					<!-- PAGE-HEADER END -->
+
+					<!-- ROW-1 OPEN -->
+					<div class="row">
+						<div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+							<!-- <div class="card"> -->
+							<!-- <div class="card-header">
+								<h3 class="card-title">เพิ่มข้อมูล</h3>
+							</div> -->
+							<div class="col-md-12">
+								<div class="card">
+									<!-- <div class="card-header">
+											<h3 class="card-title">Tabs Style</h3>
+										</div> -->
+									<div class="card-body p-6">
+										<div class="panel panel-primary">
+											<div class="tab_wrapper first_tab">
+												<ul class="tab_list">
+													<li class="active">ข้อมูลทั่วไป</li>
+													<li>กำหนดสิทธิ์</li>
+												</ul>
+
+												<div class="content_wrapper">
+													<div class="tab_content">
+														<div class="card-body">
+															<div class="row">
+																<div class="col-lg-6 col-md-12">
+																	<div class="form-group">
+																		<label
+																			for="exampleInputname">รหัสผู้ใช้งาน</label>
+																		<input type="text" class="form-control"
+																			id="exampleInputname" placeholder="123">
+																	</div>
+																</div>
+																<div class="col-lg-6 col-md-12">
+																	<div class="form-group">
+																		<label
+																			for="exampleInputname">เลขบัตรประชาชน</label>
+																		<input type="text" class="form-control"
+																			id="exampleInputname"
+																			placeholder="1234567891012">
+																	</div>
+																</div>
+															</div>
+															<div class="row">
+																<div class="col-lg-6 col-md-12">
+																	<div class="form-group">
+																		<label for="exampleInputname">ชื่อ</label>
+																		<input type="text" class="form-control"
+																			id="exampleInputname" placeholder="สมรัก">
+																	</div>
+																</div>
+																<div class="col-lg-6 col-md-12">
+																	<div class="form-group">
+																		<label for="exampleInputname1">นามสกุล</label>
+																		<input type="text" class="form-control"
+																			id="exampleInputname1"
+																			placeholder="คำสิงห์">
+																	</div>
+																</div>
+															</div>
+															<div class="row">
+																<div class="col-lg-6 col-md-12">
+																	<div class="form-group">
+																		<label for="exampleInputname">โทรศัทพ์</label>
+																		<input type="text" class="form-control"
+																			id="exampleInputname"
+																			placeholder="0643144591">
+																	</div>
+																</div>
+																<div class="col-lg-6 col-md-12">
+																	<div class="form-group">
+																		<label for="exampleInputname1">Email</label>
+																		<input type="text" class="form-control"
+																			id="exampleInputname1"
+																			placeholder="test@gmail.com">
+																	</div>
+																</div>
+															</div>
+															<div class="row">
+																<div class="col-lg-6 col-md-12">
+																	<label for="exampleInputname1">USERNAME</label>
+																	<div class="row gutters-xs">
+																		<div class="col">
+																			<input type="text" class="form-control"
+																				placeholder="USERNAME">
+																		</div>
+																		<span class="col-auto">
+																			<button class="btn btn-success-light"
+																				type="button">generate
+																				username</button>
+																		</span>
+																	</div>
+																</div>
+																<div class="col-lg-6 col-md-12">
+																	<label for="exampleInputname1">PASSWORD</label>
+																	<div class="row gutters-xs">
+																		<div class="col">
+																			<input type="text" class="form-control"
+																				placeholder="PASSWORD">
+																		</div>
+																		<span class="col-auto">
+																			<button class="btn btn-success-light"
+																				type="button">generate
+																				password</button>
+																		</span>
+																	</div>
+																</div>
+															</div>
+
+															<br>
+
+															<div class="row">
+																<div class="col-lg-2 col-md-12">
+																	<h4>ประเภทผู้ใช้งาน</h4>
+																</div>
+															</div>
+
+															<div class="row">
+																<div class="col-lg-12 col-md-12">
+																	<h5>ปปส. ส่วนกลาง</h5>
+																</div>
+																<div class="col-lg-4 col-md-12">
+																	<div class="form-group">
+																		<label
+																			for="exampleInputname1">เพิ่มกลุ่ม</label>
+																		<div class="form-group">
+																			<select multiple="multiple"
+																				class="single-select">
+																				<option value="10" selected>
+																					กลุ่ม1</option>
+																				<option value="20">กลุ่ม2
+																				</option>
+																				<option value="30">กลุ่ม3
+																				</option>
+																			</select>
+																		</div>
+																	</div>
+																</div>
+																<div class="col-lg-4 col-md-12">
+																	<div class="form-group">
+																		<label for="exampleInputname1">เพื่มแผนก</label>
+																		<div class="form-group">
+																			<select multiple="multiple"
+																				class="single-select">
+																				<option value="10" selected>
+																					แผนก1</option>
+																				<option value="20">แผนก2
+																				</option>
+																				<option value="30">แผนก3
+																				</option>
+																			</select>
+																		</div>
+																	</div>
+																</div>
+																<div class="col-lg-4 col-md-12">
+																	<div class="form-group">
+																		<label for="exampleInputname1">Login
+																			Type</label>
+																		<div class="form-group">
+																			<select multiple="multiple"
+																				class="single-select"
+																				disabled="disabled">
+																				<option value="10" selected>
+																					AD</option>
+																				<option value="20">
+																					AD</option>
+																			</select>
+																		</div>
+																	</div>
+																</div>
+															</div>
+
+															<div class="row">
+																<div class="col-lg-12 col-md-12">
+																	<h5>ปปส. ภูมิภาค</h5>
+																</div>
+																<div class="col-lg-4 col-md-12">
+																	<div class="form-group">
+																		<label
+																			for="exampleInputname1">เพิ่มจังหวัด</label>
+																		<div class="form-group">
+																			<select multiple="multiple"
+																				class="single-select">
+																				<option value="10" selected>
+																					ชลบุรี</option>
+																				<option value="20">ระยอง
+																				</option>
+																			</select>
+																		</div>
+																	</div>
+																</div>
+																<div class="col-lg-4 col-md-12">
+																	<div class="form-group">
+																		<label
+																			for="exampleInputname1">เพื่มอำเภอ</label>
+																		<div class="form-group">
+																			<select multiple="multiple"
+																				class="single-select">
+																				<option value="10" selected>
+																					สัตหีบ</option>
+																				<option value="20">บางเสร่
+																				</option>
+																			</select>
+																		</div>
+																	</div>
+																</div>
+																<div class="col-lg-4 col-md-12">
+																	<div class="form-group">
+																		<label for="exampleInputname1">Login
+																			Type</label>
+																		<div class="form-group">
+																			<select multiple="multiple"
+																				class="single-select">
+																				<option value="10" selected>ThaiD
+																				</option>
+																				<option value="20">DigitalID
+																				</option>
+																			</select>
+																		</div>
+																	</div>
+																</div>
+															</div>
+
+															<div class="row">
+																<div class="col-lg-12 col-md-12">
+																	<h5>สถานศึกษา</h5>
+																</div>
+																<div class="col-lg-4 col-md-12">
+																	<div class="form-group">
+																		<label
+																			for="exampleInputname1">สำนักงานคณะกรรมการการศึกษาขั้นพื้นฐาน</label>
+																		<div class="form-group">
+																			<select multiple="multiple"
+																				class="single-select">
+																				<option value="01" selected>
+																					เขตการศึกษา1</option>
+																				<option value="02">
+																					เขตการศึกษา2</option>
+																				<option value="03">
+																					เขตการศึกษา3</option>
+																			</select>
+																		</div>
+																	</div>
+																</div>
+																<div class="col-lg-4 col-md-12">
+																	<div class="form-group">
+																		<label for="exampleInputname1">เทศบาล</label>
+																		<div class="form-group">
+																			<select multiple="multiple"
+																				class="single-select">
+																				<option value="01" selected>
+																					เทศบาล1</option>
+																				<option value="02">
+																					เทศบาล2</option>
+																				<option value="03">
+																					เทศบาล3</option>
+																			</select>
+																		</div>
+																	</div>
+																</div>
+																<div class="col-lg-4 col-md-12">
+																	<div class="form-group">
+																		<label for="exampleInputname1">โรงเรียน</label>
+																		<div class="form-group">
+																			<select multiple="multiple"
+																				class="single-select">
+																				<option value="01" selected>
+																					โรงเรียน1</option>
+																				<option value="02">
+																					โรงเรียน2</option>
+																				<option value="03">
+																					โรงเรียน3</option>
+																			</select>
+																		</div>
+																	</div>
+																</div>
+															</div>
+
+															<br>
+															<h4>ไฟล์แนบขออนุญาติใช้ระบบ</h4>
+
+															<div class="mb-3">
+																<input class="form-control" type="file" id="formFile">
+															</div>
+
+															<div class="" align="right">
+																<a href="#"
+																	class="btn btn-success-light mt-1">บันทึก</a>
+																<a href="#" class="btn btn-danger-light mt-1">ยกเลิก</a>
+															</div>
+														</div>
+													</div>
+
+													<div class="tab_content">
+
+														<h4>รูปแบบการกำหนดสิทธิ์</h4>
+
+														<div class="row">
+															<div class="col-lg-12 col-md-12">
+																<div class="row">
+																	<div class="col-lg-2">
+																		<label class="custom-control custom-radio">
+																			<input type="radio"
+																				class="custom-control-input"
+																				name="example-radios" value="option1"
+																				checked>
+																			<span
+																				class="custom-control-label">กำหนดเอง</span>
+																		</label>
+																	</div>
+																	<div class="col-lg-2">
+																		<label class="custom-control custom-radio">
+																			<input type="radio"
+																				class="custom-control-input"
+																				name="example-radios" value="option1"
+																				checked>
+																			<span class="custom-control-label">กำหนดตาม
+																				Role</span>
+																		</label>
+																	</div>
+																</div>
+															</div>
+														</div>
+
+														<div class="row">
+															<div class="col-lg-4 col-md-12">
+																<div class="form-group">
+																	<h5>Role</h5>
+																	<div class="form-group">
+																		<select multiple="multiple"
+																			class="single-select">
+																			<option value="10" selected>
+																				ปปส. ส่วนกลาง</option>
+																			<option value="20">ปปส. ภูมิภาค
+																			</option>
+																			<option value="30">สถานศึกษา
+																			</option>
+																		</select>
+																	</div>
+																</div>
+															</div>
+														</div>
+
+														<br>
+														<h4>กรณีกำหนดเอง</h4>
+
+														<div class="row">
+															<div class="col-lg-6 col-md-12">
+																<div class="form-group">
+																	<div class="card text-white"
+																		style="background-color: #276cccd0;">
+																		<div class="card-body">
+
+																			<div class="row">
+																				<div class="col-lg-8 col-md-12">
+																					<p>เมนู 1</p>
+																				</div>
+																				<div class="col-lg-4 col-md-12"
+																					style="align-items:end;">
+																					<label
+																						class="custom-control custom-checkbox ">
+																						<input type="checkbox"
+																							class="custom-control-input"
+																							name="example-radio"
+																							value="option4">
+																						<span
+																							class="custom-control-label">ทั้งหมด</span>
+																					</label>
+																				</div>
+
+
+																			</div>
+																			<div class="row">
+																				<div class="col-4">
+																					<label
+																						class="custom-control custom-checkbox">
+																						<input type="checkbox"
+																							class="custom-control-input"
+																							name="example-checkbox"
+																							value="option1">
+																						<span
+																							class="custom-control-label">เพิ่ม</span>
+																					</label>
+																				</div>
+																				<div class="col-4">
+																					<label
+																						class="custom-control custom-checkbox">
+																						<input type="checkbox"
+																							class="custom-control-input"
+																							name="example-checkbox"
+																							value="option2">
+																						<span
+																							class="custom-control-label">ดู</span>
+																					</label>
+																				</div>
+																				<div class="col-4">
+																					<label
+																						class="custom-control custom-checkbox">
+																						<input type="checkbox"
+																							class="custom-control-input"
+																							name="example-checkbox"
+																							value="option3">
+																						<span
+																							class="custom-control-label">แก้ไข</span>
+																					</label>
+																				</div>
+
+																			</div>
+																			<div class="row">
+																				<div class="col-4">
+																					<label
+																						class="custom-control custom-checkbox">
+																						<input type="checkbox"
+																							class="custom-control-input"
+																							name="example-checkbox"
+																							value="option1">
+																						<span
+																							class="custom-control-label">ลบ</span>
+																					</label>
+																				</div>
+																				<div class="col-4">
+																					<label
+																						class="custom-control custom-checkbox">
+																						<input type="checkbox"
+																							class="custom-control-input"
+																							name="example-checkbox"
+																							value="option2">
+																						<span
+																							class="custom-control-label">รายงาน</span>
+																					</label>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															</div>
+															<div class="col-lg-6 col-md-12">
+																<div class="form-group">
+																	<div class="card text-white"
+																		style="background-color: #276cccd0;">
+																		<div class="card-body">
+																			<div class="row">
+																				<div class="col-lg-8 col-md-12">
+																					<p>เมนู 2</p>
+																				</div>
+																				<div class="col-lg-4 col-md-12"
+																					style="align-items:end;">
+																					<label
+																						class="custom-control custom-checkbox ">
+																						<input type="checkbox"
+																							class="custom-control-input"
+																							name="example-radio"
+																							value="option4">
+																						<span
+																							class="custom-control-label">ทั้งหมด</span>
+																					</label>
+																				</div>
+
+																			</div>
+																			<div class="row">
+																				<div class="col-4">
+																					<label
+																						class="custom-control custom-checkbox">
+																						<input type="checkbox"
+																							class="custom-control-input"
+																							name="example-checkbox"
+																							value="option1">
+																						<span
+																							class="custom-control-label">เพิ่ม</span>
+																					</label>
+																				</div>
+																				<div class="col-4">
+																					<label
+																						class="custom-control custom-checkbox">
+																						<input type="checkbox"
+																							class="custom-control-input"
+																							name="example-checkbox"
+																							value="option2">
+																						<span
+																							class="custom-control-label">ดู</span>
+																					</label>
+																				</div>
+																				<div class="col-4">
+																					<label
+																						class="custom-control custom-checkbox">
+																						<input type="checkbox"
+																							class="custom-control-input"
+																							name="example-checkbox"
+																							value="option3">
+																						<span
+																							class="custom-control-label">แก้ไข</span>
+																					</label>
+																				</div>
+
+																			</div>
+																			<div class="row">
+																				<div class="col-4">
+																					<label
+																						class="custom-control custom-checkbox">
+																						<input type="checkbox"
+																							class="custom-control-input"
+																							name="example-checkbox"
+																							value="option1">
+																						<span
+																							class="custom-control-label">ลบ</span>
+																					</label>
+																				</div>
+																				<div class="col-4">
+																					<label
+																						class="custom-control custom-checkbox">
+																						<input type="checkbox"
+																							class="custom-control-input"
+																							name="example-checkbox"
+																							value="option2">
+																						<span
+																							class="custom-control-label">รายงาน</span>
+																					</label>
+																				</div>
+
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															</div>
+															<div class="col-lg-6 col-md-12">
+																<div class="form-group">
+																	<div class="card text-white"
+																		style="background-color: #276cccd0;">
+																		<div class="card-body">
+																			<div class="row">
+																				<div class="col-lg-8 col-md-12">
+																					<p>เมนู 3</p>
+																				</div>
+																				<div class="col-lg-4 col-md-12"
+																					style="align-items:end;">
+																					<label
+																						class="custom-control custom-checkbox ">
+																						<input type="checkbox"
+																							class="custom-control-input"
+																							name="example-radio"
+																							value="option4">
+																						<span
+																							class="custom-control-label">ทั้งหมด</span>
+																					</label>
+																				</div>
+
+																			</div>
+																			<div class="row">
+																				<div class="col-4">
+																					<label
+																						class="custom-control custom-checkbox">
+																						<input type="checkbox"
+																							class="custom-control-input"
+																							name="example-checkbox"
+																							value="option1">
+																						<span
+																							class="custom-control-label">เพิ่ม</span>
+																					</label>
+																				</div>
+																				<div class="col-4">
+																					<label
+																						class="custom-control custom-checkbox">
+																						<input type="checkbox"
+																							class="custom-control-input"
+																							name="example-checkbox"
+																							value="option2">
+																						<span
+																							class="custom-control-label">ดู</span>
+																					</label>
+																				</div>
+																				<div class="col-4">
+																					<label
+																						class="custom-control custom-checkbox">
+																						<input type="checkbox"
+																							class="custom-control-input"
+																							name="example-checkbox"
+																							value="option3">
+																						<span
+																							class="custom-control-label">แก้ไข</span>
+																					</label>
+																				</div>
+
+																			</div>
+																			<div class="row">
+																				<div class="col-4">
+																					<label
+																						class="custom-control custom-checkbox">
+																						<input type="checkbox"
+																							class="custom-control-input"
+																							name="example-checkbox"
+																							value="option1">
+																						<span
+																							class="custom-control-label">ลบ</span>
+																					</label>
+																				</div>
+																				<div class="col-4">
+																					<label
+																						class="custom-control custom-checkbox">
+																						<input type="checkbox"
+																							class="custom-control-input"
+																							name="example-checkbox"
+																							value="option2">
+																						<span
+																							class="custom-control-label">รายงาน</span>
+																					</label>
+																				</div>
+
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															</div>
+															<div class="col-lg-6 col-md-12">
+																<div class="form-group">
+																	<div class="card text-white"
+																		style="background-color: #276cccd0;">
+																		<div class="card-body">
+																			<div class="row">
+																				<div class="col-lg-8 col-md-12">
+																					<p>เมนู 4</p>
+																				</div>
+																				<div class="col-lg-4 col-md-12"
+																					style="align-items:end;">
+																					<label
+																						class="custom-control custom-checkbox ">
+																						<input type="checkbox"
+																							class="custom-control-input"
+																							name="example-radio"
+																							value="option4">
+																						<span
+																							class="custom-control-label">ทั้งหมด</span>
+																					</label>
+																				</div>
+
+																			</div>
+																			<div class="row">
+																				<div class="col-4">
+																					<label
+																						class="custom-control custom-checkbox">
+																						<input type="checkbox"
+																							class="custom-control-input"
+																							name="example-checkbox"
+																							value="option1">
+																						<span
+																							class="custom-control-label">เพิ่ม</span>
+																					</label>
+																				</div>
+																				<div class="col-4">
+																					<label
+																						class="custom-control custom-checkbox">
+																						<input type="checkbox"
+																							class="custom-control-input"
+																							name="example-checkbox"
+																							value="option2">
+																						<span
+																							class="custom-control-label">ดู</span>
+																					</label>
+																				</div>
+																				<div class="col-4">
+																					<label
+																						class="custom-control custom-checkbox">
+																						<input type="checkbox"
+																							class="custom-control-input"
+																							name="example-checkbox"
+																							value="option3">
+																						<span
+																							class="custom-control-label">แก้ไข</span>
+																					</label>
+																				</div>
+
+																			</div>
+																			<div class="row">
+																				<div class="col-4">
+																					<label
+																						class="custom-control custom-checkbox">
+																						<input type="checkbox"
+																							class="custom-control-input"
+																							name="example-checkbox"
+																							value="option1">
+																						<span
+																							class="custom-control-label">ลบ</span>
+																					</label>
+																				</div>
+																				<div class="col-4">
+																					<label
+																						class="custom-control custom-checkbox">
+																						<input type="checkbox"
+																							class="custom-control-input"
+																							name="example-checkbox"
+																							value="option2">
+																						<span
+																							class="custom-control-label">รายงาน</span>
+																					</label>
+																				</div>
+
+																			</div>
+																		</div>
+
+																	</div>
+																	<div class="" align="right">
+																		<a href="#"
+																			class="btn btn-success-light mt-1">ตกลง</a>
+																		<a href="#"
+																			class="btn btn-danger-light mt-1">ยกเลิก</a>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- ROW-1 CLOSED -->
+						</div>
+						<!--CONTAINER CLOSED -->
+					</div>
+				</div>
+
+				<!-- MENU COMPONENT -->
+				<script src="../assets/js/component.js"></script>
+
+				<!-- BACK-TO-TOP -->
+				<a href="#top" id="back-to-top"><i class="fa fa-angle-up"></i></a>
+
+				<!-- JQUERY SCRIPTS -->
+				<script src="../assets/js/vendors/jquery-3.2.1.min.js"></script>
+
+				<!-- BOOTSTRAP SCRIPTS -->
+				<script src="../assets/js/vendors/bootstrap.bundle.min.js"></script>
+
+				<!-- RATING STAR -->
+				<script src="../assets/plugins/rating/jquery.rating-stars.js"></script>
+
+				<!-- CHART-CIRCLE -->
+				<script src="../assets/js/vendors/circle-progress.min.js"></script>
+
+				<!-- CHARTJS CHART -->
+				<script src="../assets/plugins/chart/Chart.bundle.js"></script>
+				<script src="../assets/plugins/chart/utils.js"></script>
+
+				<!-- C3.JS CHART PLUGIN -->
+				<script src="../assets/plugins/charts-c3/d3.v5.min.js"></script>
+				<script src="../assets/plugins/charts-c3/c3-chart.js"></script>
+
+				<!-- INPUT MASK PLUGIN-->
+				<script src="../assets/plugins/input-mask/jquery.mask.min.js"></script>
+
+				<!-- CUSTOM SCROLLBAR -->
+				<script src="../assets/plugins/mcustomscrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
+
+				<!--Side-menu js-->
+				<script src="../assets/plugins/side-menu/sidemenu.js"></script>
+
+				<!-- STICKY JS-->
+				<script src="../assets/js/sticky.js"></script>
+				<script src="../assets/js/horizontal-sticky.js"></script>
+
+				<!-- Sidebar Accordions js -->
+				<script src="../assets/plugins/sidemenu-responsive-tabs/js/easyResponsiveTabs.js"></script>
+
+				<!-- Perfect scroll bar js-->
+				<script src="../assets/plugins/pscrollbar/perfect-scrollbar.js"></script>
+
+				<!-- SELECT2 PLUGIN -->
+				<script src="../assets/plugins/select2/select2.full.min.js"></script>
+
+				<!-- RIGHT-MENU JS -->
+				<script src="../assets/plugins/sidebar/sidebar.js"></script>
+
+				<!-- TIMEPICKER JS -->
+				<script src="../assets/plugins/time-picker/jquery.timepicker.js"></script>
+				<script src="../assets/plugins/time-picker/toggles.min.js"></script>
+
+				<!-- DATEPICKER JS -->
+				<script src="../assets/plugins/spectrum-date-picker/spectrum.js"></script>
+				<script src="../assets/plugins/spectrum-date-picker/jquery-ui.js"></script>
+				<script src="../assets/plugins/input-mask/jquery.maskedinput.js"></script>
+
+				<!-- DATA TABLE -->
+				<script src="../assets/plugins/datatable/jquery.dataTables.min.js"></script>
+				<script src="../assets/plugins/datatable/dataTables.bootstrap4.min.js"></script>
+
+				<!-- SELECT2 JS -->
+				<script src="../assets/js/select2.js"></script>
+
+				<!-- FILE UPLOADES JS -->
+				<script src="../assets/plugins/fileuploads/js/dropify.min.js"></script>
+				<script src="../assets/plugins/fileuploads/js/file-upload.js"></script>
+
+				<!-- LEFT-SIDEMENU PLUGIN -->
+				<script src="../assets/plugins/jquery-jside-menu-master/js/jquery.jside.menu.js"></script>
+
+				<!-- MULTI SELECT JS-->
+				<script src="../assets/plugins/multipleselect/multiple-select.js"></script>
+				<script src="../assets/plugins/multipleselect/multi-select.js"></script>
+
+				<!-- Left CUSTOM JS-->
+				<script src="../assets/js/left-custom.js"></script>
+
+				<!-- CUSTOM JS -->
+				<script src="../assets/js/custom.js"></script>
+
+				<!--- TABS JS -->
+				<script src="../assets/plugins/tabs/jquery.multipurpose_tabcontent.js"></script>
+				<script src="../assets/plugins/tabs/tab-content.js"></script>
+
+				<!-- CUSTOM SCROLL BAR JS-->
+				<script src="../assets/plugins/mcustomscrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
+
+				<!-- SPARKLINE -->
+				<script src="../assets/js/vendors/jquery.sparkline.min.js"></script>
+
+</body>
+
+</html>

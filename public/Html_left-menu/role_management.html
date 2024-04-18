@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="msapplication-TileColor" content="#0061da">
+  <meta name="theme-color" content="#1643a3">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+
+  <!-- TITLE -->
+	<title>NISPA-2024</title>
+
+  <!-- DASHBOARD CSS -->
+  <link href="../assets/css/dashboard.css" rel="stylesheet" />
+
+  <!-- COLOR-THEMES CSS -->
+  <link href="../assets/css/color-themes.css" rel="stylesheet" />
+
+  <!-- C3.JS CHARTS PLUGIN -->
+  <link href="../assets/plugins/charts-c3/c3-chart.css" rel="stylesheet" />
+
+  <!-- TABS CSS -->
+  <link href="../assets/plugins/tabs/tabs-style2.css" rel="stylesheet" type="text/css">
+
+  <!-- CUSTOM SCROLL BAR CSS-->
+  <link href="../assets/plugins/mcustomscrollbar/jquery.mCustomScrollbar.css" rel="stylesheet" />
+
+  <!--- FONT-ICONS CSS -->
+  <link href="../assets/css/icons.css" rel="stylesheet" />
+
+  <!-- LEFT-SIDEMENU CSS -->
+  <link href="../assets/plugins/jquery-jside-menu-master/css/jside-menu.css" rel="stylesheet" />
+  <link href="../assets/plugins/jquery-jside-menu-master/css/jside-skins.css" rel="stylesheet" />
+
+  <!-- Perfect scroll bar css-->
+  <link href="../assets/plugins/pscrollbar/perfect-scrollbar.css" rel="stylesheet" />
+
+  <!-- Sidemenu css -->
+  <link id="side" href="../assets/plugins/side-menu/full-sidemenu.css" rel="stylesheet" />
+
+  <!-- Sidebar Accordions css -->
+  <link href="../assets/plugins/sidemenu-responsive-tabs/css/easy-responsive-tabs.css" rel="stylesheet">
+
+  <style>
+    .container-a {
+      border-collapse: separate;
+      /* Use separate borders */
+      border-spacing: 10px;
+      /* Set the space between borders to 10px */
+      text-align: center;
+      /* Center the content horizontally */
+    }
+
+    .col-a {
+      border: 1px solid #bac4bf;
+      padding: 10px;
+      display: table;
+      width: 300px;
+      /* Optional: Helps center elements horizontally */
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 34px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      -webkit-transition: .4s;
+      transition: .4s;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 26px;
+      width: 26px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      -webkit-transition: .4s;
+      transition: .4s;
+    }
+
+    input:checked+.slider {
+      background-color: #2196F3;
+    }
+
+    input:focus+.slider {
+      box-shadow: 0 0 1px #2196F3;
+    }
+
+    input:checked+.slider:before {
+      -webkit-transform: translateX(26px);
+      -ms-transform: translateX(26px);
+      transform: translateX(26px);
+    }
+
+    /* Rounded sliders */
+    .slider.round {
+      border-radius: 34px;
+    }
+
+    .slider.round:before {
+      border-radius: 50%;
+    }
+  </style>
+
+
+</head>
+
+<body class="app sidebar-mini rtl">
+
+  <!-- GLOBAL-LOADER -->
+  <div id="global-loader">
+    <img src="../assets/images/loader.svg" class="loader-img" alt="Loader">
+  </div>
+  <div class="page">
+    <div class="page-main">
+
+      <!-- Sidebar menu-->
+      <navbar-component></navbar-component>
+      <!--sidemenu end-->
+
+      <!-- app-content-->
+      <div class="app-content  my-3 my-md-5">
+
+        <!-- HEADER -->
+        <!-- <header-component></header-component> -->
+        <!-- HEADER END -->
+
+        <!--Resposnisve Navbar-->
+        <responsive-navbar></responsive-navbar>
+        <!--/Resposnisve Navbar-->
+
+
+        <!-- CONTAINER APP -->
+        <div class="side-app">
+
+          <!-- PAGE-HEADER -->
+          <div class="page-header">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="#">บริหารจัดการผู้ใช้งาน</a></li>
+              <li class="breadcrumb-item active" aria-current="page">จัดการบทบาทของผู้ใช้งาน</li>
+            </ol>
+
+          </div>
+
+
+          <!-- COL END -->
+          <!-- ROW-1 OPEN -->
+          <div class="row">
+            <div class="col-md-12 col-lg-12">
+              <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                  <div class="card-title">Role Management</div>
+                  <div class="btn-list">
+                    <a href="role_add.html" class="btn btn-primary ml-auto"><i
+                      class="fa fa-plus"></i> เพิ่มข้อมูล</a>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table id="example" class="table table-striped table-bordered text-nowrap w-100">
+                      <thead>
+                        <tr align="center">
+                          <th class="text-center">rolename</th>
+                          <th class="text-center">เมนู</th>
+                          <th class="text-center">สถานะ</th>
+                          <th class="text-center">การจัดการ</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr align="center">
+                          <td>xxxx</td>
+                          <td>xxxx</td>
+                          <td>
+                            <label class="switch">
+                              <input type="checkbox" checked>
+                              <span class="slider"></span>
+                            </label><br><br>
+                          </td>
+                          <td>
+                            <a href="role_view.html" class="btn btn-success"><i
+                              class="fa fa-eye"></i> ดู</a>
+                            <a href="role_edit.html" class="btn btn-warning"><i
+                              class="fa fa-pencil"></i> แก้ไข</a>
+                          </td>
+                        </tr>
+
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <!-- TABLE WRAPPER -->
+              </div>
+              <!-- SECTION WRAPPER -->
+            </div>
+          </div>
+          <!-- ROW-1 CLOSED -->
+
+        </div>
+        <!-- CONTAINER APP CLOSED -->
+      </div>
+    </div>
+
+  </div>
+
+  <!-- MENU COMPONENT -->
+  <script src="../assets/js/component.js"></script>
+
+  <!-- BACK-TO-TOP -->
+  <a href="#top" id="back-to-top"><i class="fa fa-angle-up"></i></a>
+
+  <!-- JQUERY SCRIPTS -->
+  <script src="../assets/js/vendors/jquery-3.2.1.min.js"></script>
+
+  <!-- BOOTSTRAP SCRIPTS -->
+  <script src="../assets/js/vendors/bootstrap.bundle.min.js"></script>
+
+  <!-- SPARKLINE -->
+  <script src="../assets/js/vendors/jquery.sparkline.min.js"></script>
+
+  <!-- CHART-CIRCLE -->
+  <script src="../assets/js/vendors/circle-progress.min.js"></script>
+
+  <!-- RATING STAR -->
+  <script src="../assets/plugins/rating/jquery.rating-stars.js"></script>
+
+  <!-- INPUT MASK PLUGIN-->
+  <script src="../assets/plugins/input-mask/jquery.mask.min.js"></script>
+
+  <!-- CHARTJS CHART -->
+  <script src="../assets/plugins/chart/Chart.bundle.js"></script>
+  <script src="../assets/plugins/chart/utils.js"></script>
+
+  <!-- PIETYCHART -->
+  <script src="../assets/plugins/peitychart/jquery.peity.min.js"></script>
+  <script src="../assets/plugins/peitychart/peitychart.init.js"></script>
+
+  <!-- CUSTOM SCROLL BAR JS-->
+  <script src="../assets/plugins/mcustomscrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
+
+  <!-- CHARTS PLUGIN -->
+  <script src="../assets/plugins/highcharts/highcharts.js"></script>
+
+  <!-- RIGHT-MENU JS -->
+  <!-- <script src="../assets/plugins/sidebar/sidebar.js"></script> -->
+
+  <!-- LEFT-SIDEMENU PLUGIN -->
+  <script src="../assets/plugins/jquery-jside-menu-master/js/jquery.jside.menu.js"></script>
+
+  <!--Side-menu js-->
+  <script src="../assets/plugins/side-menu/sidemenu.js"></script>
+
+  <!-- STICKY JS-->
+  <script src="../assets/js/sticky.js"></script>
+  <script src="../assets/js/horizontal-sticky.js"></script>
+
+  <!-- Sidebar Accordions js -->
+  <script src="../assets/plugins/sidemenu-responsive-tabs/js/easyResponsiveTabs.js"></script>
+
+  <!-- Perfect scroll bar js-->
+  <script src="../assets/plugins/pscrollbar/perfect-scrollbar.js"></script>
+
+  <!-- Left CUSTOM JS-->
+  <script src="../assets/js/left-custom.js"></script>
+
+  <!-- INDEX-SCRIPTS -->
+  <script src="../assets/js/index1.js"></script>
+
+  <!-- CUSTOM JS-->
+  <script src="../assets/js/custom.js"></script>
+
+  <script>
+    const xValues = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000];
+
+    new Chart("myChart", {
+      type: "line",
+      data: {
+        labels: xValues,
+        datasets: [{
+          data: [860, 1140, 1060, 1060, 1070, 1110, 1330, 2210, 7830, 2478],
+          borderColor: "#c21a1a",
+          fill: false
+        }, {
+          data: [1600, 1700, 1700, 1900, 2000, 2700, 4000, 5000, 6000, 7000],
+          borderColor: "#7bd235",
+          fill: false
+        }, {
+          data: [300, 700, 2000, 5000, 6000, 4000, 2000, 1000, 200, 100],
+          borderColor: "#ecb403",
+          fill: false
+        }, {
+          data: [300, 700, 20, 50, 400, 4000, 200, 10, 200, 10],
+          borderColor: "#00b3ff",
+          fill: false
+        }]
+      },
+      options: {
+        legend: { display: false }
+      }
+    });
+  </script>
+
+</body>
+
+</html>

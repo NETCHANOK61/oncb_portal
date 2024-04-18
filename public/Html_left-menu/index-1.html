@@ -1,0 +1,564 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="msapplication-TileColor" content="#0061da">
+	<meta name="theme-color" content="#1643a3">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="mobile-web-app-capable" content="yes">
+	<meta name="HandheldFriendly" content="True">
+	<meta name="MobileOptimized" content="320">
+	<link rel="icon" href="favicon.ico" type="image/x-icon" />
+	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+
+	<!-- TITLE -->
+	<title>user management</title>
+
+	<!-- DASHBOARD CSS -->
+	<link href="../assets/css/dashboard.css" rel="stylesheet" />
+
+	<!-- COLOR-THEMES CSS -->
+	<link href="../assets/css/color-themes.css" rel="stylesheet" />
+
+	<!-- C3.JS CHARTS PLUGIN -->
+	<link href="../assets/plugins/charts-c3/c3-chart.css" rel="stylesheet" />
+
+	<!-- TABS CSS -->
+	<link href="../assets/plugins/tabs/tabs-style2.css" rel="stylesheet" type="text/css">
+
+	<!-- CUSTOM SCROLL BAR CSS-->
+	<link href="../assets/plugins/mcustomscrollbar/jquery.mCustomScrollbar.css" rel="stylesheet" />
+
+	<!--- FONT-ICONS CSS -->
+	<link href="../assets/css/icons.css" rel="stylesheet" />
+
+	<!-- LEFT-SIDEMENU CSS -->
+	<link href="../assets/plugins/jquery-jside-menu-master/css/jside-menu.css" rel="stylesheet" />
+	<link href="../assets/plugins/jquery-jside-menu-master/css/jside-skins.css" rel="stylesheet" />
+
+	<!-- Perfect scroll bar css-->
+	<link href="../assets/plugins/pscrollbar/perfect-scrollbar.css" rel="stylesheet" />
+
+	<!-- Sidemenu css -->
+	<link id="side" href="../assets/plugins/side-menu/full-sidemenu.css" rel="stylesheet" />
+
+	<!-- Sidebar Accordions css -->
+	<link href="../assets/plugins/sidemenu-responsive-tabs/css/easy-responsive-tabs.css" rel="stylesheet">
+
+	<style>
+		.container-a {
+			border-collapse: separate;
+			/* Use separate borders */
+			border-spacing: 10px;
+			/* Set the space between borders to 10px */
+			text-align: center;
+			/* Center the content horizontally */
+		}
+
+		.col-a {
+			border: 1px solid #bac4bf;
+			padding: 10px;
+			display: table;
+			width: 300px;
+			/* Optional: Helps center elements horizontally */
+		}
+	</style>
+
+</head>
+
+<body class="app sidebar-mini rtl">
+
+	<!-- GLOBAL-LOADER -->
+	<div id="global-loader">
+		<img src="../assets/images/loader.svg" class="loader-img" alt="Loader">
+	</div>
+	<div class="page">
+		<div class="page-main">
+
+			<!-- Sidebar menu-->
+			<navbar-component></navbar-component>
+			<!--sidemenu end-->
+
+			<!-- app-content-->
+			<div class="app-content  my-3 my-md-5">
+
+				<!-- HEADER -->
+				<!-- <header-component></header-component> -->
+				<!-- HEADER END -->
+
+				<!--Resposnisve Navbar-->
+				<responsive-navbar></responsive-navbar>
+				<!--/Resposnisve Navbar-->
+
+
+				<!-- CONTAINER APP -->
+				<div class="side-app">
+
+					<!-- PAGE-HEADER -->
+					<div class="page-header">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item"><a href="#">หน้าหลัก</a></li>
+							<li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+						</ol>
+						<div>
+							<a href="#" class="btn btn-sm btn-secondary"><i class="ti-file"></i> พิมพ์ </a>
+							<a href="#" class="btn btn-sm btn-danger">Export</a>
+						</div>
+					</div>
+					<!-- PAGE-HEADER END -->
+					<div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+						<div class="card overflow-hidden">
+							<div class="card-header">
+								<h3 class="card-title">กราฟสรุปข้อมูลรายวันของแต่ละสถานี</h3>
+							</div>
+							<div class="card-body overflow-hidden">
+								<center><canvas id="myChart" style="width:100%;max-width:800px"></canvas></center>
+							</div>
+						</div>
+					</div><!-- COL END -->
+
+					<!-- ROW-1 Station Summary OPEN -->
+					<div class="row">
+						<div class="col-sm-12 col-md-12 col-lg-6 col-xl-3">
+							<div class="card">
+								<div class="card-header border-bottom-0">
+									<h3 class="card-title font-weight-normal fs-14">สรุปข้อมูลรายวันของแต่ละสถานี</h3>
+									<div class="card-options">
+										<a class="text-gray" href="javascript:void(0)">
+											<i class="mdi mdi-dots-vertical"></i>
+										</a>
+									</div>
+								</div>
+								<div class="card-body">
+									<div class="row">
+										<div class="col">
+											<div class="chart-circle chart-circle-sm ml-0" data-value="0.65"
+												data-thickness="5" data-color="#30c102"><canvas width="100"
+													height="100"></canvas>
+												<div class="chart-circle-value">
+													<div class="">135 </div>
+												</div>
+											</div>
+										</div>
+										<div class="col col-auto">
+											<h6 class="fs-13 text-muted">Km-run</h6>
+											<h3 class="font-rubik mb-0">135</h3>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div><!-- COL END -->
+
+						<div class="col-sm-12 col-md-12 col-lg-6 col-xl-3">
+							<div class="card">
+								<div class="card-header border-bottom-0">
+									<h3 class="card-title font-weight-normal fs-14">สรุปข้อมูลรายวันของแต่ละสถานี</h3>
+									<div class="card-options">
+										<a class="text-gray" href="javascript:void(0)">
+											<i class="mdi mdi-dots-vertical"></i>
+										</a>
+									</div>
+								</div>
+								<div class="card-body pt-0">
+									<div class="row">
+										<div class="col">
+											<h3 class="mb-2">1,089</h3>
+										</div>
+									</div>
+									<div class="mb-0">
+										<p class="mb-2 text-muted">kWh-charge<span
+												class="float-right badge badge-pill badge-danger">70%</span></p>
+										<div class="progress h-2">
+											<div class="progress-bar bg-danger w-80 " role="progressbar"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div><!-- COL END -->
+
+						<div class="col-sm-12 col-md-12 col-lg-6 col-xl-3">
+							<div class="card">
+								<div class="card-header border-bottom-0">
+									<h3 class="card-title font-weight-normal fs-14">สรุปข้อมูลรายวันของแต่ละสถานี</h3>
+									<div class="card-options">
+										<a class="text-gray" href="javascript:void(0)">
+											<i class="mdi mdi-dots-vertical"></i>
+										</a>
+									</div>
+								</div>
+								<div class="card-body">
+									<div class="row">
+										<div class="col">
+											<div class="chart-circle chart-circle-sm ml-0" data-value="0.65"
+												data-thickness="5" data-color="#ead40c"><canvas width="100"
+													height="100"></canvas>
+												<div class="chart-circle-value">
+													<div class="">25% </div>
+												</div>
+											</div>
+										</div>
+										<div class="col col-auto">
+											<h6 class="fs-13 text-muted">Swap</h6>
+											<h3 class="font-rubik mb-0">25</h3>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div><!-- COL END -->
+
+						<div class="col-sm-12 col-md-12 col-lg-6 col-xl-3">
+							<div class="card">
+								<div class="card-header border-bottom-0">
+									<h3 class="card-title font-weight-normal fs-14">สรุปข้อมูลรายวันของแต่ละสถานี</h3>
+									<div class="card-options">
+										<a class="text-gray" href="javascript:void(0)">
+											<i class="mdi mdi-dots-vertical"></i>
+										</a>
+									</div>
+								</div>
+								<div class="card-body pt-0">
+									<div class="row">
+										<div class="col">
+											<h3 class="mb-2">3,674</h3>
+										</div>
+									</div>
+									<div class="mb-0">
+										<p class="mb-2 text-muted">CO2 emossion redction<span
+												class="float-right badge badge-pill badge-secondary">35%</span></p>
+										<div class="progress h-2">
+											<div class="progress-bar bg-secondary w-90 " role="progressbar"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div><!-- COL END -->
+					</div>
+					<!-- ROW-1 CLOSED -->
+
+					<!-- ROW-2 Batt -->
+					<div class="row row-deck">
+						<div class="col-sm-12 col-md-12 col-lg-12 col-xl-5">
+							<div class="card overflow-hidden">
+								<div class="card-header">
+									<h3 class="card-title">จำนวนแบตเตอรี่ในโครงการ</h3>
+								</div>
+								<div class="card-body overflow-hidden">
+									<canvas id="budget" class="chart-dropshadow overflow-hidden"></canvas>
+								</div>
+							</div>
+						</div><!-- COL END -->
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xl-7">
+							<div class="card shadow">
+								<div class="card-header bg-transparent">
+									<h4 class="card-title mb-0">สถานะของแบตเตอรี่</h4>
+									<div class="dropdown" style="margin-left: 20px;">
+										<button type="button" class="btn btn-info dropdown-toggle"
+											data-toggle="dropdown">
+											<i class="fe fe-calendar mr-2"></i>รายชื่อสถานีสับเปลี่ยนแบตเตอรี่
+										</button>
+										<div class="dropdown-menu">
+											<a class="dropdown-item" href="javascript:void(0)">สถานสับเปลี่ยนแบตเตอรี่
+												ที่ 1</a>
+											<a class="dropdown-item" href="javascript:void(1)">สถานสับเปลี่ยนแบตเตอรี่
+												ที่ 2</a>
+											<a class="dropdown-item" href="javascript:void(2)">สถานสับเปลี่ยนแบตเตอรี่
+												ที่ 3</a>
+										</div>
+									</div>
+								</div>
+
+								<!-- ROW-1 Summary Station -->
+
+
+								<div class="card-body">
+									<div class="container-a">
+										<div class="row"><button type="button" class="btn btn-success btn-block"
+												style="color: #fff; border-radius: 0; font-size: 18px;">สถานีที่
+												1</button>
+										</div>
+										<div class="row">
+											<div class="col col-a">
+												<p>ID : 1001</p>
+												<i class="fa fa-2x fa-battery" style="color: #177f61;"></i>
+												<p>SOC (%) : 100</p>
+											</div>
+											<div class="col col-a">
+												<div>
+													<p>ID : 1002</p>
+													<i class="fa fa-2x fa-battery" style="color: #177f61;"></i>
+													<p>SOC (%) : 90</p>
+												</div>
+											</div>
+											<div class="col col-a">
+												<p>ID : 1003</p>
+												<i class="fa fa-2x fa-battery-quarter"
+													style="color: rgb(221, 212, 38);"></i>
+												<p>SOC (%) : During charge</p>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col col-a">
+												<div>
+													<p>ID : 1006</p>
+													<i class="fa fa-2x fa-battery-half"
+														style="color: rgb(221, 212, 38);"></i>
+													<p>SOC (%) : During charge</p>
+												</div>
+											</div>
+											<div class="col col-a">
+												<div>
+													<p>ID : 1005</p>
+													<i class="fa fa-2x fa-battery" style="color: #177f61;"></i>
+													<p>SOC (%) : 82</p>
+												</div>
+											</div>
+											<div class="col col-a">
+												<div>
+													<p>ID : 1004</p>
+													<i class="fa fa-2x fa-battery-empty"
+														style="color: rgb(127, 23, 23);"></i>
+													<p>SOC (%) : - -</p>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col col-a">
+												<div>
+													<p>ID : 1007</p>
+													<i class="fa fa-2x fa-battery-empty"
+														style="color: rgb(127, 23, 23);"></i>
+													<p>SOC (%) : - -</p>
+												</div>
+											</div>
+											<div class="col col-a">
+												<div>
+													<p>ID : 1008</p>
+													<i class="fa fa-2x fa-battery" style="color: #177f61;"></i>
+													<p>SOC (%) : 100</p>
+												</div>
+											</div>
+											<div class="col col-a">
+												<div>
+													<p>Empty slot</p>
+													<i class="fa fa-5x fa-square" style="color: #737373;"></i>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div><!-- COL END -->
+					</div>
+					<!-- ROW-3 CLOSED -->
+
+					<!-- ROW-4 OPEN -->
+					<div class="row row-deck">
+						<div class="col-sm-12 col-md-12 col-lg-12 col-xl-4">
+							<div class="card overflow-hidden">
+								<div class="card-header">
+									<h3 class="card-title">สถานีสับเปลี่ยนแบตเตอรี่</h3>
+								</div>
+								<div class="card-body overflow-hidden pb-0">
+									<h2 class="mb-0 font-rubik fs-40">100%</h2>
+									<small class="text-muted">เปิดใช้บริการ </small>
+									<div class="row mt-4">
+										<div class="col-sm-12">
+											<div class="mb-0">
+												<h4 class="mb-2 d-block">
+													<span class="fs-16">จำนวนสถานีทั้งหมด</span>
+													<span class="float-right font-rubik fs-30">3</span>
+												</h4>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="chart-wrapper overflow-hidden">
+									<canvas id="total-budget"
+										class="areaChart overflow-hidden chart-dropshadow overflow-hidden"></canvas>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-12 col-md-12 col-lg-12 col-xl-4">
+							<div class="card overflow-hidden">
+								<div class="card-body text-center overflow-hidden">
+									<div class="mb-4">
+										<h5 class="card-title fs-40">จำนวนการใช้แบตเตอรี่</h5>
+									</div>
+									<h2 class="mb-1 font-rubik fs-40">60</h2>
+									<div class="mb-1">
+										<small class="text-primary mb-0">เพิ่มขึ้นจากเดือนที่ผ่านมา</small>
+										<small class="text-muted ml-2">20%</small>
+									</div>
+									<div class="chart-wrapper">
+										<canvas id="expense" class="chart-dropshadow2 overflow-hidden"></canvas>
+									</div>
+								</div>
+							</div>
+						</div><!-- COL END -->
+						<div class="col-sm-12 col-md-12 col-lg-12 col-xl-4">
+							<div class="card overflow-hidden">
+								<div class="card-header">
+									<h3 class="card-title">จำนวนรถมอเตอร์ไซต์ในโครงการ</h3>
+								</div>
+								<div class="card-body">
+									<div class="">
+										<p class="mb-0">จีพีเอ็กซ์</p>
+										<div class="d-flex justify-content-between align-items-center">
+											<div class="progress h-3 w-100 mt-1 flex-grow-1 mr-4">
+												<div class="progress-bar bg-primary-1 w-80"></div>
+											</div>
+											<p class="text-muted mt-1 mb-0">80%</p>
+										</div>
+									</div>
+									<div class="mt-3">
+										<p class="mb-0"> ไอ มอเตอร์</p>
+										<div class="d-flex justify-content-between align-items-center">
+											<div class="progress h-3 w-100 mt-1 flex-grow-1 mr-4">
+												<div class="progress-bar bg-secondary-1 w-50"></div>
+											</div>
+											<p class="text-muted mt-1 mb-0">50%</p>
+										</div>
+									</div>
+									<div class="mt-3">
+										<p class=" mb-0">ยามาฮ่า </p>
+										<div class="d-flex justify-content-between align-items-center">
+											<div class="progress h-3 w-100 mt-1 flex-grow-1 mr-4">
+												<div class="progress-bar bg-danger-1 w-65"></div>
+											</div>
+											<p class="text-muted mt-1 mb-0">65%</p>
+										</div>
+									</div>
+									<div class="mt-3">
+										<p class=" mb-0">ฮอนด้า</p>
+										<div class="d-flex justify-content-between align-items-center">
+											<div class="progress h-3 w-100 mt-1 flex-grow-1 mr-4">
+												<div class="progress-bar bg-success w-30"></div>
+											</div>
+											<p class="text-muted mt-1 mb-0">30%</p>
+										</div>
+									</div>
+									<div class="mt-3">
+										<p class=" mb-0">โตโยต้า</p>
+										<div class="d-flex justify-content-between align-items-center">
+											<div class="progress h-3 w-100 mt-1 flex-grow-1 mr-4">
+												<div class="progress-bar bg-warning-1 w-40"></div>
+											</div>
+											<p class="text-muted mt-1 mb-0">40%</p>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- ROW-4 CLOSED -->
+				</div>
+				<!-- CONTAINER APP CLOSED -->
+			</div>
+		</div>
+
+	</div>
+
+	<!-- MENU COMPONENT -->
+	<script src="../assets/js/component.js"></script>
+
+	<!-- BACK-TO-TOP -->
+	<a href="#top" id="back-to-top"><i class="fa fa-angle-up"></i></a>
+
+	<!-- JQUERY SCRIPTS -->
+	<script src="../assets/js/vendors/jquery-3.2.1.min.js"></script>
+
+	<!-- BOOTSTRAP SCRIPTS -->
+	<script src="../assets/js/vendors/bootstrap.bundle.min.js"></script>
+
+	<!-- SPARKLINE -->
+	<script src="../assets/js/vendors/jquery.sparkline.min.js"></script>
+
+	<!-- CHART-CIRCLE -->
+	<script src="../assets/js/vendors/circle-progress.min.js"></script>
+
+	<!-- RATING STAR -->
+	<script src="../assets/plugins/rating/jquery.rating-stars.js"></script>
+
+	<!-- INPUT MASK PLUGIN-->
+	<script src="../assets/plugins/input-mask/jquery.mask.min.js"></script>
+
+	<!-- CHARTJS CHART -->
+	<script src="../assets/plugins/chart/Chart.bundle.js"></script>
+	<script src="../assets/plugins/chart/utils.js"></script>
+
+	<!-- PIETYCHART -->
+	<script src="../assets/plugins/peitychart/jquery.peity.min.js"></script>
+	<script src="../assets/plugins/peitychart/peitychart.init.js"></script>
+
+	<!-- CUSTOM SCROLL BAR JS-->
+	<script src="../assets/plugins/mcustomscrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
+
+	<!-- CHARTS PLUGIN -->
+	<script src="../assets/plugins/highcharts/highcharts.js"></script>
+
+	<!-- RIGHT-MENU JS -->
+	<!-- <script src="../assets/plugins/sidebar/sidebar.js"></script> -->
+
+	<!-- LEFT-SIDEMENU PLUGIN -->
+	<script src="../assets/plugins/jquery-jside-menu-master/js/jquery.jside.menu.js"></script>
+
+	<!--Side-menu js-->
+	<script src="../assets/plugins/side-menu/sidemenu.js"></script>
+
+	<!-- STICKY JS-->
+	<script src="../assets/js/sticky.js"></script>
+	<script src="../assets/js/horizontal-sticky.js"></script>
+
+	<!-- Sidebar Accordions js -->
+	<script src="../assets/plugins/sidemenu-responsive-tabs/js/easyResponsiveTabs.js"></script>
+
+	<!-- Perfect scroll bar js-->
+	<script src="../assets/plugins/pscrollbar/perfect-scrollbar.js"></script>
+
+	<!-- Left CUSTOM JS-->
+	<script src="../assets/js/left-custom.js"></script>
+
+	<!-- INDEX-SCRIPTS -->
+	<script src="../assets/js/index1.js"></script>
+
+	<!-- CUSTOM JS-->
+	<script src="../assets/js/custom.js"></script>
+
+	<script>
+		const xValues = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000];
+
+		new Chart("myChart", {
+			type: "line",
+			data: {
+				labels: xValues,
+				datasets: [{
+					data: [860, 1140, 1060, 1060, 1070, 1110, 1330, 2210, 7830, 2478],
+					borderColor: "#c21a1a",
+					fill: false
+				}, {
+					data: [1600, 1700, 1700, 1900, 2000, 2700, 4000, 5000, 6000, 7000],
+					borderColor: "#7bd235",
+					fill: false
+				}, {
+					data: [300, 700, 2000, 5000, 6000, 4000, 2000, 1000, 200, 100],
+					borderColor: "#ecb403",
+					fill: false
+				}, {
+					data: [300, 700, 20, 50, 400, 4000, 200, 10, 200, 10],
+					borderColor: "#00b3ff",
+					fill: false
+				}]
+			},
+			options: {
+				legend: { display: false }
+			}
+		});
+	</script>
+
+</body>
+
+</html>
