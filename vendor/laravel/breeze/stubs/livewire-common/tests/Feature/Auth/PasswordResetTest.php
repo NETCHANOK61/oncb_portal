@@ -75,7 +75,7 @@ class PasswordResetTest extends TestCase
             $component->call('resetPassword');
 
             $component
-                ->assertRedirect('login')
+                ->assertRedirect('/login')
                 ->assertHasNoErrors();
 
             return true;

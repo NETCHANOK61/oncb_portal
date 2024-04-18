@@ -22,7 +22,7 @@ class LoginAuthenticator implements AuthenticatorInterface
 {
     public function getAuthKeyword(): string
     {
-        return 'login';
+        return 'LOGIN';
     }
 
     /**

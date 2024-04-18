@@ -1,0 +1,5 @@
+"id","name","email","email_verified_at","password","remember_token","created_at","updated_at","surname","card_id","div2","groupid","username","file","phone","agency","PROV_ID","AMP_ID","edu_area_id","dept_id","ipAddress"
+"1","admin01","admin@gmail.com",,"$2y$12$h7enN9tEdAyeNAgjODdzheKXijt0eI.BW2jsksrWC6JpeAmq/9ol6",,"8/3/2024 09:28:52.467","8/3/2024 09:28:52.467",,"1102700814204",,,,,,,,,,,"127.0.0.1"
+"2","user01","user@gmail.com",,"$2y$12$uLUHEZSaqQIEszpsnNSeEenZAaq39uye5K0FwcmIVNIrRzSYzFiPe",,"8/3/2024 09:28:52.977","8/3/2024 09:28:52.977",,"1102700814203",,,,,,,,,,,
+"3","superAdmin01","sa@gmail.com",,"$2y$12$ZiyZ.wO6SQ6/HRRgyfcTKOPj4TjFQSTfIziRS/0PxoqwiR6lVBsBK",,"8/3/2024 09:28:53.21","8/3/2024 09:28:53.21",,"1102700814202",,,,,,,,,,,
+"4","superUser01","su@gmail.com",,"$2y$12$h//AXzmyXz274g7t5MCFjO06zMojY2mYtch6RSbDrzbtJro7yFqJi",,"8/3/2024 09:28:53.447","8/3/2024 09:28:53.447",,"1102700814201",,,,,,,,,,,

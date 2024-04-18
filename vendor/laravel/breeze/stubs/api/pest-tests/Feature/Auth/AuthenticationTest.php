@@ -5,7 +5,7 @@ use App\Models\User;
 test('users can authenticate using the login screen', function () {
     $user = User::factory()->create();
 
-    $response = $this->post('login', [
+    $response = $this->post('/login', [
         'email' => $user->email,
         'password' => 'password',
     ]);
@@ -17,7 +17,7 @@ test('users can authenticate using the login screen', function () {
 test('users can not authenticate with invalid password', function () {
     $user = User::factory()->create();
 
-    $this->post('login', [
+    $this->post('/login', [
         'email' => $user->email,
         'password' => 'wrong-password',
     ]);

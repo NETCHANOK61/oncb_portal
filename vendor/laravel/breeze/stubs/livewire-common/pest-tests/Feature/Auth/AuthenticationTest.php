@@ -5,7 +5,7 @@ use App\Providers\RouteServiceProvider;
 use Livewire\Volt\Volt;
 
 test('login screen can be rendered', function () {
-    $response = $this->get('login');
+    $response = $this->get('/login');
 
     $response
         ->assertOk()
