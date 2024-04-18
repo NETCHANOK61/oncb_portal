@@ -1,0 +1,34 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        //
+        Schema::table('tbl_form_input', function (Blueprint $table) {
+            //
+            $table->string('field_type', 50)->nullable();
+            $table->string('field_size', 10)->nullable();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        //
+        Schema::table('tbl_form_input', function (Blueprint $table) {
+            //
+            $table->dropColumn('field_type');
+            $table->dropColumn('field_size');
+        });
+    }
+};
