@@ -50,7 +50,7 @@ Route::get('/testing', [SchoolController::class, 'testing'])->name('school.testi
 Route::get('/', [IndexController::class, 'login'])->name('login_screen');
 
 Route::get('/login_with_thaiid', [IndexController::class, 'login_with_thaiid'])->name('login_with_thaiid');
-Route::post('login', [AuthenticateSession::class, 'store'])->name('login.post');
+// Route::post('login', [AuthenticateSession::class, 'store'])->name('login.post');
 
 // Route::get('/login/thai_id_callback', [IndexController::class, 'handleThaiIdCallback'])->name('handleThaiIdCallback');
 

@@ -29,7 +29,7 @@
         <div class="container-login100"
             style="background-image: url('{{ asset('../assets/login/images/oncb_build.jpg') }}');">
             <div class="wrap-login100">
-                <form class="login100-form validate-form" method="POST" action="{{ route('login') }}">
+                <form class="login100-form validate-form" method="POST" action="{{ route('login.post') }}">
                     @csrf
 
                     <span class="login100-form-logo">
