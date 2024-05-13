@@ -5,12 +5,12 @@
         <img src="{{ asset('assets/images/brand/logo3.png') }}" class="header-brand-img mobile-view-logo"
             alt="user management">
     </a>
-    <div class="input-group p-2  bg-white border-bottom">
+    {{-- <div class="input-group p-2  bg-white border-bottom">
         <input type="text" placeholder="user management" class="form-control search">
         <div class="input-group-prepend mr-0">
             <span class="input-group-text border-right search_btn btn-primary-default"></span>
         </div>
-    </div>
+    </div> --}}
     <div class="side-tab-body p-0 border-0" id="parentVerticalTab">
         <div class="first-sidemenu">
             <!-- left menu #1 -->

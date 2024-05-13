@@ -16,8 +16,9 @@
                     <a class="nav-link icon full-screen-link nav-link-bg">
                         <i class="ti-arrows-corner" id="fullscreen-button"></i>
                     </a>
-                </div><!-- FULL-SCREEN -->
-                <div class="dropdown d-sm-flex d-none notifications">
+                </div>
+                <!-- FULL-SCREEN -->
+                {{-- <div class="dropdown d-sm-flex d-none notifications">
                     <a class="nav-link icon" data-toggle="dropdown">
                         <i class="ti-bell"></i>
                         <span class="nav-unread bg-warning-1 pulse"></span>
@@ -54,7 +55,8 @@
                         <div class="dropdown-divider"></div>
                         <a href="#" class="dropdown-item text-center">View all Notification</a>
                     </div>
-                </div><!-- NOTIFICATIONS -->
+                </div> --}}
+                <!-- NOTIFICATIONS -->
 
                 <div class="dropdown text-center selector profile-1 d-sm-flex d-none">
                     <a href="#" data-toggle="dropdown" class="nav-link leading-none d-flex">
