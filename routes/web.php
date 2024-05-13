@@ -76,7 +76,7 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth'])->name('portal.')->prefix('portal')->group(function () {
 
-    Route::get('/index', [IndexController::class, 'index'])->name('index');
+    // Route::get('/index', [IndexController::class, 'index'])->name('index');
 
     Route::get('/all_system', [PortalSystemController::class, 'index'])->name('allSystem')->middleware(['auth', 'role:admin|superAdmin']);
     Route::get('/add_system', [PortalSystemController::class, 'addSystem'])->name('addSystem')->middleware(['auth', 'role:admin|superAdmin']);
@@ -84,35 +84,44 @@ Route::middleware(['auth'])->name('portal.')->prefix('portal')->group(function (
     Route::get('/delete_system/{id}', [PortalSystemController::class, 'deleteSystem'])->name('deleteSystem')->middleware(['auth', 'role:admin|superAdmin']);
     Route::get('/return_system/{id}', [PortalSystemController::class, 'returnSystem'])->name('returnSystem')->middleware(['auth', 'role:admin|superAdmin']);
 
-    Route::get('/all_column', [MenuController::class, 'allColumn'])->name('allColumn')->middleware(['auth', 'role:admin|superAdmin']);
-    Route::get('/add_column', [MenuController::class, 'addColumn'])->name('addColumn')->middleware(['auth', 'role:admin|superAdmin']);
-    Route::post('/store_column', [MenuController::class, 'storeColumn'])->name('storeColumn')->middleware(['auth', 'role:admin|superAdmin']);
-    Route::get('/delete_column/{id}', [MenuController::class, 'deleteColumn'])->name('deleteColumn')->middleware(['auth', 'role:admin|superAdmin']);
-    Route::get('/return_column/{id}', [MenuController::class, 'returnColumn'])->name('returnColumn')->middleware(['auth', 'role:admin|superAdmin']);
-    Route::get('/show_form', [MenuController::class, 'showForm'])->name('showForm')->middleware(['auth', 'role:admin|superAdmin']);
-    Route::post('/store_form', [MenuController::class, 'storeForm'])->name('storeForm')->middleware(['auth', 'role:admin|superAdmin']);
-    Route::get('/all_data', [MenuController::class, 'allData'])->name('allData')->middleware(['auth', 'role:admin|superAdmin']);
+    Route::get('/all_user', [PortalSystemController::class, 'allUser'])->name('allUser')->middleware(['auth', 'role:admin|superAdmin']);
+    Route::get('/edit_user/{id}', [PortalSystemController::class, 'editUser'])->name('editUser')->middleware(['auth', 'role:admin|superAdmin']);
+    Route::post('/update_user/{id}', [PortalSystemController::class, 'updateUser'])->name('updateUser')->middleware(['auth', 'role:admin|superAdmin']);
+
+    // Route::get('/add_system', [PortalSystemController::class, 'addSystem'])->name('addSystem')->middleware(['auth', 'role:admin|superAdmin']);
+    // Route::post('/store_system', [PortalSystemController::class, 'store'])->name('storeSystem')->middleware(['auth', 'role:admin|superAdmin']);
+    // Route::get('/delete_system/{id}', [PortalSystemController::class, 'deleteSystem'])->name('deleteSystem')->middleware(['auth', 'role:admin|superAdmin']);
+    // Route::get('/return_system/{id}', [PortalSystemController::class, 'returnSystem'])->name('returnSystem')->middleware(['auth', 'role:admin|superAdmin']);
+
+    // Route::get('/all_column', [MenuController::class, 'allColumn'])->name('allColumn')->middleware(['auth', 'role:admin|superAdmin']);
+    // Route::get('/add_column', [MenuController::class, 'addColumn'])->name('addColumn')->middleware(['auth', 'role:admin|superAdmin']);
+    // Route::post('/store_column', [MenuController::class, 'storeColumn'])->name('storeColumn')->middleware(['auth', 'role:admin|superAdmin']);
+    // Route::get('/delete_column/{id}', [MenuController::class, 'deleteColumn'])->name('deleteColumn')->middleware(['auth', 'role:admin|superAdmin']);
+    // Route::get('/return_column/{id}', [MenuController::class, 'returnColumn'])->name('returnColumn')->middleware(['auth', 'role:admin|superAdmin']);
+    // Route::get('/show_form', [MenuController::class, 'showForm'])->name('showForm')->middleware(['auth', 'role:admin|superAdmin']);
+    // Route::post('/store_form', [MenuController::class, 'storeForm'])->name('storeForm')->middleware(['auth', 'role:admin|superAdmin']);
+    // Route::get('/all_data', [MenuController::class, 'allData'])->name('allData')->middleware(['auth', 'role:admin|superAdmin']);
 
     // Property Type All Route
-    Route::controller(PropertyTypeController::class)->group(function () {
-        Route::get('/all_type', 'AllType')->name('all.type')->middleware(['auth', 'role:admin|superAdmin']);
-        Route::get('/add_type', 'AddType')->name('add.type')->middleware(['auth', 'role:admin|superAdmin']);
-        Route::post('/store_type', 'StoreType')->name('store.type')->middleware(['auth', 'role:admin|superAdmin']);
-        Route::get('/edit_type/{id}', 'EditType')->name('edit.type')->middleware(['auth', 'role:admin|superAdmin']);
-        Route::post('/update_type/{id}', 'UpdateType')->name('update.type')->middleware(['auth', 'role:admin|superAdmin']);
-        Route::get('/delete_type/{id}', 'DeleteType')->name('delete.type')->middleware(['auth', 'role:admin|superAdmin']);
-        Route::get('/return_type/{id}', 'returnType')->name('return.type')->middleware(['auth', 'role:admin|superAdmin']);
-        Route::get('/show_type', 'ShowType')->name('show.type');
-    });
+    // Route::controller(PropertyTypeController::class)->group(function () {
+    //     Route::get('/all_type', 'AllType')->name('all.type')->middleware(['auth', 'role:admin|superAdmin']);
+    //     Route::get('/add_type', 'AddType')->name('add.type')->middleware(['auth', 'role:admin|superAdmin']);
+    //     Route::post('/store_type', 'StoreType')->name('store.type')->middleware(['auth', 'role:admin|superAdmin']);
+    //     Route::get('/edit_type/{id}', 'EditType')->name('edit.type')->middleware(['auth', 'role:admin|superAdmin']);
+    //     Route::post('/update_type/{id}', 'UpdateType')->name('update.type')->middleware(['auth', 'role:admin|superAdmin']);
+    //     Route::get('/delete_type/{id}', 'DeleteType')->name('delete.type')->middleware(['auth', 'role:admin|superAdmin']);
+    //     Route::get('/return_type/{id}', 'returnType')->name('return.type')->middleware(['auth', 'role:admin|superAdmin']);
+    //     Route::get('/show_type', 'ShowType')->name('show.type');
+    // });
 
     // Menu All Route
-    Route::controller(MenuController::class)->group(function () {
-        Route::get('/all_menu', 'index')->name('all.menu');
-        Route::get('/add_menu', 'AddMenu')->name('add.menu');
-        Route::post('/store_menu', 'StoreMenu')->name('store.menu');
-        Route::get('/edit_menu/{id}', 'EditMenu')->name('edit.menu');
-        Route::post('/update_menu/{id}', 'UpdateMenu')->name('update.menu');
-    });
+    // Route::controller(MenuController::class)->group(function () {
+    //     Route::get('/all_menu', 'index')->name('all.menu');
+    //     Route::get('/add_menu', 'AddMenu')->name('add.menu');
+    //     Route::post('/store_menu', 'StoreMenu')->name('store.menu');
+    //     Route::get('/edit_menu/{id}', 'EditMenu')->name('edit.menu');
+    //     Route::post('/update_menu/{id}', 'UpdateMenu')->name('update.menu');
+    // });
 });
 
 require __DIR__ . '/auth.php';

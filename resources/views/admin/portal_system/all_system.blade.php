@@ -17,7 +17,7 @@
             <div class="col-md-12 col-lg-12">
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <div class="card-title">บริหารจัดการระบบของหน่วยงาน</div>
+                        <div class="card-title">ระบบของหน่วยงานทั้งหมด</div>
                         <div class="btn-list">
                             <a href="{{ route('portal.addSystem') }}" class="btn btn-primary ml-auto"><i
                                     class="fa fa-plus"></i>
