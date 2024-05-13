@@ -6,7 +6,7 @@
         <div class="page-header">
             <ol class="breadcrumb">
                 {{-- <li class="breadcrumb-item"><a href="#">บริหารจัดการผู้ใช้งาน</a></li> --}}
-                <li class="breadcrumb-item active" aria-current="page">บริหารจัดการฟีลด์ข้อมูลในฟอร์ม</li>
+                <li class="breadcrumb-item active" aria-current="page">ระบบของหน่วยงานทั้งหมด</li>
             </ol>
 
         </div>
@@ -17,11 +17,9 @@
             <div class="col-md-12 col-lg-12">
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <div class="card-title">บริหารจัดการฟีลด์ข้อมูลในฟอร์ม</div>
+                        <div class="card-title">บริหารจัดการระบบของหน่วยงาน</div>
                         <div class="btn-list">
-                            {{-- <a href="{{ route('admin.showForm') }}" class="btn btn-info ml-auto"><i class="fa fa-play"></i>
-                                Preview</a> --}}
-                            <a href="{{ route('portal.addColumn') }}" class="btn btn-primary ml-auto"><i
+                            <a href="{{ route('portal.addSystem') }}" class="btn btn-primary ml-auto"><i
                                     class="fa fa-plus"></i>
                                 เพิ่มข้อมูล</a>
                         </div>
@@ -32,10 +30,10 @@
                                 <thead>
                                     <tr align="center">
                                         <th class="text-center">ลำดับ</th>
-                                        <th class="text-center">ชื่อฟีลด์ข้อมูล</th>
-                                        <th class="text-center">ป้ายฟีลด์ข้อมูล</th>
-                                        <th class="text-center">ตาราง</th>
+                                        <th class="text-center">ชื่อระบบเต็ม</th>
+                                        <th class="text-center">ชื่อระบบตัวย่อ</th>
                                         <th class="text-center">สถานะ</th>
+                                        <th class="text-center">URL</th>
                                         <th class="text-center">การจัดการ</th>
                                     </tr>
                                 </thead>
@@ -43,24 +41,24 @@
                                     @foreach ($data as $key => $item)
                                         <tr align="center">
                                             <td>{{ $key + 1 }}</td>
-                                            <td>{{ $item->field_name }}</td>
-                                            <td>{{ $item->label_name }}</td>
-                                            <td>{{ $item->table_name == null ? '-' : $item->table_name }}</td>
+                                            <td>{{ $item->fullname }}</td>
+                                            <td>{{ $item->en_name }}</td>
                                             <td>
                                                 <span class="badge badge-pill badge-default"><span
                                                         class="{{ $item->status ? 'able_animation' : 'unable_animation' }}"></span>
                                                     {{ $item->status ? 'เปิด' : 'ปิด' }}</span>
                                             </td>
+                                            <td>{{ $item->url == null ? '-' : $item->url }}</td>
                                             <td>
                                                 {{-- <a href="{{ route('admin.edit.column', $item->id) }}"
                                                     class="btn btn-warning"><i class="fa fa-pencil"></i>
                                                     แก้ไข</a> --}}
                                                 @if ($item->status == 0)
-                                                <a href="{{ route('admin.returnColumn', $item->id) }}"
+                                                <a href="{{ route('portal.returnSystem', $item->id) }}"
                                                     class="btn btn-light"><i class="fa fa-undo"></i>
                                                     เรียกคืน</a>
                                                 @else
-                                                <a href="{{ route('admin.deleteColumn', $item->id) }}"
+                                                <a href="{{ route('portal.deleteSystem', $item->id) }}"
                                                     class="btn btn-danger"><i class="fa fa-trash"></i>
                                                     ลบ</a>
                                                 @endif

@@ -36,7 +36,7 @@
                     </span>
 
                     <span class="login100-form-title p-b-20 p-t-20">
-                        การบริหารจัดการการเข้าถึงข้อมูลส่วนบุคคลของผู้ใช้งานระบบ NISPA (User access management)
+                        web portal
                     </span>
 
                     <div class="wrap-input100 validate-input" data-validate = "Enter username">
