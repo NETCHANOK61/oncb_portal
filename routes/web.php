@@ -73,7 +73,6 @@ Route::get('request-submit/{id}', [RegisteredUserController::class, 'requestedSu
 
 Route::middleware('auth')->group(function () {
     Route::get('/logout', [IndexController::class, 'logout'])->name('auth.logout');
-    Route::get('/userSystem', [IndexController::class, 'system_screen'])->name('auth.userSystem');
 });
 
 Route::middleware(['auth'])->name('portal.')->prefix('portal')->group(function () {
