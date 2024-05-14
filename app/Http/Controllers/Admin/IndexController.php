@@ -219,7 +219,7 @@ class IndexController extends Controller
             $authen = $userapi['login'];
             if ($authen) {
                 $user = User_portal::where('userid', $username)->first();
-
+                
                 if ($user) {
                     dd($user);
                     // Auth::login($user);
