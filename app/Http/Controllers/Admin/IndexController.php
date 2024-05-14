@@ -11,6 +11,7 @@ use App\Models\Province;
 use App\Models\Region;
 use App\Models\School48;
 use App\Http\Controllers\Controller;
+use App\Models\System;
 use App\Models\User_portal;
 use App\Services\MenuService;
 use Illuminate\Http\Request;
@@ -44,11 +45,12 @@ class IndexController extends Controller
         return redirect('/');
     }
 
-    public function system_screen(Request $request)
+    public function req_system($systemId, $userId)
     {
+        $system = System::find($systemId);
+        $user = User::find($userId);
         //
-        $data = $request;
-        dd($request);
+        dd($user);
         return view('admin.systemForUser', compact('data'));
     }
 
@@ -123,7 +125,6 @@ class IndexController extends Controller
                         return redirect('/');
                     }
                 }
-
             } else {
                 return response()->json($response->json(), $response->status());
             }
@@ -227,12 +228,13 @@ class IndexController extends Controller
             $authen = $userapi['login'];
             if ($authen) {
                 $user = User_portal::where('userid', $username)->first();
-                
+
                 if ($user) {
+                    $system_all = System::where('status', 1)->get();
                     // dd($user);
                     // Auth::login($user);
                     // return $this->index();
-                    return view('admin.systemForUser', compact('userObject', 'user'));
+                    return view('admin.systemForUser', compact('userObject', 'user', 'system_all'));
                 } else {
                     return redirect('/');
                 }

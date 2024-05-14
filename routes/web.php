@@ -59,6 +59,7 @@ Route::get('/check_callback', [IndexController::class, 'check_callback'])->name(
 // Route::post('/ldap_login', [IndexController::class, 'ldapLogin'])->name('ldap_login');
 Route::get('/ldap_login', [IndexController::class, 'ldapLogin'])->name('ldapLogin');
 Route::post('/submitlogin', [IndexController::class, 'submitlogin'])->name('submitlogin');
+Route::get('/req_system/{system}/{user}', [IndexController::class, 'req_system'])->name('req_system');
 
 Route::get('/get-provinces/{region}', [RegionController::class, 'getProvinces'])->name('getProvinces');
 Route::get('/get-amphurs/{province}', [RegionController::class, 'getAmpher'])->name('getAmpher');

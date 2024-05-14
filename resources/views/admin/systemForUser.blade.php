@@ -37,10 +37,23 @@
 
                     <span class="login100-form-title p-b-20 p-t-20">
                         web portal
+                        สวัสดีคุณ {{ $user->name }} {{ $user->surname }}
                     </span>
-
-                    <h1 style="color: #fff">สวัสดีคุณ</h1>
-                    <p style="color: #fff">กรุณาเลือกระบบที่คุณต้องการใช้งาน</p>
+                    <hr style="background-color: #fff">
+                    <h5 style="color: #fff">กรุณาเลือกระบบที่คุณต้องการใช้งาน</h5>
+                    <br>
+                    <div class="row">
+                        @foreach ($system_all as $system)
+                            @php
+                                $column_name = $system->en_name;
+                            @endphp
+                            @if ($user->$column_name == '1')
+                                <div class="col">
+                                    <a href="{{ route('req_system', ['system' => $system->id, 'user' => $user->id]) }}" type="button" class="btn btn-light w-full">{{ $system->fullname }}</a>
+                                </div>
+                            @endif
+                        @endforeach
+                    </div>
                 </form>
             </div>
         </div>
