@@ -56,13 +56,11 @@
                         </label>
                     </div>
 
-                    <div class="container-login100-form-btn">
+                    {{-- <div class="container-login100-form-btn">
                         <button class="login100-form-btn" type="submit">
                             เข้าสู่ระบบ
                         </button>
-                    </div>
-
-                    <span class="d-block text-center my-4 text-muted">&mdash; หรือ &mdash;</span>
+                    </div> --}}
                     {{-- <div class="container-login100-form-btn">
                         <a class="login100-form-btn" href="{{ route('ldapLogin') }}">
                             เข้าสู่ระบบ AD
@@ -80,6 +78,7 @@
                             class="login100-form-btn">เข้าสู่ระบบด้วย ThaiID</a>
                     </div>
                     <br>
+                    <span class="d-block text-center my-4 text-muted">&mdash; หรือ &mdash;</span>
                     <div class="container-login100-form-btn">
                         <a href="{{ route('register') }}" class="login100-form-btn">ลงทะเบียนขอใช้งาน</a>
                     </div>
