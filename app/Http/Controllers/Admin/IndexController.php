@@ -229,10 +229,10 @@ class IndexController extends Controller
                 $user = User_portal::where('userid', $username)->first();
                 
                 if ($user) {
-                    dd($user);
+                    // dd($user);
                     // Auth::login($user);
                     // return $this->index();
-                    return view('admin.portal.main', compact('userObject', 'user'));
+                    return view('admin.systemForUser', compact('userObject', 'user'));
                 } else {
                     return redirect('/');
                 }
