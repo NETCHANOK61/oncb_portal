@@ -28,7 +28,7 @@
     <div class="limiter">
         <div class="container-login100"
             style="background-image: url('{{ asset('../assets/login/images/oncb_build.jpg') }}');">
-            <div class="wrap-login100">
+            <div class="wrap-system">
                 <h2>สวัสดี</h2>
             </div>
         </div>

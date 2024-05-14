@@ -211,6 +211,13 @@ iframe {
   background: linear-gradient(top, #404b9f, #0f1d54); */
 }
 
+.wrap-system {
+  width: 100%;
+  max-width: 50%;
+  padding: 55px 55px 37px 55px;
+  background-color: rgba(42,49,100, 0.95);
+}
+
 
 /*------------------------------------------------------------------
 [ Form ]*/
