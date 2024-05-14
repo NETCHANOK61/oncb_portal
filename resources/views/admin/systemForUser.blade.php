@@ -29,7 +29,19 @@
         <div class="container-login100"
             style="background-image: url('{{ asset('../assets/login/images/oncb_build.jpg') }}');">
             <div class="wrap-system">
-                <h2>สวัสดี</h2>
+                <form class="login100-form validate-form" id="loginForm">
+                    @csrf
+
+                    <span class="login100-form-logo">
+                    </span>
+
+                    <span class="login100-form-title p-b-20 p-t-20">
+                        web portal
+                    </span>
+
+                    <h1 style="color: #fff">สวัสดีคุณ</h1>
+                    <p style="color: #fff">กรุณาเลือกระบบที่คุณต้องการใช้งาน</p>
+                </form>
             </div>
         </div>
     </div>
