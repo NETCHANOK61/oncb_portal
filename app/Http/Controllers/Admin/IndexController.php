@@ -249,4 +249,35 @@ class IndexController extends Controller
             return redirect('/');
         }
     }
+
+    // public function login_to_nispa(Request $request)
+    // {
+    //     $credentials = $request->only('email', 'password');
+    //     dd($credentials);
+
+    //     if (Auth::attempt($credentials)) {
+    //         // Authentication passed...
+    //         return redirect()->intended('dashboard');
+    //     }
+
+    //     return back()->withErrors([
+    //         'email' => 'The provided credentials do not match our records.',
+    //     ]);
+    // }
+
+    function login_to_nispa(Request $request)
+    {
+        // dd($request);
+        // exit;
+        $email = $request->email;
+        $user = User::where('email', $email)->first();
+
+        if ($user) {
+            // dd($user);
+            Auth::login($user);
+            return $this->index();
+        } else {
+            return redirect('/');
+        }
+    }
 }

@@ -55,7 +55,7 @@ Route::get('/login_with_thaiid', [IndexController::class, 'login_with_thaiid'])-
 // Route::get('/login/thai_id_callback', [IndexController::class, 'handleThaiIdCallback'])->name('handleThaiIdCallback');
 
 Route::get('/check_callback', [IndexController::class, 'check_callback'])->name('check_callback');
-// Route::post('/ldap_login', [IndexController::class, 'ldapLogin'])->name('ldap_login');
+Route::post('/login_to_nispa', [IndexController::class, 'login_to_nispa'])->name('loginToNispa');
 Route::get('/ldap_login', [IndexController::class, 'ldapLogin'])->name('ldapLogin');
 
 Route::get('/get-provinces/{region}', [RegionController::class, 'getProvinces'])->name('getProvinces');
