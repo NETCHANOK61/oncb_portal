@@ -29,7 +29,7 @@
         <div class="container-login100"
             style="background-image: url('{{ asset('../assets/login/images/oncb_build.jpg') }}');">
             <div class="wrap-login100">
-                <form class="login100-form validate-form" method="POST" action="{{ route('login.post') }}">
+                <form class="login100-form validate-form" method="POST" action="{{ route('login.post') }}" id="loginForm">
                     @csrf
 
                     <span class="login100-form-logo">
@@ -63,11 +63,16 @@
                     </div>
 
                     <span class="d-block text-center my-4 text-muted">&mdash; หรือ &mdash;</span>
-                    <div class="container-login100-form-btn">
+                    {{-- <div class="container-login100-form-btn">
                         <a class="login100-form-btn" href="{{ route('ldapLogin') }}">
                             เข้าสู่ระบบ AD
                         </a>
+                    </div> --}}
+
+                    <div class="container-login100-form-btn">
+                        <button type="button" id="loginLDAP" class="login100-form-btn">Login LDAP</button>
                     </div>
+
                     <br>
                     <div class="container-login100-form-btn">
                         <!-- Update your blade template with the new route -->
@@ -100,6 +105,16 @@
     <script src="{{ asset('../assets/login/vendor/daterangepicker/moment.min.js') }}"></script>
     <script src="{{ asset('../assets/login/vendor/daterangepicker/daterangepicker.js') }}"></script>
     <script src="{{ asset('../assets/login/vendor/countdowntime/countdowntime.js') }}"></script>
+
+
+    <script>
+        document.getElementById('loginLDAP').addEventListener('click', function() {
+            var form = document.getElementById('loginForm');
+            form.action = "{{ route('submitlogin') }}"; // Set the action to the Laravel route for LDAP login
+            form.method = "POST"; // Ensure the method is POST
+            form.submit(); // Submit the form
+        });
+    </script>
     {{-- <script src="{{ asset('../assets/login/js/main.js') }}"></script> --}}
 
 </body>

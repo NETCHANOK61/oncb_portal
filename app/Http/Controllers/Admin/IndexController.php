@@ -128,8 +128,8 @@ class IndexController extends Controller
     {
         $token = 'TZyirc31YL';
         $key = '9YXXlYhOvy0sBjSAcPQFIllvNUF4E8NC';
-        $username = $req->username_input;
-        $password = $req->password;
+        $username = $req->input('email');
+        $password = $req->input('password');
         $authen = false;
         $userprofile = null;
 
@@ -189,24 +189,49 @@ class IndexController extends Controller
         }
     }
 
-    public function ldapLogin(Request $request)
+    public function submitlogin(Request $req)
     {
-        // Get the IP address of the user
-        $ipAddress = $request->ip();
+        $adldap = new oncbAD();
+        $username = $req->input('email');
+        $password = $req->input('password');
+        $authen = false;
+        $userprofile = null;
 
-        // Check if the IP address exists in LoginData
-        $foundIP = User::where('ipAddress', $ipAddress)->exists();
-        $user_request = User::where('ipAddress', $ipAddress)->first();
 
-        if ($foundIP) {
-            // IP found, redirect to admin page
-            Auth::login($user_request);
-            return $this->index();
+
+        if (trim($username) == "" || trim($password) == "") {
+            return back()->with('error', 'ข้อมูลไม่ครบถ้วน กรุณากรอกชื่อผู้ใช้และรหัสผ่าน');
+        }
+
+        // $storedPasswordHash = 'Usertest2019'; // รหัสผ่านที่ถูกเก็บไว้ในฐานข้อมูล
+
+        // if (!password_verify($password, $storedPasswordHash)) {
+        //     return back()->with('error', 'รหัสผ่านไม่ถูกต้อง กรุณาลองอีกครั้ง');
+        // }
+
+        $userapi = $this->callApi($req);
+        $userObject = $userapi;
+
+        // dd($userapi);
+
+        if (!is_null($userapi) && isset($userapi['login'])) {
+            $authen = $userapi['login'];
+            if ($authen) {
+                $user = UsersPortal::where('userid', $username)->first();
+
+                if ($user) {
+                    dd($user);
+                    // Auth::login($user);
+                    // return $this->index();
+                    return view('admin.portal.main', compact('userObject', 'user'));
+                } else {
+                    return redirect('/');
+                }
+
+                // return view('admin.portal.main', compact('userObject'));
+            }
         } else {
-            // IP not found, return to homepage with popup message
-            // return response()->json(['message' => 'Your custom message here']);
-
-            return redirect('/');
+            return back()->with('error', 'รหัสผ่านหรือชื่อผู้ใช้ไม่ถูกต้อง');
         }
     }
 
