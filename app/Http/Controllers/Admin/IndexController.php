@@ -11,6 +11,7 @@ use App\Models\Province;
 use App\Models\Region;
 use App\Models\School48;
 use App\Http\Controllers\Controller;
+use App\Models\User_portal;
 use App\Services\MenuService;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
@@ -217,7 +218,7 @@ class IndexController extends Controller
         if (!is_null($userapi) && isset($userapi['login'])) {
             $authen = $userapi['login'];
             if ($authen) {
-                $user = UsersPortal::where('userid', $username)->first();
+                $user = User_portal::where('userid', $username)->first();
 
                 if ($user) {
                     dd($user);
