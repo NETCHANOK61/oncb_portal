@@ -44,6 +44,14 @@ class IndexController extends Controller
         return redirect('/');
     }
 
+    public function system_screen(Request $request)
+    {
+        //
+        $data = $request;
+        dd($request);
+        return view('admin.systemForUser', compact('data'));
+    }
+
     public function login()
     {
         return view('admin.login');
