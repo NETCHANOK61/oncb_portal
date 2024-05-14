@@ -29,32 +29,41 @@
         <div class="container-login100"
             style="background-image: url('{{ asset('../assets/login/images/oncb_build.jpg') }}');">
             <div class="wrap-system">
-                <form class="login100-form validate-form" id="loginForm">
-                    @csrf
+                <span class="login100-form-logo">
+                </span>
 
-                    <span class="login100-form-logo">
-                    </span>
-
-                    <span class="login100-form-title p-b-20 p-t-20">
-                        web portal
-                        สวัสดีคุณ {{ $user->name }} {{ $user->surname }}
-                    </span>
-                    <hr style="background-color: #fff">
-                    <h5 style="color: #fff">กรุณาเลือกระบบที่คุณต้องการใช้งาน</h5>
-                    <br>
-                    <div class="row">
-                        @foreach ($system_all as $system)
-                            @php
-                                $column_name = $system->en_name;
-                            @endphp
-                            @if ($user->$column_name == '1')
-                                <div class="col">
-                                    <a href="{{ route('req_system', ['system' => $system->id, 'user' => $user->id]) }}" type="button" class="btn btn-light w-full">{{ $system->fullname }}</a>
-                                </div>
-                            @endif
-                        @endforeach
-                    </div>
-                </form>
+                <span class="login100-form-title p-b-20 p-t-20">
+                    web portal
+                    สวัสดีคุณ {{ $user->name }} {{ $user->surname }}
+                </span>
+                <hr style="background-color: #fff">
+                <h5 style="color: #fff">กรุณาเลือกระบบที่คุณต้องการใช้งาน</h5>
+                <br>
+                <div class="row">
+                    @foreach ($system_all as $system)
+                        @php
+                            $column_name = $system->en_name;
+                        @endphp
+                        @if ($user->$column_name == '1')
+                            <div class="col">
+                                @if ($system->en_name == 'system1')
+                                    <form class="login100-form validate-form" method="POST" action="{{ route('login.post') }}" id="loginForm">
+                                        @csrf
+                                        <input type="hidden" name="email" id="email"
+                                            value="{{ $user->email }}">
+                                        <input type="hidden" name="password" id="password"
+                                            value="{{ $user->password }}">
+                                        <button type="submit" class="btn btn-light w-full">
+                                            {{ $system->fullname }}
+                                        </button>
+                                    </form>
+                                @else
+                                    <a type="button" class="btn btn-light w-full">{{ $system->fullname }}</a>
+                                @endif
+                            </div>
+                        @endif
+                    @endforeach
+                </div>
             </div>
         </div>
     </div>
@@ -67,6 +76,15 @@
     <script src="{{ asset('../assets/login/vendor/daterangepicker/moment.min.js') }}"></script>
     <script src="{{ asset('../assets/login/vendor/daterangepicker/daterangepicker.js') }}"></script>
     <script src="{{ asset('../assets/login/vendor/countdowntime/countdowntime.js') }}"></script>
+
+    {{-- <script>
+        function submitLoginForm(username, password) {
+            document.getElementById('email').value = username;
+            document.getElementById('password').value = password;
+            document.getElementById('loginForm').submit();
+        }
+    </script> --}}
+
 
 </body>
 
