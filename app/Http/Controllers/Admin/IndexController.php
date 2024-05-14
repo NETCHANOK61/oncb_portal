@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Agency;
+use App\Models\Ampher;
 use App\Models\oncbAD;
 use App\Models\FuncByRole;
 use App\Models\bud_dpis;
+use App\Models\Province;
+use App\Models\Region;
 use App\Models\School48;
 use App\Http\Controllers\Controller;
 use App\Services\MenuService;
@@ -44,81 +48,76 @@ class IndexController extends Controller
         return view('admin.login');
     }
 
-    // public function login_with_thaiid(Request $request)
-    // {
-    //     $code = $request->input('code');
-    //     if ($code) {
-    //         $state = $request->input('state');
-
-    //         // dd($code);
-    //         $response = Http::withOptions(['verify' => false])->asForm()->post('https://imauth.bora.dopa.go.th/api/v2/oauth2/token/', [
-    //             'grant_type' => 'authorization_code',
-    //             'code' => $code,
-    //             'redirect_uri' => 'https://nispatest.oncb.go.th/login_with_thaiid',
-    //         ], [
-    //             'Content-type' => 'application/x-www-form-urlencoded',
-    //             'Authorization' => 'Basic authorization'
-    //         ]);
-    //     } else {
-    //         dd($request);
-    //     }
-
-    //     // $client_id = "";
-    //     // $redirect_url = "https://rp.example.org/api/callback";
-    //     // $scope = "pid%20name%20family_name%20birthdate";
-    //     // // เลขบัตรปชช ชื่อ นามสกุล วันเกิด
-    //     // $state = "UserManagementceijerijveoqijqr";
-
-    //     // $response = Http::withHeaders([
-    //     //     'Content-Type' => 'application/x-www-form-urlencoded'
-    //     // ])->get('https://imauth.bora.dopa.go.th/api/v2/oauth2/auth/?response_type=code
-    //     // &client_id='.$client_id.'&redirect_uri='.$redirect_url.'
-    //     // &scope='.$scope.'&state='.$state);
-
-    //     // $data = $response->json();
-
-    //     // return view('admin.callback');
-    // }
-
     public function login_with_thaiid(Request $request)
     {
         $code = $request->input('code');
+        $state = $request->input('state');
+
         if ($code) {
             // Hardcoded configuration values
-            $tokenUrl = 'https://imauth.bora.dopa.go.th/api/v2/oauth2/token/';
-            $redirectUri = 'https://nispatest.oncb.go.th/login_with_thaiid';
-            $clientId = 'Y21aMG14V0lEbEV2eDdFQnltUThmZnpYMTA3Ymt3czk';
-            $clientSecret = 'dXhMRTVRTlJlSzV4eFgxT05KQTB2b01rUHVPdGthY1MycDUzWnVhbw';
+            // $tokenUrl = 'https://imauthsbx.bora.dopa.go.th/api/v2/oauth2/token/';
+            // $redirectUri = 'https://nispatest.oncb.go.th/login_with_thaiid';
+            // $clientId = 'a1B3VUlkRXRJWnhpNWl3N0JOWFBzWTBhNExGRzRzYUE';
+            // $clientSecret = 'N1h6WU5TNnlDUm44OFhQZ3RWV2w5N0h3aW1qRDk0c0h3SVZJemw3OQ';
+            $tokenUrl = 'https://imauthsbx.bora.dopa.go.th/api/v2/oauth2/token/';
+            $redirectUri = 'https://nispa.oncb.go.th/login_with_thaiid';
+            $clientId = 'STBBSUhoR2p1SlFBa2JtaVBCSnMxYlB2emZuRXdQd04';
+            $clientSecret = 'VHFJOTYxaE8zMVFNS0V2YlRKbUt3emdBQllLUk43Smdoc0hQb2FmaQ';
             // Base64 encode the client ID and secret
             $authorization = 'Basic ' . base64_encode("{$clientId}:{$clientSecret}");
 
-            // $response = Http::withOptions(['verify' => false])->asForm()->post($tokenUrl, [
-            //     'grant_type' => 'authorization_code',
-            //     'code' => $code,
-            //     'redirect_uri' => $redirectUri,
-            // ], [
-            //     'Content-Type' => 'application/x-www-form-urlencoded',
-            //     'Authorization' => $authorization,
-            // ]);
-
-            $response = Http::withOptions(['verify' => false]) // Note: 'verify' => false is for development purposes only
+            $response = Http::withOptions(['verify' => false])
                 ->withHeaders([
                     'Content-Type' => 'application/x-www-form-urlencoded',
-                    'Authorization' => "Basic {$authorization}",
+                    'Authorization' => $authorization,
                 ])
                 ->asForm()
                 ->post('https://imauthsbx.bora.dopa.go.th/api/v2/oauth2/token/', [
                     'grant_type' => 'authorization_code',
-                    'code' => 'code',
-                    'redirect_uri' => 'https://nispatest.oncb.go.th/login_with_thaiid',
+                    'code' => $code,
+                    'redirect_uri' => 'https://nispa.oncb.go.th/login_with_thaiid',
                 ]);
             // // Process response
-            // if ($response->successful()) {
-            //     return response()->json($response->json(), 200);
-            //     dd($response->json());
-            // } else {
-            //     return response()->json($response->json(), $response->status());
-            // }
+            if ($response->successful()) {
+
+                $responseData = $response->json(); // Get the response data as an array
+                $pid = $responseData['pid'] ?? null; // Access the pid value, use null as a default if it's not set
+                $given_name = $responseData['given_name'] ?? null;
+                $family_name = $responseData['family_name'] ?? null;
+
+                $responseData = array('pid' => $pid, "given_name" => $given_name, "family_name" => $family_name);
+
+                if ($state == 'register') {
+
+                    $region = Region::orderBy('REG_ID')->get();
+
+                    $province = Province::orderBy('PROV_ID')->get();
+
+                    $ampher = Ampher::orderBy('AMP_ID')->get();
+
+                    $agencies = Agency::whereIn('div_code', [703, 720, 721])->get();
+                    //$responseData = $req->query('responseData');
+
+                    return view('admin.register', compact('region', 'province', 'ampher', 'agencies', 'pid', 'responseData'));
+                }
+
+                if ($state == 'login') {
+                    return response()->json($response->json(), 200);
+                    // check_callback($response->pid);
+                    $user = User::where('card_id', $pid)->first();
+
+                    if ($user) {
+                        // dd($user);
+                        Auth::login($user);
+                        return $this->index();
+                    } else {
+                        return redirect('/');
+                    }
+                }
+
+            } else {
+                return response()->json($response->json(), $response->status());
+            }
         } else {
             // Handle the case where 'code' is not provided in the request
             abort(400, 'Authorization code is required.');
