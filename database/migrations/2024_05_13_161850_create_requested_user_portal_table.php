@@ -13,20 +13,20 @@ return new class extends Migration {
         Schema::create('requested_user_portal', function (Blueprint $table) {
             //
             $table->id();
-            $table->string('approved', 255)->nullable();
-            $table->string('name', 255)->nullable();
-            $table->string('surname', 255)->nullable();
-            $table->string('card_id', 13)->nullable();
-            $table->string('phone', 10)->nullable();
+            $table->string('approved', 255);
+            $table->string('name', 255);
+            $table->string('surname', 255);
+            $table->string('card_id', 13);
+            $table->string('phone', 10);
             $table->string('email', 255);
-            $table->string('div2', 4);
-            $table->integer('groupid');
-            $table->string('agency', 10);
-            $table->string('PROV_ID', 10);
-            $table->string('AMP_ID', 10);
-            $table->string('edu_area_id', 10);
-            $table->string('file', 255);
-            $table->string('dept_id', 255);
+            $table->string('div2', 4)->nullable();
+            $table->integer('groupid')->nullable();
+            $table->string('agency', 10)->nullable();
+            $table->string('PROV_ID', 10)->nullable();
+            $table->string('AMP_ID', 10)->nullable();
+            $table->string('edu_area_id', 10)->nullable();
+            $table->string('file', 255)->nullable();
+            $table->string('dept_id', 255)->nullable();
             $table->timestamps();
         });
     }

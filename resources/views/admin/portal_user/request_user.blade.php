@@ -44,8 +44,8 @@
                                             </td>
 
                                             <td>
-                                                <button class="btn btn-info"
-                                                    onclick="showPDF('{{ asset($item->file) }}')"><i class="fa fa-eye"></i>
+                                                <button class="btn btn-info" onclick="showPDF('{{ $item->file }}')"><i
+                                                        class="fa fa-eye"></i>
                                                     ดูเอกสารแนบ</button>
                                                 <button class="btn btn-warning" onclick="approved({{ $item->id }})"><i
                                                         class="fa fa-pencil"></i>
@@ -81,7 +81,7 @@
                 cancelButtonText: 'ยกเลิก'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    var formAction = "{{ route('admin.users_request.approve', ':user') }}";
+                    var formAction = "{{ route('portal.approveUserPortal', ':user') }}";
                     formAction = formAction.replace(':user', data_id);
 
                     Swal.fire({
@@ -121,7 +121,7 @@
 
         function showPDF(path_file) {
             Swal.fire({
-                html: `<iframe src="${path_file}" frameborder="0" width="95%" height="500"></iframe>`, // Use the path_file to set the src attribute of the iframe
+                html: `<iframe src="{{ asset('${path_file}') }}" frameborder="0" width="95%" height="500"></iframe>`, // Use the path_file to set the src attribute of the iframe
                 showCloseButton: true,
                 showCancelButton: false,
                 showConfirmButton: false, // Hide the "OK" button

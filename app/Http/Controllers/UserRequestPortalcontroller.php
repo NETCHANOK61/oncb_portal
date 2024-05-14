@@ -4,11 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\RequestedUserPortal;
 use App\Models\User;
+use App\Models\User_portal;
 use App\Services\MenuService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
-class UserRequestcontroller extends Controller
+class UserRequestPortalcontroller extends Controller
 {
     public function index()
     {
@@ -22,7 +23,7 @@ class UserRequestcontroller extends Controller
     {
         $request_user = RequestedUserPortal::find($id);
 
-        $user = User::create([
+        $user = User_portal::create([
             'name' => $request_user->name,
             'email' => $request_user->email,
             'password' => Hash::make($request->input('password')),
@@ -36,7 +37,7 @@ class UserRequestcontroller extends Controller
             'approved' => 1
         ]);
 
-        return redirect()->route('admin.users.edit', $user);
+        return redirect()->route('portal.editUser', $user);
 
         // $menuItems = MenuService::getMenuItems();
         // $request_user = RequestedUserPortal::all();

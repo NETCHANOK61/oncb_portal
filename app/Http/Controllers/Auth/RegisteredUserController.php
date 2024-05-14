@@ -7,6 +7,7 @@ use App\Models\Agency;
 use App\Models\Ampher;
 use App\Models\Province;
 use App\Models\RequestedUser;
+use App\Models\RequestedUserPortal;
 use App\Models\User;
 use App\Models\Region;
 use App\Providers\RouteServiceProvider;
@@ -77,16 +78,18 @@ class RegisteredUserController extends Controller
         if ($request->hasFile('file_upload')) {
             $file = $request->file('file_upload');
             $fileName = time() . '_' . $file->getClientOriginalName();
-            $filePath = $file->storeAs('uploads', $fileName, 'public');
+            $filePath = 'assets/pdf/' . $fileName;
+            $file->move(public_path('assets/pdf'), $fileName);
         }
 
-        $user = RequestedUser::create([
+        $user = RequestedUserPortal::create([
+            'approved' => '',
             'name' => $request->name,
             'surname' => $request->surname,
             'phone' => $request->phone,
             'email' => $request->email,
             'card_id' => $request->card_id,
-            'file' => $filePath ? '/storage/' . $filePath : null // Handle case where file is not uploaded
+            'file' => $filePath ? $filePath : null // Handle case where file is not uploaded
         ]);
 
         $user_id = $user->id;
@@ -103,7 +106,7 @@ class RegisteredUserController extends Controller
     // requestedSubmit
     public function requestedSubmit(Request $request, $id)
     {
-        $data = RequestedUser::find($id);
+        $data = RequestedUserPortal::find($id);
         return view('admin.registerSubmit', compact('data'));
     }
 }

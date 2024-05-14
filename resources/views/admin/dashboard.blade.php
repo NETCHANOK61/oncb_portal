@@ -209,6 +209,8 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.12.313/pdf.min.js"></script>
+
     <script>
         function formatText(icon) {
             return $('<span><i class="side-menu__icon typcn ' + $(icon.element).data('icon') + '"></i> ' + icon.text +

@@ -55,12 +55,12 @@
                             Remember me
                         </label>
                     </div>
-
-                    {{-- <div class="container-login100-form-btn">
+                    <br>
+                    <div class="container-login100-form-btn">
                         <button class="login100-form-btn" type="submit">
-                            เข้าสู่ระบบ
+                            เข้าสู่ระบบ (deverloper)
                         </button>
-                    </div> --}}
+                    </div>
                     {{-- <div class="container-login100-form-btn">
                         <a class="login100-form-btn" href="{{ route('ldapLogin') }}">
                             เข้าสู่ระบบ AD
