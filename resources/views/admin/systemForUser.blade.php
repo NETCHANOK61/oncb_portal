@@ -46,8 +46,8 @@
                         @endphp
                         @if ($user->$column_name == '1')
                             <div class="col">
-                                @if ($system->en_name == 'system1')
-                                    <form class="login100-form validate-form" method="POST" action="{{ route('login.post') }}" id="loginForm">
+                                @if ($system->en_name == 'nispa')
+                                    <form class="login100-form validate-form" method="POST" action="https://nispa.oncb.go.th/login_to_nispa" id="loginForm">
                                         @csrf
                                         <input type="hidden" name="email" id="email"
                                             value="{{ $user->email }}">
