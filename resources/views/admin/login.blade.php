@@ -80,7 +80,11 @@
                     <br>
                     <span class="d-block text-center my-4 text-muted">&mdash; หรือ &mdash;</span>
                     <div class="container-login100-form-btn">
-                        <a href="{{ route('register') }}" class="login100-form-btn">ลงทะเบียนขอใช้งาน</a>
+                        <a href="{{ route('register') }}" class="login100-form-btn">ลงทะเบียนขอใช้งาน (ระบบอื่น ๆ)</a>
+                    </div>
+                    <br>
+                    <div class="container-login100-form-btn">
+                        <a href="https://nispa.oncb.go.th/register" class="login100-form-btn">ลงทะเบียนขอใช้งาน (ระบบ NISPA)</a>
                     </div>
                     <div class="text-center p-t-20">
                         <a class="txt1" href="#">
