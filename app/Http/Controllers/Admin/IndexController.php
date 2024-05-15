@@ -284,4 +284,20 @@ class IndexController extends Controller
             return redirect('/');
         }
     }
+
+    function login_to_portal_management(Request $request)
+    {
+        // dd($request);
+        // exit;
+        $email = $request->email;
+        $user = User_portal::where('email', $email)->first();
+
+        if ($user) {
+            // dd($user);
+            Auth::login($user);
+            return $this->index();
+        } else {
+            return redirect('/');
+        }
+    }
 }

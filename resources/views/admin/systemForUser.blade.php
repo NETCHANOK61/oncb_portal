@@ -40,9 +40,15 @@
                 <h5 style="color: #fff">กรุณาเลือกระบบที่คุณต้องการใช้งาน</h5>
                 <br>
                 @if ($user->role == 'superAdmin' || $user->role == 'admin')
-                    <a href="" type="button" class="btn btn-danger w-full">
-                        บริหารจัดการ Web Portal
-                    </a>
+                    <form class="login100-form validate-form" method="POST"
+                        action="{{ route('login_to_portal_management') }}">
+                        @csrf
+                        <input type="hidden" name="email" id="email" value="{{ $user->email }}">
+                        <input type="hidden" name="password" id="password" value="{{ $user->password }}">
+                        <button type="submit" class="btn btn-light w-full">
+                            บริหารจัดการ Web Portal
+                        </button>
+                    </form>
                 @endif
                 <div class="row">
                     @foreach ($system_all as $system)
