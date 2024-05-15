@@ -51,6 +51,7 @@ Route::get('/testing', [SchoolController::class, 'testing'])->name('school.testi
 
 Route::get('/', [IndexController::class, 'login'])->name('login_screen');
 
+Route::post('/login_to_portal_management', [IndexController::class, 'login_to_portal_management'])->name('login_to_portal_management');
 Route::get('/login_with_thaiid', [IndexController::class, 'login_with_thaiid'])->name('login_with_thaiid');
 // Route::post('login', [AuthenticateSession::class, 'store'])->name('login.post');
 
