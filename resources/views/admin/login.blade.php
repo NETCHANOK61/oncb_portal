@@ -69,17 +69,10 @@
                         </a>
                     </div>
                     <br>
-                    <div class="container-login100-form-btn">
-                        <!-- <button class="login100-form-btn">
-                            เข้าสู่ระบบด้วย ThaiID
-                        </button> -->
+                      <div class="container-login100-form-btn">
                         <!-- Update your blade template with the new route -->
-                        {{-- <a href="{{ route('login_with_thaiid') }}" class="login100-form-btn">เข้าสู่ระบบด้วย ThaiID</a> --}}
-                        <a href="https://imauthsbx.bora.dopa.go.th/api/v2/oauth2/auth/?response_type=code&client_id=Y21aMG14V0lEbEV2eDdFQnltUThmZnpYMTA3Ymt3czk&redirect_uri=https://nispatest.oncb.go.th/login_with_thaiid&scope=pid&state=abc1234"
+                        <a href="https://imauthsbx.bora.dopa.go.th/api/v2/oauth2/auth/?response_type=code&client_id=STBBSUhoR2p1SlFBa2JtaVBCSnMxYlB2emZuRXdQd04&redirect_uri=https://nispa.oncb.go.th/login_with_thaiid&scope=pid%20name%20name_en%20address%20given_name%20family_name%20given_name_en%20family_name_en%20gender%20title%20ial&state=login"
                             class="login100-form-btn">เข้าสู่ระบบด้วย ThaiID</a>
-
-                        {{-- https://imauthsbx.bora.dopa.go.th/api/v2/oauth2/auth/?response_type=code&client_id=Y21aMG14V0lEbEV2eDdFQnltUThmZnpYMTA3Ymt3czk&redirect_uri=https://nispatest.oncb.go.th/login_with_thaiid&scope=pid&state=abc1234 --}}
-
                     </div>
                     <br>
                     <div class="container-login100-form-btn">
