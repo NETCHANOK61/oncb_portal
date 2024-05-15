@@ -71,9 +71,9 @@ class IndexController extends Controller
             // $clientId = 'a1B3VUlkRXRJWnhpNWl3N0JOWFBzWTBhNExGRzRzYUE';
             // $clientSecret = 'N1h6WU5TNnlDUm44OFhQZ3RWV2w5N0h3aW1qRDk0c0h3SVZJemw3OQ';
             $tokenUrl = 'https://imauthsbx.bora.dopa.go.th/api/v2/oauth2/token/';
-            $redirectUri = 'https://nispa.oncb.go.th/login_with_thaiid';
-            $clientId = 'STBBSUhoR2p1SlFBa2JtaVBCSnMxYlB2emZuRXdQd04';
-            $clientSecret = 'VHFJOTYxaE8zMVFNS0V2YlRKbUt3emdBQllLUk43Smdoc0hQb2FmaQ';
+            $redirectUri = 'https://portal.oncb.go.th/login_with_thaiid';
+            $clientId = 'N1BHQUJTZjh2dm9GMGRxZjk1MUVtSnFDSm1SaU0yWDQ';
+            $clientSecret = 'WXVRdlI4elI1Qm9OY25GbHNpeTdzejFsYWFIVHNsSUh1S1R4U29Tag';
             // Base64 encode the client ID and secret
             $authorization = 'Basic ' . base64_encode("{$clientId}:{$clientSecret}");
 
@@ -86,7 +86,7 @@ class IndexController extends Controller
                 ->post('https://imauthsbx.bora.dopa.go.th/api/v2/oauth2/token/', [
                     'grant_type' => 'authorization_code',
                     'code' => $code,
-                    'redirect_uri' => 'https://nispa.oncb.go.th/login_with_thaiid',
+                    'redirect_uri' => 'https://portal.oncb.go.th/login_with_thaiid',
                 ]);
             // // Process response
             if ($response->successful()) {
@@ -113,7 +113,7 @@ class IndexController extends Controller
                 }
 
                 if ($state == 'login') {
-                    return response()->json($response->json(), 200);
+                    // return response()->json($response->json(), 200);
                     // check_callback($response->pid);
                     $user = User::where('card_id', $pid)->first();
 
