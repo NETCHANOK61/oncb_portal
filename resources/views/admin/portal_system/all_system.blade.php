@@ -34,6 +34,7 @@
                                         <th class="text-center">ชื่อระบบตัวย่อ</th>
                                         <th class="text-center">สถานะ</th>
                                         <th class="text-center">URL</th>
+                                        <th class="text-center">API_KEY</th>
                                         <th class="text-center">การจัดการ</th>
                                     </tr>
                                 </thead>
@@ -49,6 +50,7 @@
                                                     {{ $item->status ? 'เปิด' : 'ปิด' }}</span>
                                             </td>
                                             <td>{{ $item->url == null ? '-' : $item->url }}</td>
+                                            <td>{{ $item->API_KEY == null ? '-' : $item->API_KEY }}</td>
                                             <td>
                                                 {{-- <a href="{{ route('admin.edit.column', $item->id) }}"
                                                     class="btn btn-warning"><i class="fa fa-pencil"></i>

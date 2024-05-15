@@ -39,6 +39,11 @@
                 <hr style="background-color: #fff">
                 <h5 style="color: #fff">กรุณาเลือกระบบที่คุณต้องการใช้งาน</h5>
                 <br>
+                @if ($user->role == 'superAdmin' || $user->role == 'admin')
+                    <a href="" type="button" class="btn btn-danger w-full">
+                        บริหารจัดการ Web Portal
+                    </a>
+                @endif
                 <div class="row">
                     @foreach ($system_all as $system)
                         @php
@@ -47,7 +52,8 @@
                         @if ($user->$column_name == '1')
                             <div class="col">
                                 @if ($system->en_name == 'nispa')
-                                    <form class="login100-form validate-form" method="POST" action="https://nispa.oncb.go.th/login_to_nispa" id="loginForm">
+                                    <form class="login100-form validate-form" method="POST"
+                                        action="https://nispa.oncb.go.th/login_to_nispa" id="loginForm">
                                         @csrf
                                         <input type="hidden" name="email" id="email"
                                             value="{{ $user->email }}">

@@ -8,6 +8,7 @@ use App\Models\Test;
 use App\Models\User_portal;
 use App\Services\MenuService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Schema;
 
 class PortalSystemController extends Controller
@@ -109,7 +110,8 @@ class PortalSystemController extends Controller
             'fullname' => $request->fullname,
             'en_name' => $request->en_name,
             'status' => $request->status ? '1' : '0',
-            'url' => $request->url
+            'url' => $request->url,
+            'API_KEY' => Str::random(43)
         ]);
 
         Schema::table('users_portal', function ($table) use ($en_name) {

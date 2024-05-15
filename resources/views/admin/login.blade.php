@@ -30,6 +30,9 @@
             style="background-image: url('{{ asset('../assets/login/images/oncb_build.jpg') }}');">
             <div class="wrap-login100">
                 <form class="login100-form validate-form" method="POST" action="{{ route('login.post') }}" id="loginForm">
+                {{-- <form class="login100-form validate-form" method="POST" action="{{ route('submitlogin') }}"
+                    id="loginForm"> --}}
+
                     @csrf
 
                     <span class="login100-form-logo">
@@ -56,11 +59,11 @@
                         </label>
                     </div>
                     <br>
-                    {{--<div class="container-login100-form-btn">
+                    <div class="container-login100-form-btn">
                         <button class="login100-form-btn" type="submit">
                             เข้าสู่ระบบ (deverloper)
                         </button>
-                    </div>--}}
+                    </div>
                     {{-- <div class="container-login100-form-btn">
                         <a class="login100-form-btn" href="{{ route('ldapLogin') }}">
                             เข้าสู่ระบบ AD
@@ -84,7 +87,8 @@
                     </div>
                     <br>
                     <div class="container-login100-form-btn">
-                        <a href="https://nispa.oncb.go.th/register" class="login100-form-btn">ลงทะเบียนขอใช้งาน (ระบบ NISPA)</a>
+                        <a href="https://nispa.oncb.go.th/register" class="login100-form-btn">ลงทะเบียนขอใช้งาน (ระบบ
+                            NISPA)</a>
                     </div>
                     <div class="text-center p-t-20">
                         <a class="txt1" href="#">
