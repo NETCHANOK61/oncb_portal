@@ -42,20 +42,18 @@
                                             <td>{{ $item->email }}</td>
                                             <td>{{ $item->created_at->setTimezone('Asia/Bangkok')->format('d/m/Y เวลา H:i:s') }}
                                             </td>
-
                                             <td>
-                                                <button class="btn btn-info" onclick="showPDF('{{ $item->file }}')"><i
-                                                        class="fa fa-eye"></i>
-                                                    ดูเอกสารแนบ</button>
-                                                <button class="btn btn-warning" onclick="approved({{ $item->id }})"><i
-                                                        class="fa fa-pencil"></i>
-                                                    อนุมัติผู้ใช้งาน</button>
+                                                <button class="btn btn-info" onclick="showPDF('{{ $item->file }}')">
+                                                    <i class="fa fa-eye"></i> ดูเอกสารแนบ
+                                                </button>
+                                                <button class="btn btn-warning"
+                                                    onclick="approved({{ $item->id }}, '{{ $item->userid }}', '{{ $item->password }}')">
+                                                    <i class="fa fa-pencil"></i> อนุมัติผู้ใช้งาน
+                                                </button>
                                                 <button class="btn btn-danger">
-                                                    ปฎิเสธคำขอ</button>
+                                                    ปฎิเสธคำขอ
+                                                </button>
                                             </td>
-                                            {{-- <td>
-                                                <iframe src="{{ asset($item->file) }}" frameborder="0"></iframe>
-                                            </td> --}}
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -70,8 +68,7 @@
         <!-- ROW-1 CLOSED -->
     </div>
     <script>
-        function approved(id) {
-            var data_id = id;
+        function approved(id, userid, password) {
             Swal.fire({
                 title: 'ต้องการอนุมัติ?',
                 text: "คุณต้องการอนุมัติคำขอนี้",
@@ -84,25 +81,32 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     var formAction = "{{ route('portal.approveUserPortal', ':user') }}";
-                    formAction = formAction.replace(':user', data_id);
+                    formAction = formAction.replace(':user', id);
+
+                    var isReadOnly = userid !== 'null' && userid !== '';
 
                     Swal.fire({
-                        title: 'กรุณาใส่ชื่อผู้ใช้และรหัสผ่าน',
+                        title: isReadOnly ?
+                            'ผู้ใช้งานนี้มีบัญชีกับ AD ของส่วนกลางแล้ว' : 'กรุณากำหนดชื่อผู้ใช้และรหัสผ่าน',
                         html: '<form id="myForm" action="' + formAction + '" method="POST">' +
                             '<input type="hidden" name="_token" value="{{ csrf_token() }}">' +
+                            '<input type="hidden" name="userid" value="' + userid + '">' +
                             '<div style="text-align: center;">' +
                             '<div style="margin-bottom: 10px;">' +
                             '<label style="display: inline-block; width: 100px; text-align: right; margin-right: 10px;">Username</label>' +
-                            '<input id="username" name="username" class="swal2-input" style="width: 200px;" placeholder="ชื่อผู้ใช้">' +
+                            '<input id="username" name="username" class="swal2-input" style="width: 200px;" placeholder="ชื่อผู้ใช้" value="' +
+                            (isReadOnly ? userid : '') + '" ' + (isReadOnly ? 'readonly' : '') + '>' +
                             '</div>' +
                             '<div>' +
                             '<label style="display: inline-block; width: 100px; text-align: right; margin-right: 10px;">รหัสผ่าน</label>' +
-                            '<input type="text" id="password" name="password" class="swal2-input" style="width: 200px;" placeholder="รหัสผ่าน">' +
+                            '<input type="password" id="password" name="password" class="swal2-input" style="width: 200px;" placeholder="รหัสผ่าน" value="' +
+                            (isReadOnly ? password : '') + '" ' + (isReadOnly ? 'readonly' : '') + '>' +
                             '</div>' +
                             '</div><br>' +
-                            '<div style="padding-left: 50%">' +
-                            '<div id="generatePasswordButton"><img src="{{ asset('assets/images/password.png') }}" width="50"></div>' +
-                            '</div>' +
+                            (isReadOnly ? '' :
+                                '<div style="padding-left: 50%">' +
+                                '<div id="generatePasswordButton"><img src="{{ asset('assets/images/password.png') }}" width="50"></div>' +
+                                '</div>') +
                             '</form>',
                         showCancelButton: true,
                         confirmButtonColor: '#3085d6',
@@ -114,9 +118,11 @@
                         }
                     });
 
-                    // Attach event listener to the button after it's created
-                    document.getElementById("generatePasswordButton").addEventListener("click",
-                        setGeneratedPassword);
+                    // Attach event listener to the button after it's created, only if it's visible
+                    if (!isReadOnly) {
+                        document.getElementById("generatePasswordButton").addEventListener("click",
+                            setGeneratedPassword);
+                    }
                 }
             });
         }

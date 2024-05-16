@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\RequestedUserPortal;
+use App\Models\RequestedUser;
 use App\Models\User;
 use App\Services\MenuService;
 use Illuminate\Http\Request;
@@ -14,13 +14,13 @@ class UserRequestcontroller extends Controller
     {
         //
         $menuItems = MenuService::getMenuItems();
-        $request_user = RequestedUserPortal::where('approved', 0)->get();
+        $request_user = RequestedUser::where('approved', 0)->get();
         return view('admin.portal_user.request_user', compact('menuItems', 'request_user'));
     }
 
     public function approve(Request $request, $id)
     {
-        $request_user = RequestedUserPortal::find($id);
+        $request_user = RequestedUser::find($id);
 
         $user = User::create([
             'name' => $request_user->name,
@@ -39,7 +39,7 @@ class UserRequestcontroller extends Controller
         return redirect()->route('admin.users.edit', $user);
 
         // $menuItems = MenuService::getMenuItems();
-        // $request_user = RequestedUserPortal::all();
+        // $request_user = RequestedUser::all();
         // return view('admin.user.request_user', compact('menuItems', 'request_user'));
         // Retrieve the username and password from the form submission
         // $username = $request->input('username');

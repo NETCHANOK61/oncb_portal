@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\RequestedUserPortal;
+use App\Models\RequestedUser;
 use App\Models\User;
 use App\Services\MenuService;
 use Illuminate\Http\Request;
@@ -14,32 +14,37 @@ class UserRequestPortalcontroller extends Controller
     {
         //
         $menuItems = MenuService::getMenuItems();
-        $request_user = RequestedUserPortal::where('approved', 0)->get();
+        $request_user = RequestedUser::where('approved', '0')->get();
         return view('admin.portal_user.request_user', compact('menuItems', 'request_user'));
     }
 
     public function approve(Request $request, $id)
     {
-        $request_user = RequestedUserPortal::find($id);
+        $request_user = RequestedUser::find($id);
 
         $user = User::create([
             'name' => $request_user->name,
             'email' => $request_user->email,
+            'phone' => $request_user->phone ? $request_user->phone : null,
             'password' => Hash::make($request->input('password')),
             'card_id' => $request_user->card_id,
             'file' => $request_user->file,
-            'username' => $request->input('username'),
-            'surname' => $request_user->surname
+            'userid' => $request->input('username'),
+            'surname' => $request_user->surname,
+            'agency' => $request_user->agency ? $request_user->agency : null,
+            'PROV_ID' => $request_user->PROV_ID ? $request_user->PROV_ID : null,
+            'AMP_ID' => $request_user->AMP_ID ? $request_user->AMP_ID : null,
+            'edu_area_id' => $request_user->edu_area_id ? $request_user->edu_area_id : null,
         ]);
 
         $request_user->update([
-            'approved' => 1
+            'approved' => '1'
         ]);
 
         return redirect()->route('portal.editUser', $user);
 
         // $menuItems = MenuService::getMenuItems();
-        // $request_user = RequestedUserPortal::all();
+        // $request_user = RequestedUser::all();
         // return view('admin.user.request_user', compact('menuItems', 'request_user'));
         // Retrieve the username and password from the form submission
         // $username = $request->input('username');

@@ -194,10 +194,10 @@
                                                 </div>
 
                                                 <div class="row px-3 mt-3">
-                                                    <div class="form-group mt-3 mb-4">
+                                                    <div class="form-group mt-3">
                                                         <div id="org_region_Container" class="">
                                                             <p class="mb-0 w-100">ภาค</p>
-                                                            <select name="account" class="form-control custom-select"
+                                                            <select name="account" class="form-control"
                                                                 id="regionSelect">
                                                                 @foreach ($region as $key => $item)
                                                                     <option value="{{ $item->REG_ONCB }}">
@@ -206,7 +206,7 @@
                                                                 <!-- Options will be added dynamically using JavaScript -->
                                                             </select>
                                                             <p class="mb-0 w-100">จังหวัด</p>
-                                                            <select name="account" class="form-control custom-select"
+                                                            <select name="account" class="form-control"
                                                                 id="provinceSelect">
                                                                 @foreach ($province as $key => $item)
                                                                     <option value="{{ $item->PROV_ID }}">
@@ -215,7 +215,7 @@
                                                                 <!-- Options will be added dynamically using JavaScript -->
                                                             </select>
                                                             <p class="mb-0 w-100">อำเภอ</p>
-                                                            <select name="account" class="form-control custom-select"
+                                                            <select name="account" class="form-control"
                                                                 id="ampherSelect">
                                                                 @foreach ($ampher as $key => $item)
                                                                     <option value="{{ $item->AMP_ID }}">
@@ -225,13 +225,26 @@
                                                             </select>
                                                         </div>
                                                         <div id="org_center_Container" class="select">
-                                                            {{-- <p class="mb-0 w-100">กลุ่มผู้ใช้งาน</p>
-                                                            <select name="account" class="form-control custom-select"
-                                                                id="">
-                                                                <!-- Options will be added dynamically using JavaScript -->
-                                                            </select> --}}
-                                                            <p class="mb-0 w-100">แผนก</p>
-                                                            <select name="account" class="form-control custom-select"
+                                                            <div class="row">
+                                                                <div class="col-6">
+                                                                    <div class="form-group">
+                                                                        <label class=""
+                                                                            for="username_ad_input">username AD</label>
+                                                                        <input type="text" name="username_ad"
+                                                                            id="username_ad" class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    <div class="form-group">
+                                                                        <label class=""
+                                                                            for="password_ad_input">password AD</label>
+                                                                        <input type="text" name="password_ad"
+                                                                            id="password_ad" class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <label class="w-100">แผนก</label>
+                                                            <select name="account" class="form-control"
                                                                 id="">
                                                                 @foreach ($agencies as $key => $item)
                                                                     <option value="{{ $item->div_code }}">
@@ -239,10 +252,10 @@
                                                                 @endforeach
                                                             </select>
                                                         </div>
-                                                        <div id="school_Container" class="select mb-3">
+                                                        <div id="school_Container" class="select">
                                                             <p class="mb-0 w-100">จังหวัด</p>
                                                             <select name="provinceSelect_edu"
-                                                                class="form-control custom-select"
+                                                                class="form-control"
                                                                 id="provinceSelect_edu">
                                                                 @foreach ($province as $key => $item)
                                                                     <option value="{{ $item->PROV_ID }}">
@@ -250,26 +263,19 @@
                                                                 @endforeach
                                                             </select>
                                                             <p class="mb-0 w-100">สำนักงานการศึกษาขั้นพื้นฐาน</p>
-                                                            <select name="edu_area" class="form-control custom-select"
-                                                                id="edu_area"> </select>
-                                                            {{-- <p class="mb-0 w-100">เทศบาล/เทศบาลนคร</p>
-                                                            <select name="account" class="form-control custom-select"
-                                                                id="">
-                                                                <!-- Options will be added dynamically using JavaScript -->
-                                                            </select> --}}
+                                                            <select name="edu_area" class="form-control"
+                                                                id="edu_area"></select>
                                                             <p class="mb-0 w-100">โรงเรียน</p>
                                                             <select name="school_list"
-                                                                class="form-control custom-select" id="school_list">
-                                                                <!-- Options will be added dynamically using JavaScript -->
+                                                                class="form-control" id="school_list">
                                                             </select>
+                                                        </div>
+                                                        <div id="" class="select">
+                                                            <p class="mb-0 w-100">แนบไฟล์ขอใช้งาน</p>
+                                                            <input type="file" name="file_upload">
                                                         </div>
                                                     </div>
                                                 </div>
-
-                                                <br>
-                                                <p class="mb-0 w-100">แนบไฟล์ขอใช้งาน</p>
-                                                <input type="file" name="file_upload">
-
                                                 <center>
                                                     <button type="submit" id="registerBtn"
                                                         class="next-button text-center mt-1 ml-2">
