@@ -311,4 +311,61 @@ class IndexController extends Controller
             return redirect('/');
         }
     }
+
+    public function submitLoginForm(Request $request)
+    {
+        $apiUrl = $request->input('api_url');
+        $system = System::where('url', $apiUrl)->first();
+        if ($system) {
+            $apiKey = $system->API_KEY;  // This is the API key associated with the URL
+        } else {
+            // Handle the case where no system is found for the URL
+            $apiKey = null;  // or handle as appropriate for your application
+        }
+        // $apiKey = $request->input('api_key');
+        $encodedUrl = md5($apiUrl);  // Encode or hash the URL to use as a key
+        // Step 1: Check session for previous verification
+        if (!$request->session()->get('verified_' . $encodedUrl, false)) {
+            $token = bin2hex(random_bytes(16));
+            $authorization = base64_encode($apiKey . ':' . $token);
+            // Send token to the receiver for the first authorization check
+            $response = Http::withHeaders([
+                'Content-Type' => 'application/json'
+            ])->post($apiUrl, [
+                'status' => 'authorization',
+                'token' => $token
+            ]);
+            if ($response->successful() && $response->json()['authorization'] === $authorization) {
+                // Store verification in session
+                $request->session()->put('verified_' . $encodedUrl, true);
+            } else {
+                // If not authorized, redirect back with error
+                return redirect()->route('submitLoginForm')->withInput()->withErrors(['authorization' => 'Failed to verify authorization.']);
+            }
+        }
+
+        // Step 2: Send actual data upon successful authorization
+        if ($request->session()->get('verified_' . $encodedUrl)) {
+            $response = Http::withHeaders([
+                'Content-Type' => 'application/json'
+            ])->post($apiUrl, [
+                'status' => 'authorized',
+                'data' => $request->input('data')
+            ]);
+            if ($response->successful() && $response->json()['status'] === 'allowed') {
+                $request->session()->forget('verified_' . $encodedUrl);
+                $redirectUrl = $response->json()['redirect_url'];
+                $data = $request->input('data');
+
+                return view('redirect', [
+                    'redirectUrl' => $redirectUrl,
+                    'data' => $data
+                ]);
+            } else {
+                return redirect()->route('submitLoginForm')->withInput()->withErrors(['authorization' => 'Failed to verify authorization.']);
+            }
+        }
+
+        return redirect()->route('submitLoginForm')->withInput()->withErrors(['authorization' => 'Failed to verify authorization.']);
+    }
 }

@@ -63,6 +63,8 @@ Route::get('/ldap_login', [IndexController::class, 'ldapLogin'])->name('ldapLogi
 Route::post('/submitlogin', [IndexController::class, 'submitlogin'])->name('submitlogin');
 Route::get('/req_system/{system}/{user}', [IndexController::class, 'req_system'])->name('req_system');
 
+Route::post('/authorization', [IndexController::class, 'submitLoginForm'])->name('submitLoginForm');
+
 Route::get('/get-provinces/{region}', [RegionController::class, 'getProvinces'])->name('getProvinces');
 Route::get('/get-amphurs/{province}', [RegionController::class, 'getAmpher'])->name('getAmpher');
 Route::get('/get-school', [RegionController::class, 'getSchool'])->name('getSchool');
