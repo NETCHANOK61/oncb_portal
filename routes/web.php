@@ -55,7 +55,14 @@ Route::get('/login_with_thaiid', [IndexController::class, 'login_with_thaiid'])-
 // Route::get('/login/thai_id_callback', [IndexController::class, 'handleThaiIdCallback'])->name('handleThaiIdCallback');
 
 Route::get('/check_callback', [IndexController::class, 'check_callback'])->name('check_callback');
+
 Route::post('/login_to_nispa', [IndexController::class, 'login_to_nispa'])->name('loginToNispa');
+Route::post('/redirect_to_nispa', [IndexController::class, 'redirect_to_nispa'])->name('redirectToNispa');
+    
+// Route to initiate challenge
+Route::post('/initiate-challenge', [IndexController::class, 'initiateChallenge']);
+Route::post('/receive-data', [IndexController::class, 'receiveData']);
+
 Route::get('/ldap_login', [IndexController::class, 'ldapLogin'])->name('ldapLogin');
 
 Route::get('/get-provinces/{region}', [RegionController::class, 'getProvinces'])->name('getProvinces');

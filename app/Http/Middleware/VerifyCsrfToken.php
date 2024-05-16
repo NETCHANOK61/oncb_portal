@@ -12,7 +12,7 @@ class VerifyCsrfToken extends Middleware
      * @var array<int, string>
      */
     protected $except = [
-        'login_to_nispa',
+        'login_to_nispa','redirect_to_nispa',
         //
     ];
 }
