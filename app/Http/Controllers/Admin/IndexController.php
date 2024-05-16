@@ -7,12 +7,18 @@ use App\Models\FuncByRole;
 use App\Models\bud_dpis;
 use App\Models\School48;
 use App\Http\Controllers\Controller;
+use App\Models\Agency;
+use App\Models\Ampher;
+use App\Models\Province;
+use App\Models\Region;
 use App\Services\MenuService;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Http;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth; // Import the Auth facade
 
 class IndexController extends Controller
@@ -80,7 +86,7 @@ class IndexController extends Controller
     //     // return view('admin.callback');
     // }
 
-   public function login_with_thaiid(Request $request)
+    public function login_with_thaiid(Request $request)
     {
         $code = $request->input('code');
         $state = $request->input('state');
@@ -280,34 +286,51 @@ class IndexController extends Controller
         }
     }
 
-    // public function login_to_nispa(Request $request)
-    // {
-    //     $credentials = $request->only('email', 'password');
-    //     dd($credentials);
-
-    //     if (Auth::attempt($credentials)) {
-    //         // Authentication passed...
-    //         return redirect()->intended('dashboard');
-    //     }
-
-    //     return back()->withErrors([
-    //         'email' => 'The provided credentials do not match our records.',
-    //     ]);
-    // }
-
-    function login_to_nispa(Request $request)
+    // Handles the initial challenge request
+    public function login_to_nispa(Request $request)
     {
-        // dd($request);
-        // exit;
-        $email = $request->email;
-        $user = User::where('email', $email)->first();
+        $status = $request->input('status');
+        if ($status === 'authorization') {
+            $token = $request->input('token');
+            $apiKey = config('api.keys.nispa');
+            $authorization = base64_encode($apiKey . ':' . $token);
+            return response()->json(['authorization' => $authorization]);
+        } elseif ($status === 'authorized') {
+            $data = json_decode($request->input('data'), true);
+            $email = $data['email'];
+            $password = $data['password'];
+            $user = User::where('email', $email)->first();
+            if ($user) {
+                Auth::login($user);
+                $redirectUrl = "http://127.0.0.1:8002/redirect_to_nispa";
+                return response()->json(['status' => 'allowed', 'redirect_url' => $redirectUrl]);
+            } else {
+                return response()->json(['error' => 'Authentication failed'], 401);
+            }
+        }
+    }
 
-        if ($user) {
-            // dd($user);
-            Auth::login($user);
+    function redirect_to_nispa(Request $request)
+    {
+        // Check if 'data' input is present and is a valid JSON
+        if (!$request->has('data')) {
+            // Redirect back or to a default page if 'data' is missing
+            return redirect('/')->withErrors(['error' => 'No data provided.']);
+        }
+
+        $data = json_decode($request->input('data'), true);
+        $data = json_decode($data, true);
+        $email = $data['email'];
+        $password = $data['password'];
+
+        // Check if user exists and password is correct
+        $user = User::where('email', $email)->first();
+        if ($user && Auth::attempt(['email' => $email, 'password' => $password])) {
+            // Log in the user and redirect to the intended page
             return $this->index();
         } else {
-            return redirect('/');
+            // Redirect back or to a default page if authentication fails
+            return redirect('/')->withErrors(['error' => 'Authentication failed.']);
         }
     }
 }
