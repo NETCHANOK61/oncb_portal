@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('sub_menu')->nullable();
             $table->string('secondary_menu')->nullable();
             $table->string('menu_icon')->nullable();
+            $table->string('url_menu')->nullable();
+            $table->enum('status_menu', ['1', '0'])->default('1');
             $table->timestamps();
         });
     }
