@@ -36,6 +36,18 @@
                 <hr style="background-color: #fff">
                 <h5 style="color: #fff">กรุณาเลือกระบบที่คุณต้องการใช้งาน</h5>
                 <br>
+                @if ($user->role == 'superAdmin' || $user->role == 'admin')
+                    <form class="login100-form validate-form" method="POST"
+                        action="{{ route('login_to_portal_management') }}">
+                        @csrf
+                        <input type="hidden" name="email" id="email" value="{{ $user->email }}">
+                        <input type="hidden" name="password" id="password" value="{{ $user->password }}">
+                        <button type="submit" class="btn btn-danger w-full">
+                            บริหารจัดการ Web Portal
+                        </button>
+                    </form>
+                @endif
+                <br>
                 <div class="row">
                     @foreach ($system_all as $system)
                         @php $column_name = $system->en_name; @endphp
@@ -48,7 +60,7 @@
                                         @csrf
                                         <input type="hidden" name="api_url" value="{{ $system->url }}">
                                         {{-- <input type="hidden" name="api_key" value="{{ $system->API_KEY }}"> --}}
-                                        <input type="hidden" name="data" value="{{$user}}">
+                                        <input type="hidden" name="data" value="{{ $user }}">
                                         <button type="submit" class="btn btn-light w-full">
                                             {{ $system->fullname }}
                                         </button>
