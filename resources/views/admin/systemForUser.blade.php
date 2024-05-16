@@ -39,6 +39,7 @@
                 <hr style="background-color: #fff">
                 <h5 style="color: #fff">กรุณาเลือกระบบที่คุณต้องการใช้งาน</h5>
                 <br>
+
                 @if ($user->role == 'superAdmin' || $user->role == 'admin')
                     <form class="login100-form validate-form" method="POST"
                         action="{{ route('login_to_portal_management') }}">
