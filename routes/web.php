@@ -84,18 +84,18 @@ Route::middleware(['auth'])->name('portal.')->prefix('portal')->group(function (
 
     // Route::get('/index', [IndexController::class, 'index'])->name('index');
 
-    Route::get('/all_system', [PortalSystemController::class, 'index'])->name('allSystem')->middleware(['auth', 'role:admin|superAdmin']);
-    Route::get('/add_system', [PortalSystemController::class, 'addSystem'])->name('addSystem')->middleware(['auth', 'role:admin|superAdmin']);
-    Route::post('/store_system', [PortalSystemController::class, 'store'])->name('storeSystem')->middleware(['auth', 'role:admin|superAdmin']);
-    Route::get('/delete_system/{id}', [PortalSystemController::class, 'deleteSystem'])->name('deleteSystem')->middleware(['auth', 'role:admin|superAdmin']);
-    Route::get('/return_system/{id}', [PortalSystemController::class, 'returnSystem'])->name('returnSystem')->middleware(['auth', 'role:admin|superAdmin']);
+    Route::get('/all_system', [PortalSystemController::class, 'index'])->name('allSystem');
+    Route::get('/add_system', [PortalSystemController::class, 'addSystem'])->name('addSystem');
+    Route::post('/store_system', [PortalSystemController::class, 'store'])->name('storeSystem');
+    Route::get('/delete_system/{id}', [PortalSystemController::class, 'deleteSystem'])->name('deleteSystem');
+    Route::get('/return_system/{id}', [PortalSystemController::class, 'returnSystem'])->name('returnSystem');
 
-    Route::get('/all_user', [PortalSystemController::class, 'allUser'])->name('allUser')->middleware(['auth', 'role:admin|superAdmin']);
-    Route::get('/edit_user/{id}', [PortalSystemController::class, 'editUser'])->name('editUser')->middleware(['auth', 'role:admin|superAdmin']);
-    Route::post('/update_user/{id}', [PortalSystemController::class, 'updateUser'])->name('updateUser')->middleware(['auth', 'role:admin|superAdmin']);
+    Route::get('/all_user', [PortalSystemController::class, 'allUser'])->name('allUser');
+    Route::get('/edit_user/{id}', [PortalSystemController::class, 'editUser'])->name('editUser');
+    Route::post('/update_user/{id}', [PortalSystemController::class, 'updateUser'])->name('updateUser');
 
-    Route::get('/request_user_portal', [UserRequestPortalcontroller::class, 'index'])->name('requestUserPortal')->middleware(['auth', 'role:admin|superAdmin']);
-    Route::post('/approve_user_portal/{id}', [UserRequestPortalcontroller::class, 'approve'])->name('approveUserPortal')->middleware(['auth', 'role:admin|superAdmin']);
+    Route::get('/request_user_portal', [UserRequestPortalcontroller::class, 'index'])->name('requestUserPortal');
+    Route::post('/approve_user_portal/{id}', [UserRequestPortalcontroller::class, 'approve'])->name('approveUserPortal');
 
     // Route::get('/add_system', [PortalSystemController::class, 'addSystem'])->name('addSystem')->middleware(['auth', 'role:admin|superAdmin']);
     // Route::post('/store_system', [PortalSystemController::class, 'store'])->name('storeSystem')->middleware(['auth', 'role:admin|superAdmin']);

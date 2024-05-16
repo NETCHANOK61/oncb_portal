@@ -50,6 +50,8 @@
                                                 <button class="btn btn-warning" onclick="approved({{ $item->id }})"><i
                                                         class="fa fa-pencil"></i>
                                                     อนุมัติผู้ใช้งาน</button>
+                                                <button class="btn btn-danger">
+                                                    ปฎิเสธคำขอ</button>
                                             </td>
                                             {{-- <td>
                                                 <iframe src="{{ asset($item->file) }}" frameborder="0"></iframe>
