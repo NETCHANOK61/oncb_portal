@@ -285,15 +285,25 @@ class IndexController extends Controller
     {
         // dd($request->username_input);
         $uid = $request->pid;
-        $user = User::where('card_id', $uid)->first();
+        $user = User_portal::where('card_id', $uid)->first();
 
         if ($user) {
+            $system_all = System::where('status', 1)->get();
             // dd($user);
-            Auth::login($user);
-            return $this->index();
+            // Auth::login($user);
+            // return $this->index();
+            return view('admin.systemForUser', compact('userObject', 'user', 'system_all'));
         } else {
             return redirect('/');
         }
+
+        // if ($user) {
+        //     // dd($user);
+        //     Auth::login($user);
+        //     return $this->index();
+        // } else {
+        //     return redirect('/');
+        // }
     }
 
     function login_to_portal_management(Request $request)
