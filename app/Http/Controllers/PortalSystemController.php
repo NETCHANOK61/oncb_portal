@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Menu;
 use App\Models\System;
 use App\Models\Test;
-use App\Models\User_portal;
+use App\Models\User;
 use App\Services\MenuService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -51,7 +51,7 @@ class PortalSystemController extends Controller
         //
         $menu = Menu::all();
         $menuItems = MenuService::getMenuItems();
-        $users = User_portal::all();
+        $users = User::all();
         $data = System::all();
         // $columns = Schema::getColumnListing((new Test())->getTable());
 
@@ -63,7 +63,7 @@ class PortalSystemController extends Controller
         //
         $menu = Menu::all();
         $menuItems = MenuService::getMenuItems();
-        $user = User_portal::find($id);
+        $user = User::find($id);
         $data = System::all();
         // $columns = Schema::getColumnListing((new Test())->getTable());
 
@@ -72,7 +72,7 @@ class PortalSystemController extends Controller
 
     public function updateUser(string $id, Request $request)
     {
-        $user = User_portal::findOrFail($id);
+        $user = User::findOrFail($id);
 
         // Get all field names of the user model
         $allFields = System::pluck('en_name')->toArray();

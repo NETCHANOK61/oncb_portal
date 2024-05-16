@@ -12,7 +12,6 @@ use App\Models\Region;
 use App\Models\School48;
 use App\Http\Controllers\Controller;
 use App\Models\System;
-use App\Models\User_portal;
 use App\Services\MenuService;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
@@ -227,7 +226,7 @@ class IndexController extends Controller
         if (!is_null($userapi) && isset($userapi['login'])) {
             $authen = $userapi['login'];
             if ($authen) {
-                $user = User_portal::where('userid', $username)->first();
+                $user = User::where('userid', $username)->first();
 
                 if ($user) {
                     $system_all = System::where('status', 1)->get();
@@ -243,7 +242,7 @@ class IndexController extends Controller
             }
         } else {
             // return back()->with('error', 'รหัสผ่านหรือชื่อผู้ใช้ไม่ถูกต้อง');
-            $user = User_portal::where('email', $username)->first();
+            $user = User::where('email', $username)->first();
 
             if ($user) {
                 $system_all = System::where('status', 1)->get();
@@ -285,7 +284,7 @@ class IndexController extends Controller
     {
         // dd($request->username_input);
         $uid = $request->pid;
-        $user = User_portal::where('card_id', $uid)->first();
+        $user = User::where('card_id', $uid)->first();
 
         if ($user) {
             $system_all = System::where('status', 1)->get();
@@ -311,7 +310,7 @@ class IndexController extends Controller
         // dd($request);
         // exit;
         $email = $request->email;
-        $user = User_portal::where('email', $email)->first();
+        $user = User::where('email', $email)->first();
 
         if ($user) {
             // dd($user);

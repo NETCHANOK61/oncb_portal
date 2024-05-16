@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\RequestedUserPortal;
 use App\Models\User;
-use App\Models\User_portal;
 use App\Services\MenuService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -23,7 +22,7 @@ class UserRequestPortalcontroller extends Controller
     {
         $request_user = RequestedUserPortal::find($id);
 
-        $user = User_portal::create([
+        $user = User::create([
             'name' => $request_user->name,
             'email' => $request_user->email,
             'password' => Hash::make($request->input('password')),
