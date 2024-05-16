@@ -67,7 +67,7 @@
                         <div class="text-center bg-image p-4">
                             <a href="#" class="dropdown-item text-center font-weight-sembold user pt-0"
                                 data-toggle="dropdown">{{ Auth::user()->name }}</a>
-                            <span class="text-center user-semi-title ">{{ Auth::user()->roles[0]->name }}</span>
+                            <span class="text-center user-semi-title ">{{ Auth::user()->role }}</span>
                         </div>
                         <!-- <div class="dropdown-divider"></div> -->
                         {{-- <a class="dropdown-item" href="{{ route('logout') }}">

@@ -242,7 +242,18 @@ class IndexController extends Controller
                 // return view('admin.portal.main', compact('userObject'));
             }
         } else {
-            return back()->with('error', 'รหัสผ่านหรือชื่อผู้ใช้ไม่ถูกต้อง');
+            // return back()->with('error', 'รหัสผ่านหรือชื่อผู้ใช้ไม่ถูกต้อง');
+            $user = User_portal::where('email', $username)->first();
+
+            if ($user) {
+                $system_all = System::where('status', 1)->get();
+                // dd($user);
+                // Auth::login($user);
+                // return $this->index();
+                return view('admin.systemForUser', compact('userObject', 'user', 'system_all'));
+            } else {
+                return redirect('/');
+            }
         }
     }
 

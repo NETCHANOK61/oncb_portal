@@ -29,9 +29,9 @@
         <div class="container-login100"
             style="background-image: url('{{ asset('../assets/login/images/oncb_build.jpg') }}');">
             <div class="wrap-login100">
-                <form class="login100-form validate-form" method="POST" action="{{ route('login.post') }}" id="loginForm">
-                {{-- <form class="login100-form validate-form" method="POST" action="{{ route('submitlogin') }}"
-                    id="loginForm"> --}}
+                {{-- <form class="login100-form validate-form" method="POST" action="{{ route('login.post') }}" id="loginForm"> --}}
+                <form class="login100-form validate-form" method="POST" action="{{ route('submitlogin') }}"
+                    id="loginForm">
 
                     @csrf
 
@@ -61,7 +61,7 @@
                     <br>
                     <div class="container-login100-form-btn">
                         <button class="login100-form-btn" type="submit">
-                            เข้าสู่ระบบ (deverloper)
+                            เข้าสู่ระบบ
                         </button>
                     </div>
                     {{-- <div class="container-login100-form-btn">
@@ -70,9 +70,9 @@
                         </a>
                     </div> --}}
 
-                    <div class="container-login100-form-btn">
+                    {{-- <div class="container-login100-form-btn">
                         <button type="button" id="loginLDAP" class="login100-form-btn">Login LDAP</button>
-                    </div>
+                    </div> --}}
 
                     <br>
                     <div class="container-login100-form-btn">
