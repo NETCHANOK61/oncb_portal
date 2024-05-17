@@ -91,7 +91,7 @@ class PortalSystemController extends Controller
                 $updates[$fieldName] = 0;
             }
         }
-
+        
         // Update the user with the field-value pairs
         $user->update($updates);
 
@@ -114,7 +114,7 @@ class PortalSystemController extends Controller
             'API_KEY' => Str::random(43)
         ]);
 
-        Schema::table('users_portal', function ($table) use ($en_name) {
+        Schema::table('users', function ($table) use ($en_name) {
             $table->integer($en_name)->default(0);
         });
         // return $this->allColumn();
