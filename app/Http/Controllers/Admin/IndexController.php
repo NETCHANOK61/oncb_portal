@@ -308,6 +308,7 @@ class IndexController extends Controller
                 return response()->json(['error' => 'Authentication failed'], 401);
             }
         }
+        return response()->json(['error' => 'Authentication failed'], 401);
     }
 
     function redirect_to_nispa(Request $request)
