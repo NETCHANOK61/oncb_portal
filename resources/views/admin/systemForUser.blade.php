@@ -53,23 +53,16 @@
                         @php $column_name = $system->en_name; @endphp
                         @if ($user->$column_name == '1')
                             <div class="col">
-                                @if ($system->en_name == 'nispa')
-                                    <!-- Dynamically set the form action to system's URL -->
-                                    <form class="login100-form validate-form" method="POST"
-                                        action="{{ route('submitLoginForm') }}">
-                                        @csrf
-                                        <input type="hidden" name="api_url" value="{{ $system->url }}">
-                                        {{-- <input type="hidden" name="api_key" value="{{ $system->API_KEY }}"> --}}
-                                        <input type="hidden" name="data" value="{{ $user }}">
-                                        <button type="submit" class="btn btn-light w-full">
-                                            {{ $system->fullname }}
-                                        </button>
-                                    </form>
-                                @else
-                                    <!-- Link for other systems -->
-                                    <a href="{{ $system->url }}"
-                                        class="btn btn-light w-full">{{ $system->fullname }}</a>
-                                @endif
+                                <form class="login100-form validate-form" method="POST"
+                                    action="{{ route('submitLoginForm') }}">
+                                    @csrf
+                                    <input type="hidden" name="api_url" value="{{ $system->url }}">
+                                    {{-- <input type="hidden" name="password" id="password" value="{{ $user->password }}"> --}}
+                                    <input type="hidden" name="data" value="{{ $user }}">
+                                    <button type="submit" class="btn btn-light w-full">
+                                        {{ $system->fullname }}
+                                    </button>
+                                </form>
                             </div>
                         @endif
                     @endforeach

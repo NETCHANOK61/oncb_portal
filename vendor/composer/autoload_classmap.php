@@ -28,6 +28,7 @@ return array(
     'App\\Http\\Controllers\\ProfileController' => $baseDir . '/app/Http/Controllers/ProfileController.php',
     'App\\Http\\Controllers\\RegionController' => $baseDir . '/app/Http/Controllers/RegionController.php',
     'App\\Http\\Controllers\\SchoolController' => $baseDir . '/app/Http/Controllers/SchoolController.php',
+    'App\\Http\\Controllers\\UserRequestPortalcontroller' => $baseDir . '/app/Http/Controllers/UserRequestPortalcontroller.php',
     'App\\Http\\Controllers\\UserRequestcontroller' => $baseDir . '/app/Http/Controllers/UserRequestcontroller.php',
     'App\\Http\\Kernel' => $baseDir . '/app/Http/Kernel.php',
     'App\\Http\\Middleware\\Authenticate' => $baseDir . '/app/Http/Middleware/Authenticate.php',

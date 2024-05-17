@@ -608,6 +608,7 @@ class ComposerStaticInit938d4560834943ed81e843b336c6705b
         'App\\Http\\Controllers\\ProfileController' => __DIR__ . '/../..' . '/app/Http/Controllers/ProfileController.php',
         'App\\Http\\Controllers\\RegionController' => __DIR__ . '/../..' . '/app/Http/Controllers/RegionController.php',
         'App\\Http\\Controllers\\SchoolController' => __DIR__ . '/../..' . '/app/Http/Controllers/SchoolController.php',
+        'App\\Http\\Controllers\\UserRequestPortalcontroller' => __DIR__ . '/../..' . '/app/Http/Controllers/UserRequestPortalcontroller.php',
         'App\\Http\\Controllers\\UserRequestcontroller' => __DIR__ . '/../..' . '/app/Http/Controllers/UserRequestcontroller.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
         'App\\Http\\Middleware\\Authenticate' => __DIR__ . '/../..' . '/app/Http/Middleware/Authenticate.php',

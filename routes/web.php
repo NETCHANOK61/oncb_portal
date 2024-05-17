@@ -64,6 +64,7 @@ Route::post('/submitlogin', [IndexController::class, 'submitlogin'])->name('subm
 Route::get('/req_system/{system}/{user}', [IndexController::class, 'req_system'])->name('req_system');
 
 Route::post('/authorization', [IndexController::class, 'submitLoginForm'])->name('submitLoginForm');
+Route::get('/form', [IndexController::class, 'showForm'])->name('formView');
 
 Route::get('/get-provinces/{region}', [RegionController::class, 'getProvinces'])->name('getProvinces');
 Route::get('/get-amphurs/{province}', [RegionController::class, 'getAmpher'])->name('getAmpher');

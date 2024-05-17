@@ -325,35 +325,33 @@ class IndexController extends Controller
     {
         $apiUrl = $request->input('api_url');
         $system = System::where('url', $apiUrl)->first();
-        if ($system) {
-            $apiKey = $system->API_KEY;  // This is the API key associated with the URL
-        } else {
-            // Handle the case where no system is found for the URL
-            $apiKey = null;  // or handle as appropriate for your application
+        $apiKey = $system ? $system->API_KEY : null;
+        $token = bin2hex(random_bytes(16));
+
+        if (!$apiKey) {
+            // In case of an error in submitLoginForm
+            return redirect('/');
         }
-        // $apiKey = $request->input('api_key');
-        $encodedUrl = md5($apiUrl);  // Encode or hash the URL to use as a key
-        // Step 1: Check session for previous verification
+
+        $encodedUrl = md5($apiUrl . ':' . $token);  // Encode or hash the URL to use as a key
         if (!$request->session()->get('verified_' . $encodedUrl, false)) {
-            $token = bin2hex(random_bytes(16));
             $authorization = base64_encode($apiKey . ':' . $token);
-            // Send token to the receiver for the first authorization check
+
             $response = Http::withHeaders([
                 'Content-Type' => 'application/json'
             ])->post($apiUrl, [
                 'status' => 'authorization',
                 'token' => $token
             ]);
+
             if ($response->successful() && $response->json()['authorization'] === $authorization) {
-                // Store verification in session
                 $request->session()->put('verified_' . $encodedUrl, true);
             } else {
-                // If not authorized, redirect back with error
-                return redirect()->route('submitLoginForm')->withInput()->withErrors(['authorization' => 'Failed to verify authorization.']);
+                // In case of an error in submitLoginForm
+                return redirect()->route('formView')->withInput()->withErrors(['authorization' => 'Failed to verify authorization.']);
             }
         }
 
-        // Step 2: Send actual data upon successful authorization
         if ($request->session()->get('verified_' . $encodedUrl)) {
             $response = Http::withHeaders([
                 'Content-Type' => 'application/json'
@@ -361,20 +359,32 @@ class IndexController extends Controller
                 'status' => 'authorized',
                 'data' => $request->input('data')
             ]);
+
             if ($response->successful() && $response->json()['status'] === 'allowed') {
                 $request->session()->forget('verified_' . $encodedUrl);
                 $redirectUrl = $response->json()['redirect_url'];
                 $data = $request->input('data');
 
+                // Redirect to a new URL with the data packed for POST submission using JavaScript as explained previously
                 return view('redirect', [
                     'redirectUrl' => $redirectUrl,
                     'data' => $data
                 ]);
             } else {
-                return redirect()->route('submitLoginForm')->withInput()->withErrors(['authorization' => 'Failed to verify authorization.']);
+                // In case of an error in submitLoginForm
+                return redirect()->route('formView')->withInput()->withErrors(['authorization' => 'Failed to verify authorization.']);
             }
         }
 
-        return redirect()->route('submitLoginForm')->withInput()->withErrors(['authorization' => 'Failed to verify authorization.']);
+        // In case of an error in submitLoginForm
+        return redirect()->route('formView')->withInput()->withErrors(['authorization' => 'Failed to verify authorization.']);
+    }
+
+    public function showForm(Request $request)
+    {
+        return view('yourFormView', [
+            'oldInput' => $request->old(),  // Ensures old input values are available for form repopulation
+            'errors' => $request->session()->get('errors')  // Passes any error messages to the view
+        ]);
     }
 }
