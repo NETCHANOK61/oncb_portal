@@ -19,20 +19,23 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'phone',
-        'password',
-        'card_id',
-        'file',
-        'username',
-        'surname',
-        'userid',
-        'agency',
-        'PROV_ID',
-        'AMP_ID',
-        'edu_area_id'
+    // protected $fillable = [
+    //     'name',
+    //     'email',
+    //     'phone',
+    //     'password',
+    //     'card_id',
+    //     'file',
+    //     'username',
+    //     'surname',
+    //     'userid',
+    //     'agency',
+    //     'PROV_ID',
+    //     'AMP_ID',
+    //     'edu_area_id'
+    // ];
+    protected $guarded = [
+        'id', 'password', 'remember_token'
     ];
 
     /**
@@ -80,6 +83,5 @@ class User extends Authenticatable
             }
         }
         return $hasPermission;
-
     } // end method
 }
