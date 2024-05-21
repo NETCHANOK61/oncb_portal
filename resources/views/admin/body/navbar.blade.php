@@ -81,54 +81,54 @@
                                                 class="side-menu__label">มาตรการป้องกันยาเสพติด</span><i
                                                 class="angle fa fa-angle-right"></i></a>
                                         <ul class="slide-menu">
-                                            @can('school_target.view')
+                                            {{-- @can('school_target.view') --}}
                                                 <li>
                                                     <a class="slide-item"
                                                         href="{{ route('admin.input.school_target') }}">เป้าหมายโรงเรียน</a>
                                                 </li>
-                                            @endcan
-                                            @can('police.view')
+                                            {{-- @endcan --}}
+                                            {{-- @can('police.view') --}}
                                                 <li>
                                                     <a class="slide-item"
                                                         href="{{ route('admin.input.police') }}">ตำรวจประสานโรงเรียน</a>
                                                 </li>
-                                            @endcan
-                                            @can('youth.view')
+                                            {{-- @endcan --}}
+                                            {{-- @can('youth.view') --}}
                                                 <li>
                                                     <a class="slide-item"
                                                         href="{{ route('admin.input.youth') }}">เยาวชนนอกสถานศึกษา</a>
                                                 </li>
-                                            @endcan
-                                            @can('village.view')
+                                            {{-- @endcan --}}
+                                            {{-- @can('village.view') --}}
                                                 <li>
                                                     <a class="slide-item"
                                                         href="{{ route('admin.input.village') }}">การอบรมเครือข่ายหมู่บ้าน/ชุมชนร่วมใจต้านภัยยาเสพติด</a>
                                                 </li>
-                                            @endcan
-                                            @can('enterprise.view')
+                                            {{-- @endcan --}}
+                                            {{-- @can('enterprise.view') --}}
                                                 <li>
                                                     <a class="slide-item"
                                                         href="{{ route('admin.input.enterprise') }}">สถานประกอบกิจการ</a>
                                                 </li>
-                                            @endcan
-                                            @can('people.view')
+                                            {{-- @endcan --}}
+                                            {{-- @can('people.view') --}}
                                                 <li>
                                                     <a class="slide-item"
                                                         href="{{ route('admin.input.people') }}">การมีส่วนร่วมภาคประชาชน</a>
                                                 </li>
-                                            @endcan
-                                            @can('religious.view')
+                                            {{-- @endcan --}}
+                                            {{-- @can('religious.view') --}}
                                                 <li>
                                                     <a class="slide-item"
                                                         href="{{ route('admin.input.religious') }}">ศาสนสถาน</a>
                                                 </li>
-                                            @endcan
-                                            @can('riskArea.view')
+                                            {{-- @endcan --}}
+                                            {{-- @can('riskArea.view') --}}
                                                 <li>
                                                     <a class="slide-item"
                                                         href="{{ route('admin.input.riskArea') }}">พื้นที่เสี่ยง</a>
                                                 </li>
-                                            @endcan
+                                            {{-- @endcan --}}
                                         </ul>
                                     </li>
                                 </ul>

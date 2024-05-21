@@ -14,8 +14,8 @@ use App\Http\Controllers\UserRequestcontroller;
 use App\Models\Province;
 use App\Services\MenuService;
 use Illuminate\Session\Middleware\AuthenticateSession;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
-
 
 Route::get('/school', [SchoolController::class, 'index'])->name('school.index');
 Route::post('/school/create', [SchoolController::class, 'create'])->name('school.create');
@@ -58,7 +58,7 @@ Route::get('/check_callback', [IndexController::class, 'check_callback'])->name(
 
 Route::post('/login_to_nispa', [IndexController::class, 'login_to_nispa'])->name('loginToNispa');
 Route::post('/redirect_to_nispa', [IndexController::class, 'redirect_to_nispa'])->name('redirectToNispa');
-    
+
 // Route to initiate challenge
 Route::post('/initiate-challenge', [IndexController::class, 'initiateChallenge']);
 Route::post('/receive-data', [IndexController::class, 'receiveData']);
@@ -81,6 +81,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware(['auth'])->name('admin.')->prefix('admin')->group(function () {
+    $nispa_url = 'http://192.168.200.101';
 
     Route::get('/index', [IndexController::class, 'index'])->name('index');
     Route::resource('/roles', RoleController::class)->middleware(['auth', 'role:admin|superAdmin']);
@@ -140,57 +141,66 @@ Route::middleware(['auth'])->name('admin.')->prefix('admin')->group(function () 
     });
 
     // เป้าหมายโรงเรียน
-    Route::get('/input_school_target', function () {
-        $menuItems = MenuService::getMenuItems();
-        return view('admin.page_menu.input_school_target', compact('menuItems'));
+    Route::get('/input_school_target', function ()  use ($nispa_url) {
+        // $menuItems = MenuService::getMenuItems();
+        // return view('admin.page_menu.input_school_target', compact('menuItems'));
+        return Redirect::to($nispa_url . '/strategy67/result/school_police_target.php');
     })->name('input.school_target');
 
     // ตำรวจประสานโรงเรียน
-    Route::get('/input_police', function () {
-        $menuItems = MenuService::getMenuItems();
-        return view('admin.page_menu.input_police', compact('menuItems'));
+    Route::get('/input_police', function ()  use ($nispa_url) {
+        // $menuItems = MenuService::getMenuItems();
+        // return view('admin.page_menu.input_police', compact('menuItems'));
+        return Redirect::to($nispa_url . '/strategy67/result/School_police.php');
     })->name('input.police');
 
     // เยาวชนนอกสถานศึกษา
-    Route::get('/input_youth', function () {
-        $menuItems = MenuService::getMenuItems();
-        return view('admin.page_menu.input_youth', compact('menuItems'));
+    Route::get('/input_youth', function ()  use ($nispa_url) {
+        // $menuItems = MenuService::getMenuItems();
+        // return view('admin.page_menu.input_youth', compact('menuItems'));
+        return Redirect::to($nispa_url . '/strategy67/result/plan3_gang.php');
     })->name('input.youth');
 
     // การอบรมเครือข่ายหมู่บ้าน/ชุมชนร่วมใจต้านภัยยาเสพติด
-    Route::get('/input_village', function () {
-        $menuItems = MenuService::getMenuItems();
-        return view('admin.page_menu.input_village', compact('menuItems'));
+    Route::get('/input_village', function ()  use ($nispa_url) {
+        // $menuItems = MenuService::getMenuItems();
+        // return view('admin.page_menu.input_village', compact('menuItems'));
+        return Redirect::to($nispa_url . '/strategy67/result/plan3_YOS.php');
     })->name('input.village');
 
     // สถานประกอบกิจการ
-    Route::get('/input_enterprise', function () {
-        $menuItems = MenuService::getMenuItems();
-        return view('admin.page_menu.input_enterprise', compact('menuItems'));
+    Route::get('/input_enterprise', function ()  use ($nispa_url) {
+        // $menuItems = MenuService::getMenuItems();
+        // return view('admin.page_menu.input_enterprise', compact('menuItems'));
+        return Redirect::to($nispa_url . '/strategy67/result/plan3_company.php');
     })->name('input.enterprise');
 
     // การมีส่วนร่วมภาคประชาชน
-    Route::get('/input_people', function () {
-        $menuItems = MenuService::getMenuItems();
-        return view('admin.page_menu.input_people', compact('menuItems'));
+    Route::get('/input_people', function ()  use ($nispa_url) {
+        // $menuItems = MenuService::getMenuItems();
+        // return view('admin.page_menu.input_people', compact('menuItems'));
+        return Redirect::to($nispa_url . '/strategy67/result/mc.php');
     })->name('input.people');
 
     // ศาสนสถาน
-    Route::get('/input_religious', function () {
-        $menuItems = MenuService::getMenuItems();
-        return view('admin.page_menu.input_religious', compact('menuItems'));
+    Route::get('/input_religious', function ()  use ($nispa_url) {
+        // $menuItems = MenuService::getMenuItems();
+        // return view('admin.page_menu.input_religious', compact('menuItems'));
+        return Redirect::to($nispa_url . '/strategy67/result/temple.php');
     })->name('input.religious');
 
     // พื้นที่เสี่ยง
-    Route::get('/input_riskArea', function () {
-        $menuItems = MenuService::getMenuItems();
-        return view('admin.page_menu.input_riskArea', compact('menuItems'));
+    Route::get('/input_riskArea', function ()  use ($nispa_url) {
+        // $menuItems = MenuService::getMenuItems();
+        // return view('admin.page_menu.input_riskArea', compact('menuItems'));
+        return Redirect::to($nispa_url . '/strategy67/result/plan3_risk.php');
     })->name('input.riskArea');
 
     // ความร่วมมือระหว่างประเทศ
-    Route::get('/input_coperation', function () {
-        $menuItems = MenuService::getMenuItems();
-        return view('admin.page_menu.input_coperation', compact('menuItems'));
+    Route::get('/input_coperation', function ()  use ($nispa_url) {
+        // $menuItems = MenuService::getMenuItems();
+        // return view('admin.page_menu.input_coperation', compact('menuItems'));
+        return Redirect::to($nispa_url . '/strategy67/result/plan5_1.php');
     })->name('input.coperation');
 
     // การบันทึกข้อมูลของสถานศึกษา/ศูนย์พัฒนาเด็กเล็ก
@@ -249,15 +259,17 @@ Route::middleware(['auth'])->name('admin.')->prefix('admin')->group(function () 
     // *****
     //
     // สถานะการนำเข้าข้อมูล รายเดือน
-    Route::get('/input_status_month', function () {
-        $menuItems = MenuService::getMenuItems();
-        return view('admin.page_menu.input_status_month', compact('menuItems'));
+    Route::get('/input_status_month', function () use ($nispa_url) {
+        // $menuItems = MenuService::getMenuItems();
+        // return view('admin.page_menu.input_status_month', compact('menuItems'));
+        return Redirect::to($nispa_url . '/strategy67/status/status_bymth.php');
     })->name('status.month');
 
     // สถานะการนำเข้าข้อมูล รายวัน
-    Route::get('/input_status_day', function () {
-        $menuItems = MenuService::getMenuItems();
-        return view('admin.page_menu.input_status_day', compact('menuItems'));
+    Route::get('/input_status_day', function () use ($nispa_url) {
+        // $menuItems = MenuService::getMenuItems();
+        // return view('admin.page_menu.input_status_day', compact('menuItems'));
+        return Redirect::to($nispa_url . '/strategy67/status/status_byday.php');
     })->name('status.day');
 
     //
