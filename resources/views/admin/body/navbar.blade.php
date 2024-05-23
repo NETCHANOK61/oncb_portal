@@ -147,14 +147,11 @@
                                         </ul>
                                     </li>
                                 </ul>
-                                <br>
 
-                                <h4 class="font-weight-normal"><i class="typcn typcn-arrow-move-outline"></i>
+                                {{-- <h4 class="font-weight-normal"><i class="typcn typcn-arrow-move-outline"></i>
                                     สำหรับสถานศึกษา/ <br>ศูนย์พัฒนาเด็กเล็ก
                                 </h4>
-                                {{-- @can('school.view') --}}
-                                <a href="{{ route('admin.input.school') }}" class="slide-item">การบันทึกข้อมูล</a>
-                                {{-- @endcan --}}
+                                <a href="{{ route('admin.input.school') }}" class="slide-item">การบันทึกข้อมูล</a> --}}
                                 <br>
 
                                 <h4>แบบสำรวจสภาพปัญหา<br>ยาเสพติดในระดับหมู่บ้าน/ชุมชน</h4>
@@ -270,7 +267,7 @@
 
                                 <a href="{{ route('admin.school_main') }}" class="slide-item">การแก้ปัญหาชื่อโรงเรียนซ้ำ</a>
                                 <a href="{{ route('admin.input.school') }}"
-                                    class="slide-item">ตัวอย่างฟอร์มที่มีการเพิ่ม/ลบ ฟีลด์</a>
+                                    class="slide-item">การบันทึกข้อมูล</a>
                                 @endrole
                                 <br>
                                 <h4 class="font-weight-normal"><i class="typcn typcn-arrow-move-outline"></i>
