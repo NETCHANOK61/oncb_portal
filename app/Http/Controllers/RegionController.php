@@ -34,14 +34,15 @@ class RegionController extends Controller
             $sch_level = [0];
         }
 
-        // query data from School48 table 
-        $schools = School48::where('prov_id', $request->provinceSelect)
-            ->where('amp_id', $request->ampherSelect)
-            ->where('checklist_edu', 1)
-            ->where('Department_id', 9)
-            ->whereIn('level_id', $sch_level)
-            ->get();
+        // // query data from School48 table 
+        // $schools = School48::where('prov_id', $request->provinceSelect)
+        //     ->where('amp_id', $request->ampherSelect)
+        //     ->where('checklist_edu', 1)
+        //     ->where('Department_id', 9)
+        //     ->whereIn('level_id', $sch_level)
+        //     ->get();
 
+        $schools = School48::all();
         $menuItems = MenuService::getMenuItems();
         $province = Province::all();
         $amphers = Ampher::where('PROV_ID', $request->provinceSelect)->get();

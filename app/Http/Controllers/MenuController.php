@@ -97,66 +97,14 @@ class MenuController extends Controller
         $columnTypes = [
             'string',
             'integer'
-            // 'bigIncrements',
-            // 'bigInteger',
-            // 'binary',
-            // 'boolean',
-            // 'char',
-            // 'date',
-            // 'dateTime',
-            // 'decimal',
-            // 'double',
-            // 'enum',
-            // 'float',
-            // 'geometry',
-            // 'geometryCollection',
-            // 'increments',
-            // 'integer',
-            // 'ipAddress',
-            // 'json',
-            // 'jsonb',
-            // 'lineString',
-            // 'longText',
-            // 'macAddress',
-            // 'mediumIncrements',
-            // 'mediumInteger',
-            // 'mediumText',
-            // 'morphs',
-            // 'multiLineString',
-            // 'multiPoint',
-            // 'multiPolygon',
-            // 'nullableMorphs',
-            // 'nullableTimestamps',
-            // 'point',
-            // 'polygon',
-            // 'rememberToken',
-            // 'set',
-            // 'smallIncrements',
-            // 'smallInteger',
-            // 'softDeletes',
-            // 'softDeletesTz',
-            // 'string',
-            // 'text',
-            // 'time',
-            // 'timeTz',
-            // 'timestamp',
-            // 'timestampTz',
-            // 'timestamps',
-            // 'timestampsTz',
-            // 'tinyIncrements',
-            // 'tinyInteger',
-            // 'unsignedBigInteger',
-            // 'unsignedDecimal',
-            // 'unsignedInteger',
-            // 'unsignedMediumInteger',
-            // 'unsignedSmallInteger',
-            // 'unsignedTinyInteger',
-            // 'uuid',
-            // 'uuidMorphs',
-            // 'year',
         ];
 
-        return view('admin.form.add_column', compact('menu', 'menuItems', 'columnTypes'));
+        $displayTypes = [
+            ['th' => 'แบบถามตอบ ใช่/ไม่ใช่', 'en' => 'choosable'],
+            ['th' => 'แบบกรอกข้อมูล', 'en' => 'fillable']
+        ];
+
+        return view('admin.form.add_column', compact('menu', 'menuItems', 'columnTypes', 'displayTypes'));
     }
 
     public function storeColumn(Request $request)
@@ -165,7 +113,8 @@ class MenuController extends Controller
         $dataType = $request->dataType;
         $size = $request->field_size;
         $tableName = $request->table_name;
-        $comment =  $request->comment;
+        $comment = $request->comment;
+        $displayType = $request->displayType;
 
         FormInput::create([
             'field_name' => $columnName,
@@ -173,7 +122,8 @@ class MenuController extends Controller
             'field_type' => $dataType,
             'field_size' => $size,
             'table_name' => $tableName,
-            'comment' => $comment
+            'comment' => $comment,
+            'displayFormat' => $displayType
         ]);
 
         Schema::table('tbl_Pr_school_test', function ($table) use ($columnName, $dataType, $size, $comment) {
@@ -184,32 +134,32 @@ class MenuController extends Controller
         return redirect()->route('admin.allColumn');
     }
 
-    public function deleteColumn(String $id)
+    public function deleteColumn(string $id)
     {
         $form = FormInput::findOrFail($id);
         $form->update([
-            'status' => 0
+            'status' => '0'
         ]);
 
-        Schema::table('tbl_Pr_school_test', function ($table) use ($form) {
-            $table->dropColumn($form->field_name);
-        });
+        // Schema::table('tbl_Pr_school_test', function ($table) use ($form) {
+        //     $table->dropColumn($form->field_name);
+        // });
 
         // return $this->allColumn();
         return redirect()->route('admin.allColumn');
     }
 
-    public function returnColumn(String $id)
+    public function returnColumn(string $id)
     {
         $form = FormInput::findOrFail($id);
         $form->update([
-            'status' => 1
+            'status' => '1'
         ]);
 
-        Schema::table('tbl_Pr_school_test', function ($table) use ($form) {
-            // $table->text($form->field_name)->nullable();
-            $table->{$form->field_type}($form->field_name, $form->field_size)->nullable()->comment($form->comment);
-        });
+        // Schema::table('tbl_Pr_school_test', function ($table) use ($form) {
+        //     // $table->text($form->field_name)->nullable();
+        //     $table->{$form->field_type}($form->field_name, $form->field_size)->nullable()->comment($form->comment);
+        // });
 
         // return $this->allColumn();
         return redirect()->route('admin.allColumn');

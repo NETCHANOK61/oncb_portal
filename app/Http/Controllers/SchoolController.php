@@ -52,7 +52,7 @@ class SchoolController extends Controller
             ];
         }
 
-        
+
         // Retrieve ministries table data
         $levels = SchoolLevel::where('level_id', '!=', 'XX')->get();
         $levelsTable = [];
@@ -120,7 +120,7 @@ class SchoolController extends Controller
                 $query->where('prov_id', $departmentId);
             }
         }
-                
+
         $query->where('ID', '!=', 0);
 
         // Sorting by Thai_Name
@@ -137,7 +137,7 @@ class SchoolController extends Controller
     {
         // Retrieve active status data from the request
         $activeStatusData = $request->input('active_status', '[]');
-        
+
         // Ensure the data is a string
         if (!is_string($activeStatusData)) {
             return redirect()->back()->with('error', 'Invalid input type.');
@@ -146,23 +146,23 @@ class SchoolController extends Controller
         // Decode JSON string to PHP array
         $activeStatuses = json_decode($activeStatusData, true);
 
-    // Check if json_decode was successful and $activeStatuses is an array
-    if (json_last_error() !== JSON_ERROR_NONE || !is_array($activeStatuses)) {
-        return redirect()->back()->with('error', 'Invalid data received.');
-    }
-
-    // Loop through each school ID and toggle the active status
-    foreach ($activeStatuses as $schoolId) {
-        $school = School48::find($schoolId); // Find the school by its ID
-        if ($school) {
-            // Debugging line, remove or comment out for production
-            // dd($school);
-
-            $school->active_status = $school->active_status == 1 ? 0 : 1; // Toggle the active_status
-
-            $school->save(); // Save the changes to the database
+        // Check if json_decode was successful and $activeStatuses is an array
+        if (json_last_error() !== JSON_ERROR_NONE || !is_array($activeStatuses)) {
+            return redirect()->back()->with('error', 'Invalid data received.');
         }
-    }
+
+        // Loop through each school ID and toggle the active status
+        foreach ($activeStatuses as $schoolId) {
+            $school = School48::find($schoolId); // Find the school by its ID
+            if ($school) {
+                // Debugging line, remove or comment out for production
+                // dd($school);
+
+                $school->active_status = $school->active_status == 1 ? 0 : 1; // Toggle the active_status
+
+                $school->save(); // Save the changes to the database
+            }
+        }
 
         // Redirect back with success message
         return redirect()->back()->with('success', 'Changes saved successfully.');
@@ -176,31 +176,31 @@ class SchoolController extends Controller
             'Thai_Name' => 'required|string|max:255',
             // Add more validation rules for other fields as needed
         ]);
-    
+
         // Check if validation fails
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
-    
+
         // Execute the raw SQL query
         $maxIdResult = DB::select("SELECT TOP 1 ID FROM tblSchool48 ORDER BY CAST(ID AS INT) DESC;");
         $maxId = $maxIdResult[0]->ID;
         $maxId = intval($maxId);
         $nextId = $maxId + 1;
-    
+
         // Create a new school instance
         $school = new School48();
         $school->ID = $nextId; // Assign the next ID
         $school->fill($request->all());
-    
+
         // Save the school
         $school->save();
-    
+
         // Redirect back with success message
         return redirect()->back()->with('success', 'School created successfully.')
             ->with('nextId', $nextId); // Pass the next ID to the view
     }
-    
+
 
 
     // Method to update an existing school by ID
@@ -256,7 +256,7 @@ class SchoolController extends Controller
     }
 
 
-    
+
     public function inputSchool()
     {
         $menuItems = MenuService::getMenuItems();
@@ -267,7 +267,7 @@ class SchoolController extends Controller
         return view('admin.school.input_school', compact('menuItems', 'province', 'type', 'notice'));
     }
 
-    public function editSchool(String $id)
+    public function editSchool(string $id)
     {
         $menuItems = MenuService::getMenuItems();
         $school = School48::findOrFail($id);
@@ -279,19 +279,21 @@ class SchoolController extends Controller
         }
     }
 
-    public function progressSchool(String $id)
+    public function progressSchool(string $id)
     {
         $menuItems = MenuService::getMenuItems();
         $school = School48::findOrFail($id);
 
-        $data = FormInput::where('table_name', 'tbl_Pr_school_test')->get();
+        $data = FormInput::where('table_name', 'tbl_Pr_school_test')->where('status', '1')->get();
 
         $combinedData = [];
 
         foreach ($data as $item) {
             $combinedData[] = [
+                'field_name' => $item->field_name,
                 'label_name' => $item->label_name,
-                'data_type' => $item->field_type
+                'data_type' => $item->field_type,
+                'display_type' => $item->displayFormat
             ];
         }
 

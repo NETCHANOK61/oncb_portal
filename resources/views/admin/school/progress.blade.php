@@ -121,18 +121,32 @@
                                     <hr>
                                     <div class="row">
                                         @foreach ($combinedData as $columnInfo)
-                                            <div class="col-6">
+                                            <div class="col-12">
                                                 <div class="form-group">
-                                                    <label
-                                                        for="{{ $columnInfo['label_name'] }}">{{ $columnInfo['label_name'] }}</label>
-                                                    @if ($columnInfo['data_type'] == 'int')
-                                                        <input type="number" class="form-control"
+                                                    @if ($columnInfo['display_type'] == 'fillable')
+                                                        <label
+                                                            for="{{ $columnInfo['label_name'] }}">{{ $columnInfo['label_name'] }}</label>
+                                                        <input class="form-control" id="{{ $columnInfo['field_name'] }}"
+                                                            name="{{ $columnInfo['field_name'] }}">
+                                                    @elseif ($columnInfo['display_type'] == 'choosable')
+                                                        {{-- <input type="text" class="form-control"
                                                             id="{{ $columnInfo['label_name'] }}"
-                                                            name="{{ $columnInfo['label_name'] }}">
-                                                    @elseif (in_array($columnInfo['data_type'], ['string', 'varchar', 'nvarchar']))
-                                                        <input type="text" class="form-control"
-                                                            id="{{ $columnInfo['label_name'] }}"
-                                                            name="{{ $columnInfo['label_name'] }}">
+                                                            name="{{ $columnInfo['label_name'] }}"> --}}
+                                                        <div class="row">
+                                                            <div class="col-8">
+                                                                <h4>{{ $columnInfo['label_name'] }}</h4>
+                                                            </div>
+                                                            <div class="col-2">
+                                                                <input type="radio"
+                                                                    name="{{ $columnInfo['field_name'] }}" value="1">
+                                                                มี
+                                                            </div>
+                                                            <div class="col-2">
+                                                                <input type="radio"
+                                                                    name="{{ $columnInfo['field_name'] }}" value="0">
+                                                                ไม่มี
+                                                            </div>
+                                                        </div>
                                                     @endif
                                                 </div>
                                             </div>

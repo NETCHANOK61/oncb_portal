@@ -101,6 +101,20 @@
                                                     @enderror
                                                 </div>
                                                 <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label for="fieldTypeInput">แสดงข้อมูลในรูปแบบ</label>
+                                                        <select id="displayType" name="displayType" class="select2-icon">
+                                                            @foreach ($displayTypes as $type)
+                                                                <option value="{{ $type['en'] }}">{{ $type['th'] }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    @error('displayType')
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
+                                                <div class="col-6">
                                                     <label for="status">สถานะ</label>
                                                     <div class="form-group">
                                                         <label class="switch">
