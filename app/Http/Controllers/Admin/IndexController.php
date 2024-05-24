@@ -115,7 +115,7 @@ class IndexController extends Controller
                     // return response()->json($response->json(), 200);
                     // check_callback($response->pid);
                     $user = User::where('card_id', $pid)->first();
-
+                    $userObject = $responseData;
                     if ($user) {
                         $system_all = System::where('status', 1)->get();
                         return view('admin.systemForUser', compact('userObject', 'user', 'system_all'));
