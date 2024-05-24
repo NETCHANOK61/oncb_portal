@@ -117,9 +117,8 @@ class IndexController extends Controller
                     $user = User::where('card_id', $pid)->first();
 
                     if ($user) {
-                        // dd($user);
-                        Auth::login($user);
-                        return $this->index();
+                        $system_all = System::where('status', 1)->get();
+                        return view('admin.systemForUser', compact('userObject', 'user', 'system_all'));
                     } else {
                         return redirect('/');
                     }
