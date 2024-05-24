@@ -50,6 +50,7 @@
                                                         </div>
                                                         <div class="col-6">
                                                             <div class="form-group">
+                                                                <label for="systemGroup">ระบบที่มีสิทธิ์เข้าถึงได้</label>
                                                                 <select name="systemGroup[]" class="multi-select" multiple>
                                                                     @foreach ($data as $item)
                                                                         @php
