@@ -63,6 +63,18 @@ class RegisteredUserController extends Controller
         return redirect(RouteServiceProvider::HOME);
     }
 
+    public function checkEmail(Request $request)
+    {
+        $isAvailable = !User::where('email', $request->email)->exists();
+        return response()->json(['isAvailable' => $isAvailable]);
+    }
+    
+    public function checkCard_id(Request $request)
+    {
+        $isAvailable = !User::where('card_id', $request->value)->exists();
+        return response()->json(['isAvailable' => $isAvailable]);
+    }
+
     public function storeRequested(Request $request)
     {
         // $request->validate([

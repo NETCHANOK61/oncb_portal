@@ -4,431 +4,398 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NISPA-2024</title>
-
-    <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'>
-    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
-    <link rel="stylesheet" href="{{ asset('../assets/template2/css/register.css') }}">
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@200&display=swap" rel="stylesheet">
-
-    <!-- <script src="../assets/template2/js/form-validate.js"></script> -->
-    <script src="{{ asset('../assets/template2/js/authen.js') }}"></script>
-
-    <style>
-        /* Custom CSS to display radio input and label inline */
-        input[type="radio"] {
-            display: inline-block;
-            vertical-align: middle;
-            margin-right: 5px;
-        }
-
-        label {
-            display: inline-block;
-            vertical-align: middle;
-        }
-    </style>
-
-    <!-- sweetalert -->
+    <title>Registration</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <style>
+        body {
+            background-color: rgba(42, 49, 100, 0.95);
+            color: #fff;
+        }
+
+        .container {
+            background-color: #fff;
+            color: #2a3f54;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 10ch;
+        }
+
+        .step-bar {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .step {
+            position: relative;
+            padding-left: 50px;
+            margin-bottom: 30px;
+        }
+
+        .step::before {
+            content: "";
+            position: absolute;
+            left: 15px;
+            top: 0;
+            width: 25px;
+            height: 25px;
+            border: 2px solid #2a3f54;
+            border-radius: 50%;
+            background: white;
+            z-index: 1;
+        }
+
+        .step:last-child::after {
+            display: none;
+        }
+
+        .step.active::before {
+            background: #2a3f54;
+        }
+
+        .step.completed::before {
+            background: #2a3f54;
+            content: "\2713";
+            color: white;
+            text-align: center;
+            line-height: 25px;
+            font-size: 20px;
+        }
+
+        .step-content {
+            display: none;
+        }
+
+        .step-content.active {
+            display: block;
+        }
+
+        .scrollable {
+            max-height: 200px;
+            overflow-y: auto;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .error_box {
+            border: 2px solid red;
+        }
+
+        .error-message {
+            color: red;
+            margin-top: 5px;
+            font-size: 12px;
+        }
+    </style>
 </head>
 
 <body>
-    <!-- partial:index.partial.html -->
-    <div class="container-fluid px-1 px-md-4 py-5 mx-auto">
-        <div class="row d-flex justify-content-center" style="padding-top: 5%;">
-            <div class="col-12 col-md-11 col-lg-10 col-xl-9">
-                <div class="card card0 border-0">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="card card00 m-2 border-0">
-                                <div class="row text-center justify-content-center px-3">
-                                    <!-- <p class="prev"><span class="fa fa-long-arrow-left"> ย้อนกลับ</span></p id="back"> -->
-                                    <h3 class="mt-4">กรุณากรอกข้อมูลให้ครบถ้วนเพื่อส่งคำขอสร้างบัญชีใหม่</h3>
-                                </div>
-                                <hr>
-                                <div class="d-flex flex-md-row px-3 mt-4 flex-column-reverse">
-                                    <div class="col-md-6">
-                                        <div class="card1">
-                                            <ul id="progressbar" class="text-center">
-                                                <li class="active step0"></li>
-                                                <li class="step0"></li>
-                                                <li class="step0"></li>
-                                                <!-- <li class="step0"></li>  -->
-                                            </ul>
-                                            <h6 class="mb-5">ข้อกำหนดและข้อตกลง
-                                            </h6>
-                                            <h6 class="mb-5">ข้อมูลพื้นฐาน</h6>
-                                            <h6 class="mb-5">ข้อมูลหน่วยงาน</h6>
-                                            <!-- <h6 class="mb-5"></h6> -->
-                                        </div>
-                                    </div>
-                                    <form action="{{ route('register.request') }}" method="POST"
-                                        enctype="multipart/form-data">
-                                        @csrf
-                                        <div class="col-md-6 col-lg-12">
-                                            <!-- 1 -->
-                                            <div class="card2 first-screen show ml-2">
-                                                <h5>ข้อกำหนดและข้อตกลง</h5>
-                                                <div class="agreement">
-                                                    <b><u>ข้อกำหนด นโยบายความเป็นส่วนตัว</u></b> <br>
-                                                    <span style="font-size: 12px;">
-                                                        นโยบายความเป็นส่วนตัวฉบับนี้ (“นโยบาย”) อธิบายถึงวิธีการที่
-                                                        ศูนย์เทคโนโลยีสารสนเทศ สำนักงาน ปปส. (หรือ“เรา”) เก็บรวบรวม ใช้
-                                                        และเปิดเผย ข้อมูลส่วนบุคคล (“ข้อมูลส่วนบุคคล”) ที่ท่าน (“ผู้ใช้”
-                                                        หรือ “ท่าน”) ได้ให้สำหรับการใช้งานเว็บไซต์ user management
-                                                        และผลิตภัณฑ์หรือบริการดังกล่าว (เรียกรวมกันว่า “เว็บไซต์” หรือ
-                                                        “บริการ”)
-                                                        เพื่อให้สอดคล้องกับพระราชบัญญัติคุ้มครองข้อมูลส่วนบุคคล
-                                                        พ.ศ. 2562 (“PDPA”)</span>
-                                                    <br>
-                                                    <b><u>การจัดเก็บข้อมูลส่วนบุคคล</u></b> <br>
-                                                    <span style="font-size: 12px;">
-                                                        เราจะเก็บรักษาข้อมูลส่วนบุคคลของท่านไว้ตามระยะเวลาที่จำเป็นสำหรับการปฏิบัติตามหน้าที่ตามกฎหมายของเรา
-                                                        ยุติข้อพิพาท
-                                                        และเพื่อการบังคับใช้สัญญาและข้อกำหนดและเงื่อนไขของเรา
-                                                        เว้นเสียแต่มีความจำเป็นที่จะต้องเก็บต่อไปหรือตามที่กฎหมายกำหนด
-                                                        เราอาจใช้ข้อมูลที่รวมขึ้นที่ได้มาจากการรวบรวมข้อมูลส่วนบุคคลของท่านที่ได้ทำให้เป็นปัจจุบันหรือลบทิ้งไปแต่เราจะไม่นำมาใช้ในทางที่สามารถระบุตัวตนของท่านได้
-                                                        เมื่อครบกำหนดระยะเวลาการจัดเก็บ ข้อมูลส่วนบุคคลจะถูกลบทิ้ง
-                                                        ดังนั้น
-                                                        สิทธิขอเข้าถึง สิทธิขอให้ลบ สิทธิขอให้แก้ไข สิทธิขอถ่ายโอนข้อมูล
-                                                        จะไม่สามารถบังคับใช้ได้เมื่อครบกำหนดระยะเวลาการจัดเก็บ</span>
-                                                    <br>
-                                                </div>
-                                                <div class="row px-3 mt-1 mb-5">
-                                                    <div class="custom-control custom-checkbox"><input id="customCheck1"
-                                                            type="checkbox" class="custom-control-input">
-                                                        <label for="customCheck1"
-                                                            class="custom-control-label">ฉันเข้าใจและยินยอม</label>
-                                                    </div>
-                                                </div>
-                                                <center>
-                                                    <button id="nextButton" style="display: none;" type="button"
-                                                        class="next-button">
-                                                        <span class="fa fa-arrow-right"> ดำเนินการต่อ</span>
-                                                    </button>
-                                                </center>
-                                                <br>
-                                            </div>
-                                            <!-- 2 -->
-                                            <div class="card2 ml-2">
-                                                <div class="row px-3 mt-4">
-                                                    <div class="col-12">
-                                                        <div class="form-group mt-1 mb-1">
-                                                            <input type="text" name="card_id" id="cardId"
-                                                                class="form-control">
-                                                            <label class="ml-3 form-control-placeholder"
-                                                                for="cardId">เลขที่บัตรประชาชน 13 หลัก</label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-6">
-                                                        <div class="form-group mt-1 mb-1">
-                                                            <input type="text" name="name" id="firstName"
-                                                                class="form-control">
-                                                            <label class="ml-3 form-control-placeholder"
-                                                                for="firstName">ชื่อ</label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-6">
-                                                        <div class="form-group mt-1 mb-1">
-                                                            <input type="text" name="surname" id="lastName"
-                                                                class="form-control">
-                                                            <label class="ml-3 form-control-placeholder"
-                                                                for="lastName">นามสกุล</label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-12">
-                                                        <div class="form-group mt-1 mb-1">
-                                                            <input type="text" name="phone" id="phone"
-                                                                class="form-control">
-                                                            <label class="ml-3 form-control-placeholder"
-                                                                for="phone">เบอร์โทรศัพท์</label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-12">
-                                                        <div class="form-group mt-1 mb-1">
-                                                            <input type="text" name="email" id="email"
-                                                                class="form-control">
-                                                            <label class="ml-3 form-control-placeholder"
-                                                                for="email">อีเมล์</label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <center>
-                                                    <br>
-                                                    <button id="twoBtn" type="button"
-                                                        class="next-button text-center mt-1 ml-2">
-                                                        <span class="fa fa-arrow-right">
-                                                            ดำเนินการต่อ
-                                                        </span>
-                                                    </button>
-                                                </center>
-                                                <br>
-                                            </div>
-                                            <!-- 3 -->
-                                            <div class="card2 ml-2">
-                                                <p>กรุณาเลือกประเภทผู้ใช้งานของคุณ:</p>
-                                                <div class="row">
-                                                    <div class="col-6">
-                                                        <input type="radio" id="org_center" name="role"
-                                                            value="user" onclick="toggleElements('org_center')"
-                                                            checked>
-                                                        <label for="org_center">ปปส.ส่วนกลาง</label>
-                                                    </div>
-                                                    <div class="col-6">
-                                                        <input type="radio" id="org_region" name="role"
-                                                            value="staff" onclick="toggleElements('org_region')">
-                                                        <label for="org_region">ปปส.ภาค</label>
-                                                    </div>
-                                                    <div class="col-6">
-                                                        <input type="radio" id="school" name="role"
-                                                            value="staff" onclick="toggleElements('school')">
-                                                        <label for="school">สถานศึกษา</label>
-                                                    </div>
-                                                </div>
-
-                                                <div class="row px-3 mt-3">
-                                                    <div class="form-group mt-3">
-                                                        <div id="org_region_Container" class="">
-                                                            <p class="mb-0 w-100">ภาค</p>
-                                                            <select name="account" class="form-control"
-                                                                id="regionSelect">
-                                                                @foreach ($region as $key => $item)
-                                                                    <option value="{{ $item->REG_ONCB }}">
-                                                                        {{ $item->REG_NAME }}</option>
-                                                                @endforeach
-                                                                <!-- Options will be added dynamically using JavaScript -->
-                                                            </select>
-                                                            <p class="mb-0 w-100">จังหวัด</p>
-                                                            <select name="account" class="form-control"
-                                                                id="provinceSelect">
-                                                                @foreach ($province as $key => $item)
-                                                                    <option value="{{ $item->PROV_ID }}">
-                                                                        {{ $item->PROV_NAME }}</option>
-                                                                @endforeach
-                                                                <!-- Options will be added dynamically using JavaScript -->
-                                                            </select>
-                                                            <p class="mb-0 w-100">อำเภอ</p>
-                                                            <select name="account" class="form-control"
-                                                                id="ampherSelect">
-                                                                @foreach ($ampher as $key => $item)
-                                                                    <option value="{{ $item->AMP_ID }}">
-                                                                        {{ $item->AMP_NAME }}</option>
-                                                                @endforeach
-                                                                <!-- Options will be added dynamically using JavaScript -->
-                                                            </select>
-                                                        </div>
-                                                        <div id="org_center_Container" class="select">
-                                                            <div class="row">
-                                                                <div class="col-6">
-                                                                    <div class="form-group">
-                                                                        <label class=""
-                                                                            for="username_ad_input">username AD</label>
-                                                                        <input type="text" name="username_ad"
-                                                                            id="username_ad" class="form-control">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-6">
-                                                                    <div class="form-group">
-                                                                        <label class=""
-                                                                            for="password_ad_input">password AD</label>
-                                                                        <input type="text" name="password_ad"
-                                                                            id="password_ad" class="form-control">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <label class="w-100">แผนก</label>
-                                                            <select name="account" class="form-control"
-                                                                id="">
-                                                                @foreach ($agencies as $key => $item)
-                                                                    <option value="{{ $item->div_code }}">
-                                                                        {{ $item->dept_name }}</option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-                                                        <div id="school_Container" class="select">
-                                                            <p class="mb-0 w-100">จังหวัด</p>
-                                                            <select name="provinceSelect_edu"
-                                                                class="form-control"
-                                                                id="provinceSelect_edu">
-                                                                @foreach ($province as $key => $item)
-                                                                    <option value="{{ $item->PROV_ID }}">
-                                                                        {{ $item->PROV_NAME }}</option>
-                                                                @endforeach
-                                                            </select>
-                                                            <p class="mb-0 w-100">สำนักงานการศึกษาขั้นพื้นฐาน</p>
-                                                            <select name="edu_area" class="form-control"
-                                                                id="edu_area"></select>
-                                                            <p class="mb-0 w-100">โรงเรียน</p>
-                                                            <select name="school_list"
-                                                                class="form-control" id="school_list">
-                                                            </select>
-                                                        </div>
-                                                        <div id="" class="select">
-                                                            <p class="mb-0 w-100">แนบไฟล์ขอใช้งาน</p>
-                                                            <input type="file" name="file_upload">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <center>
-                                                    <button type="submit" id="registerBtn"
-                                                        class="next-button text-center mt-1 ml-2">
-                                                        <span class="fa fa-arrow-right">
-                                                            ส่งคำขอ</span>
-                                                    </button>
-                                                </center>
-                                                <br>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                            <!-- <div class="col-12">
-                                <div class="row px-3">
-                                    <h2 class="text-muted get-bonus mt-4 mb-5">เข้าสู่ระบบ<span
-                                            class="text-danger"></span></h2>
-                                </div>
-                            </div> -->
-                        </div>
+    <div class="container">
+        <h4 class="text-center">กรุณากรอกข้อมูลให้ครบถ้วนเพื่อส่งคำขอสร้างบัญชีใหม่</h4>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="step-bar">
+                    <div class="step active" id="step1">
+                        <span>ข้อกำหนดและข้อตกลง</span>
+                    </div>
+                    <div class="step" id="step2">
+                        <span>ข้อมูลพื้นฐาน</span>
+                    </div>
+                    <div class="step" id="step3">
+                        <span>ข้อมูลหน่วยงาน</span>
                     </div>
                 </div>
             </div>
+            <div class="col-md-9">
+                <form action="{{ route('register') }}" method="POST" id="registrationForm">
+                    @csrf
+                    <div id="step1Content" class="step-content active">
+                        <!-- Content for step 1 -->
+                        <div class="mb-3">
+                            <hr>
+                            <h5>ข้อกำหนดและข้อตกลง</h5>
+                            <div class="agreement scrollable">
+                                <b><u>ข้อกำหนด นโยบายความเป็นส่วนตัว</u></b> <br>
+                                <span style="font-size: 12px;">
+                                    นโยบายความเป็นส่วนตัวฉบับนี้ (“นโยบาย”) อธิบายถึงวิธีการที่
+                                    ศูนย์เทคโนโลยีสารสนเทศ สำนักงาน ปปส. (หรือ“เรา”) เก็บรวบรวม ใช้
+                                    และเปิดเผย ข้อมูลส่วนบุคคล (“ข้อมูลส่วนบุคคล”) ที่ท่าน (“ผู้ใช้”
+                                    หรือ “ท่าน”) ได้ให้สำหรับการใช้งานเว็บไซต์ Web Portal
+                                    และผลิตภัณฑ์หรือบริการดังกล่าว (เรียกรวมกันว่า “เว็บไซต์” หรือ
+                                    “บริการ”)
+                                    เพื่อให้สอดคล้องกับพระราชบัญญัติคุ้มครองข้อมูลส่วนบุคคล
+                                    พ.ศ. 2562 (“PDPA”)</span>
+                                <br>
+                                <b><u>การจัดเก็บข้อมูลส่วนบุคคล</u></b> <br>
+                                <span style="font-size: 12px;">
+                                    เราจะเก็บรักษาข้อมูลส่วนบุคคลของท่านไว้ตามระยะเวลาที่จำเป็นสำหรับการปฏิบัติตามหน้าที่ตามกฎหมายของเรา
+                                    ยุติข้อพิพาท
+                                    และเพื่อการบังคับใช้สัญญาและข้อกำหนดและเงื่อนไขของเรา
+                                    เว้นเสียแต่มีความจำเป็นที่จะต้องเก็บต่อไปหรือตามที่กฎหมายกำหนด
+                                    เราอาจใช้ข้อมูลที่รวมขึ้นที่ได้มาจากการรวบรวมข้อมูลส่วนบุคคลของท่านที่ได้ทำให้เป็นปัจจุบันหรือลบทิ้งไปแต่เราจะไม่นำมาใช้ในทางที่สามารถระบุตัวตนของท่านได้
+                                    เมื่อครบกำหนดระยะเวลาการจัดเก็บ ข้อมูลส่วนบุคคลจะถูกลบทิ้ง
+                                    ดังนั้น
+                                    สิทธิขอเข้าถึง สิทธิขอให้ลบ สิทธิขอให้แก้ไข สิทธิขอถ่ายโอนข้อมูล
+                                    จะไม่สามารถบังคับใช้ได้เมื่อครบกำหนดระยะเวลาการจัดเก็บ</span>
+                                <br>
+                            </div>
+                        </div>
+                        <div class="form-check pb-3">
+                            <input class="form-check-input" type="checkbox" id="termsCheck" name="termsCheck" required>
+                            <label class="form-check-label" for="termsCheck">
+                                ฉันยอมรับข้อกำหนดและเงื่อนไข
+                            </label>
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="nextStep(2)">ถัดไป</button>
+                    </div>
+                    <div id="step2Content" class="step-content">
+                        <!-- Content for step 2 -->
+                        <hr>
+                        <h5>ข้อมูลพื้นฐานของผู้ใช้งาน</h5>
+                        <div class="mb-3">
+                            <label for="cardID" class="form-label">เลขประจำตัวประชาชน 13 หลัก</label>
+                            <input type="text" class="form-control" id="card_id" name="card_id" size="13"
+                                maxlength="13" required>
+                            <div id="card_id-error-message" class="error-message" style="display: none;"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">ชื่อ</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                            <div id="name-error-message" class="error-message" style="display: none;"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="surname" class="form-label">นามสกุล</label>
+                            <input type="text" class="form-control" id="surname" name="surname" required>
+                            <div id="surname-error-message" class="error-message" style="display: none;"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">เบอร์โทรศัพท์</label>
+                            <input type="text" class="form-control" id="phone" name="phone" required
+                                size="10" maxlength="10">
+                            <div id="phone-error-message" class="error-message" style="display: none;"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">อีเมล์</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                            <div id="email-error-message" class="error-message" style="display: none;"></div>
+                        </div>
+                        <button type="button" class="btn btn-secondary" onclick="prevStep(1)">ย้อนกลับ</button>
+                        <button type="button" class="btn btn-primary" onclick="nextStep(3)">ถัดไป</button>
+                    </div>
+                    <div id="step3Content" class="step-content">
+                        <!-- Content for step 3 -->
+                        <div class="mb-3">
+                            <label for="organization" class="form-label">ชื่อหน่วยงาน</label>
+                            <input type="text" class="form-control" id="organization" name="organization"
+                                required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="position" class="form-label">ตำแหน่ง</label>
+                            <input type="text" class="form-control" id="position" name="position" required>
+                        </div>
+                        <button type="button" class="btn btn-secondary" onclick="prevStep(2)">ย้อนกลับ</button>
+                        <button type="submit" class="btn btn-primary">ส่งคำขอ</button>
+                    </div>
+                </form>
+            </div>
         </div>
-
     </div>
-    <!-- partial -->
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
-    <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js'></script>
-    <script src="{{ asset('../assets/template2/js/regis.js') }}"></script>
 
     <script>
-        function toggleElements(role) {
-            // role = org_center = ปปส.ส่วนกลาง org_center_Container
-            // role = org_region = ปปส.ภาค org_region_Container
-            // role = school = สถานศึกษา school_Container
-            const org_center_Container = document.getElementById("org_center_Container");
-            const org_region_Container = document.getElementById("org_region_Container");
-            const school_Container = document.getElementById("school_Container");
-            const h1Element = document.getElementById("h1Element");
-
-            if (role === "org_region") {
-                org_region_Container.style.display = "block";
-                org_center_Container.style.display = "none";
-                school_Container.style.display = "none";
-                document.getElementById('registerBtn').style.display = 'block';
-            } else if (role === "org_center") {
-                org_region_Container.style.display = "none";
-                org_center_Container.style.display = "block";
-                school_Container.style.display = "none";
-                document.getElementById('registerBtn').style.display = 'block';
-            } else if (role === "school") {
-                org_region_Container.style.display = "none";
-                org_center_Container.style.display = "none";
-                school_Container.style.display = "block";
-                document.getElementById('registerBtn').style.display = 'block';
-            }
+        function showAlert(type, title, text_body) {
+            Swal.fire({
+                icon: type == 1 ? "warning" : "error",
+                title: title,
+                text: text_body,
+            });
         }
-        // Set default selection to 'user' when the page loads
-        toggleElements('org_center');
 
-        const checkbox = document.getElementById("customCheck1");
-        const nextButton = document.getElementById("nextButton");
-
-        checkbox.addEventListener("change", function() {
-            if (checkbox.checked) {
-                nextButton.style.display = "block";
-            } else {
-                nextButton.style.display = "none";
+        $(document).ready(function() {
+            function validateInputs() {
+                var isCardIdValid = validateCardId();
+                var isEmailValid = validateEmail();
+                var isNameValid = validateName();
+                var isSurnameValid = validateSurname();
+                var isPhoneValid = validatePhone();
+                return isCardIdValid && isEmailValid && isNameValid && isSurnameValid && isPhoneValid;
             }
-        });
 
-        var provinceSelect = document.getElementById('provinceSelect');
-        var ampherSelect = document.getElementById('ampherSelect');
-        var provinceSelect_edu = document.getElementById('provinceSelect_edu');
-        var edu_area = document.getElementById('edu_area');
-        var school_list = document.getElementById('school_list');
+            function validateCardId() {
+                var card_id = $('#card_id').val();
+                var isNumeric = /^\d{13}$/.test(card_id); // Regular expression to check for exactly 13 digits
 
-        document.addEventListener("DOMContentLoaded", function() {
-            document.getElementById('regionSelect').addEventListener('change', function() {
-                var regionId = this.value;
-                fetch('/get-provinces/' + regionId)
-                    .then(response => response.json())
-                    .then(data => {
-                        provinceSelect.innerHTML = ''; // Clear previous options
-                        ampherSelect.innerHTML = ''; // Clear previous options
+                if (!isNumeric) {
+                    $('#card_id').addClass('error_box');
+                    $('#card_id-error-message').text(
+                        'เลขประจำตัวประชาชนต้องมีความยาว 13 หลัก และเป็นตัวเลขเท่านั้น').show();
+                    return false;
+                } else {
+                    $('#card_id').removeClass('error_box');
+                    $('#card_id-error-message').hide();
+                    return true;
+                }
+            }
 
-                        var defaultOption = document.createElement('option');
-                        defaultOption.value = '';
-                        defaultOption.textContent = '-เลือก-';
-                        provinceSelect.appendChild(defaultOption);
+            function validateEmail() {
+                var email = $('#email').val();
+                var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Regular expression to validate email format
 
-                        data.forEach(function(province) {
-                            var option = document.createElement('option');
-                            option.value = province.PROV_ID;
-                            option.textContent = province.PROV_NAME;
-                            provinceSelect.appendChild(option);
-                        });
-                    })
-                    .catch(error => console.error('Error fetching provinces:', error));
+                if (!emailPattern.test(email)) {
+                    $('#email').addClass('error_box');
+                    $('#email-error-message').text('รูปแบบอีเมลไม่ถูกต้อง').show();
+                    return false;
+                } else {
+                    $('#email').removeClass('error_box');
+                    $('#email-error-message').hide();
+                    return true;
+                }
+            }
+
+            function validateName() {
+                var name = $('#name').val().trim();
+                if (name === '') {
+                    $('#name').addClass('error_box');
+                    $('#name-error-message').text('กรุณากรอกชื่อ').show();
+                    return false;
+                } else {
+                    $('#name').removeClass('error_box');
+                    $('#name-error-message').hide();
+                    return true;
+                }
+            }
+
+            function validateSurname() {
+                var surname = $('#surname').val().trim();
+                if (surname === '') {
+                    $('#surname').addClass('error_box');
+                    $('#surname-error-message').text('กรุณากรอกนามสกุล').show();
+                    return false;
+                } else {
+                    $('#surname').removeClass('error_box');
+                    $('#surname-error-message').hide();
+                    return true;
+                }
+            }
+
+            function validatePhone() {
+                var phone = $('#phone').val();
+                var isNumeric = /^\d{10}$/.test(phone); // Regular expression to check for exactly 10 digits
+
+                if (!isNumeric) {
+                    $('#phone').addClass('error_box');
+                    $('#phone-error-message').text('เบอร์โทรศัพท์ต้องมีความยาว 10 หลัก และเป็นตัวเลขเท่านั้น')
+                        .show();
+                    return false;
+                } else {
+                    $('#phone').removeClass('error_box');
+                    $('#phone-error-message').hide();
+                    return true;
+                }
+            }
+
+            $('#card_id').on('blur', function() {
+                validateCardId();
+                $('#next-button').prop('disabled', !validateInputs());
             });
 
-            document.getElementById('provinceSelect').addEventListener('change', function() {
-                var provinceId = this.value;
-                fetch('/get-amphurs/' + provinceId)
-                    .then(response => response.json())
-                    .then(data => {
-                        ampherSelect.innerHTML = ''; // Clear previous options
-                        data.forEach(function(amp) {
-                            var option = document.createElement('option');
-                            option.value = amp.AMP_ID;
-                            option.textContent = amp.AMP_NAME;
-                            ampherSelect.appendChild(option);
-                        });
-                    })
-                    .catch(error => console.error('Error fetching provinces:', error));
+
+            $('#email').on('blur', function() {
+                validateEmail();
+                $('#next-button').prop('disabled', !validateInputs());
             });
 
-            document.getElementById('provinceSelect_edu').addEventListener('change', function() {
-                var provinceId_edu = this.value;
-                fetch('/get-edu_area/' + provinceId_edu)
-                    .then(response => response.json())
-                    .then(data => {
-                        edu_area.innerHTML = ''; // Clear previous options
-                        data.forEach(function(item) {
-                            var option = document.createElement('option');
-                            option.value = item.edu_area_id;
-                            option.textContent = item.edu_area_name;
-                            edu_area.appendChild(option);
-                        });
-                    })
-                    .catch(error => console.error('Error fetching provinces:', error));
+            $('#name').on('blur', function() {
+                validateName();
+                $('#next-button').prop('disabled', !validateInputs());
             });
 
-            document.getElementById('edu_area').addEventListener('change', function() {
-                var edu_area = this.value;
-                fetch('/get-school_with_edu/' + provinceSelect_edu.value + "/" + edu_area)
-                    .then(response => response.json())
-                    .then(data => {
-                        school_list.innerHTML = ''; // Clear previous options
-                        data.forEach(function(item) {
-                            var option = document.createElement('option');
-                            option.value = item.Dep_id;
-                            option.textContent = item.Thai_Name;
-                            school_list.appendChild(option);
-                        });
-                    })
-                    .catch(error => console.error('Error fetching provinces:', error));
+            $('#surname').on('blur', function() {
+                validateSurname();
+                $('#next-button').prop('disabled', !validateInputs());
             });
+
+            $('#phone').on('blur', function() {
+                validatePhone();
+                $('#next-button').prop('disabled', !validateInputs());
+            });
+
+
+            function checkAvailability(inputId, route, errorMessage) {
+                var value = $(inputId).val();
+                $.ajax({
+                    url: route,
+                    method: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        value: value
+                    },
+                    success: function(response) {
+                        if (!response.isAvailable) {
+                            showAlert(1, "ไม่สามารถดำเนินการได้", errorMessage);
+                            $(inputId).addClass('error_box');
+                            $(inputId + '-error-message').text(errorMessage).show();
+                            $('#next-button').prop('disabled', true);
+                        } else {
+                            $(inputId).removeClass('error_box');
+                            $(inputId + '-error-message').hide();
+                            $('#next-button').prop('disabled', !validateInputs());
+                        }
+                    }
+                });
+            }
+
+            $('#card_id').on('blur', function() {
+                if (validateCardId()) {
+                    checkAvailability('#card_id', '{{ route('check.card_id') }}',
+                        'เลขประจำตัวประชาชนนี้ มีบัญชีผู้ใช้งานแล้ว');
+                }
+            });
+
+            $('#email').on('blur', function() {
+                if (validateEmail()) {
+                    checkAvailability('#email', '{{ route('check.email') }}',
+                        'อีเมล์นี้มีบัญชีผู้ใช้งานแล้ว');
+                }
+            });
+
+            $('#phone').on('blur', function() {
+                validatePhone();
+            });
+
+            window.nextStep = function(step) {
+                if (step === 2 && !document.getElementById('termsCheck').checked) {
+                    showAlert(1, "ไม่สามารถดำเนินการได้", "กรุณายอมรับข้อกำหนดและเงื่อนไข เพื่อดำเนินการต่อ");
+                    return;
+                }
+
+                if (step === 3 && !validateInputs()) {
+                    showAlert(1, "ไม่สามารถดำเนินการได้", "กรุณากรอกข้อมูลให้ครบถ้วน เพื่อดำเนินการต่อ");
+                    return;
+                }
+
+                document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
+                document.getElementById(`step${step}`).classList.add('active');
+                document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
+                document.getElementById(`step${step}Content`).classList.add('active');
+
+                // Mark previous steps as completed
+                for (let i = 1; i < step; i++) {
+                    document.getElementById(`step${i}`).classList.add('completed');
+                }
+            }
+
+            window.prevStep = function(step) {
+                document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
+                document.getElementById(`step${step}`).classList.add('active');
+                document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
+                document.getElementById(`step${step}Content`).classList.add('active');
+            }
         });
     </script>
-
-
 </body>
 
 </html>
