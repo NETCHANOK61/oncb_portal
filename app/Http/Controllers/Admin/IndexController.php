@@ -19,7 +19,6 @@ use Illuminate\Support\Facades\Http;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth; // Import the Auth facade
-use App\Models\User_nispa;
 
 class IndexController extends Controller
 {
@@ -49,15 +48,11 @@ class IndexController extends Controller
     {
         $system = System::find($systemId);
         $user = User::find($userId);
-        //
-        dd($user);
         return view('admin.systemForUser', compact('data'));
     }
 
     public function login()
     {
-        $test = User_nispa::all();
-        dd($test);
         return view('admin.login');
     }
 
