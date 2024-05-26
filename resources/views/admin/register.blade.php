@@ -10,8 +10,13 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300&display=swap" rel="stylesheet">
+
     <style>
         body {
+            font-family: 'Kanit';
             background-color: rgba(42, 49, 100, 0.95);
             color: #fff;
         }
@@ -113,7 +118,7 @@
             <div class="col-md-9">
                 <form action="{{ route('register') }}" method="POST" id="registrationForm">
                     @csrf
-                    <div id="step1Content" class="step-content active">
+                    <div id="step1Content" class="step-content">
                         <!-- Content for step 1 -->
                         <div class="mb-3">
                             <hr>
@@ -186,16 +191,43 @@
                         <button type="button" class="btn btn-secondary" onclick="prevStep(1)">ย้อนกลับ</button>
                         <button type="button" class="btn btn-primary" onclick="nextStep(3)">ถัดไป</button>
                     </div>
-                    <div id="step3Content" class="step-content">
+                    <div id="step3Content" class="step-content active">
                         <!-- Content for step 3 -->
+                        <hr>
+                        <h5>ข้อมูลหน่วยงาน</h5>
                         <div class="mb-3">
-                            <label for="organization" class="form-label">ชื่อหน่วยงาน</label>
-                            <input type="text" class="form-control" id="organization" name="organization"
-                                required>
+                            <div class="row">
+                                <label for="userType" class="form-label">กรุณาเลือกประเภทผู้ใช้งานของคุณ:</label>
+                                <div class="col-6">
+                                    <input type="radio" id="org_center" name="role" value="user"
+                                        onclick="toggleElements('org_center')" checked>
+                                    <label for="org_center">ผู้ใช้งานที่มี AD</label>
+                                </div>
+                                <div class="col-6">
+                                    <input type="radio" id="org_region" name="role" value="staff"
+                                        onclick="toggleElements('org_region')">
+                                    <label for="org_region">ผู้ใช้งานจากหน่วยนอก</label>
+                                </div>
+                                <div class="col-6">
+                                    <input type="radio" id="org_region" name="role" value="staff"
+                                        onclick="toggleElements('org_region')">
+                                    <label for="org_region">ผู้ใช้งานระดับจังหวัด</label>
+                                </div>
+                                <div class="col-6">
+                                    <input type="radio" id="org_region" name="role" value="staff"
+                                        onclick="toggleElements('org_region')">
+                                    <label for="org_region">ผู้ใช้งานระดับอำเภอ</label>
+                                </div>
+                                <div class="col-6">
+                                    <input type="radio" id="school" name="role" value="staff"
+                                        onclick="toggleElements('school')">
+                                    <label for="school">ผู้ใช้งานในกลุ่มสถานศึกษา</label>
+                                </div>
+                            </div>
                         </div>
                         <div class="mb-3">
-                            <label for="position" class="form-label">ตำแหน่ง</label>
-                            <input type="text" class="form-control" id="position" name="position" required>
+                            <label for="file_upload" class="form-label">ไฟล์แนบ</label>
+                            <input type="file" class="form-control" id="file_upload" name="file_upload" required>
                         </div>
                         <button type="button" class="btn btn-secondary" onclick="prevStep(2)">ย้อนกลับ</button>
                         <button type="submit" class="btn btn-primary">ส่งคำขอ</button>

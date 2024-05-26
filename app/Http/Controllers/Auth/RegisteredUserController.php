@@ -77,14 +77,6 @@ class RegisteredUserController extends Controller
 
     public function storeRequested(Request $request)
     {
-        // $request->validate([
-        //     'name' => ['required', 'string', 'max:255'],
-        //     'surname' => ['required', 'string', 'max:255'],
-        //     'phone' => ['required', 'string', 'min:10', 'max:10'],
-        //     'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
-        //     'card_id' => ['required', 'string', 'min:13', 'max:13']
-        // ]);
-
         // Handle file upload
         if ($request->hasFile('file_upload')) {
             $file = $request->file('file_upload');
@@ -107,15 +99,8 @@ class RegisteredUserController extends Controller
         $user_id = $user->id;
 
         return redirect()->route('register.submit', ['id' => $user_id]);
-
-        // $user = User::create([
-        //     'name' => $request->name,
-        //     'email' => $request->email,
-        //     'password' => Hash::make($request->password),
-        // ]);
-
     }
-    // requestedSubmit
+    
     public function requestedSubmit(Request $request, $id)
     {
         $data = RequestedUser::find($id);
