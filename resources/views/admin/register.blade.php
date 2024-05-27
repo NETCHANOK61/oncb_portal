@@ -341,7 +341,7 @@
                 setRequired(containerMapping["org_ampher"], true);
             } else if (containerMapping[role]) {
                 containerMapping[role].style.display = "block";
-                setRequired(containerMapping[role], true);
+                // setRequired(containerMapping[role], true);
             }
 
             // Display the register button
@@ -463,7 +463,6 @@
                     value: value
                 },
                 success: function(response) {
-                    console.log(response);
                     if (!response.isAvailable) {
                         showAlert(1, "ไม่สามารถดำเนินการได้", errorMessage);
                         $(inputId).addClass('error_box');
@@ -477,12 +476,7 @@
                 }
             });
         }
-
-        $(document).ready(function() {
-            // Set default selection to 'user' when the page loads
-            toggleElements('org_center');
-        });
-
+        
         $('#card_id').on('blur', function() {
             validateCardId();
             $('#next-button').prop('disabled', !validateInputs());
