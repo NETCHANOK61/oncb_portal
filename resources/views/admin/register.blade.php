@@ -116,7 +116,7 @@
                 </div>
             </div>
             <div class="col-md-9">
-                <form action="{{ route('register') }}" method="POST" id="registrationForm">
+                <form action="{{ route('register.request') }}" method="POST" id="registrationForm">
                     @csrf
                     <div id="step1Content" class="step-content active">
                         <!-- Content for step 1 -->
@@ -262,7 +262,7 @@
                             </div>
                             <div id="org_province_Container" class="">
                                 <label for="provinceSelect">จังหวัด</label>
-                                <select name="account" class="form-control" id="provinceSelect"
+                                <select name="provinceSelect" class="form-control" id="provinceSelect"
                                     name="provinceSelect">
                                     @foreach ($province as $key => $item)
                                         <option value="{{ $item->PROV_ID }}">
@@ -337,8 +337,8 @@
             if (role === "org_ampher") {
                 containerMapping["org_province"].style.display = "block";
                 containerMapping["org_ampher"].style.display = "block";
-                setRequired(containerMapping["org_province"], true);
-                setRequired(containerMapping["org_ampher"], true);
+                // setRequired(containerMapping["org_province"], true);
+                // setRequired(containerMapping["org_ampher"], true);
             } else if (containerMapping[role]) {
                 containerMapping[role].style.display = "block";
                 // setRequired(containerMapping[role], true);
@@ -349,26 +349,26 @@
         }
 
         // Function to set or remove the required attribute from all input elements within a container
-        function setRequired(container, isRequired) {
-            const inputs = container.getElementsByTagName('input');
-            const selects = container.getElementsByTagName('select');
+        // function setRequired(container, isRequired) {
+        //     const inputs = container.getElementsByTagName('input');
+        //     const selects = container.getElementsByTagName('select');
 
-            for (const input of inputs) {
-                if (isRequired) {
-                    input.setAttribute('required', 'required');
-                } else {
-                    input.removeAttribute('required');
-                }
-            }
+        //     for (const input of inputs) {
+        //         if (isRequired) {
+        //             input.setAttribute('required', 'required');
+        //         } else {
+        //             input.removeAttribute('required');
+        //         }
+        //     }
 
-            for (const select of selects) {
-                if (isRequired) {
-                    select.setAttribute('required', 'required');
-                } else {
-                    select.removeAttribute('required');
-                }
-            }
-        }
+        //     for (const select of selects) {
+        //         if (isRequired) {
+        //             select.setAttribute('required', 'required');
+        //         } else {
+        //             select.removeAttribute('required');
+        //         }
+        //     }
+        // }
 
         function validateCardId() {
             var card_id = $('#card_id').val();
@@ -476,7 +476,12 @@
                 }
             });
         }
-        
+
+        $(document).ready(function() {
+            // Set default selection to 'user' when the page loads
+            toggleElements('org_center');
+        });
+
         $('#card_id').on('blur', function() {
             validateCardId();
             $('#next-button').prop('disabled', !validateInputs());
