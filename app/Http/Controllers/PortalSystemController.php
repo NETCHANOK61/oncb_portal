@@ -64,7 +64,7 @@ class PortalSystemController extends Controller
         $menu = Menu::all();
         $menuItems = MenuService::getMenuItems();
         $user = User::find($id);
-        $data = System::all();
+        $data = System::where('status', '1');
         // $columns = Schema::getColumnListing((new Test())->getTable());
 
         return view('admin.portal_user.edit_user', compact('menu', 'menuItems', 'user', 'data'));
