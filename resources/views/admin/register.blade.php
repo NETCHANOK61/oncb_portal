@@ -370,120 +370,92 @@
             }
         }
 
-        window.nextStep = function(step) {
-            if (step === 2 && !document.getElementById('termsCheck').checked) {
-                showAlert(1, "ไม่สามารถดำเนินการได้", "กรุณายอมรับข้อกำหนดและเงื่อนไข เพื่อดำเนินการต่อ");
-                return;
-            }
+        function validateCardId() {
+            var card_id = $('#card_id').val();
+            var isNumeric = /^\d{13}$/.test(card_id); // Regular expression to check for exactly 13 digits
 
-            if (step === 3 && !validateInputs()) {
-                showAlert(1, "ไม่สามารถดำเนินการได้", "กรุณากรอกข้อมูลให้ครบถ้วน เพื่อดำเนินการต่อ");
-                return;
-            }
-
-            document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
-            document.getElementById(`step${step}`).classList.add('active');
-            document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
-            document.getElementById(`step${step}Content`).classList.add('active');
-
-            // Mark previous steps as completed
-            for (let i = 1; i < step; i++) {
-                document.getElementById(`step${i}`).classList.add('completed');
+            if (!isNumeric) {
+                $('#card_id').addClass('error_box');
+                $('#card_id-error-message').text(
+                    'เลขประจำตัวประชาชนต้องมีความยาว 13 หลัก และเป็นตัวเลขเท่านั้น').show();
+                return false;
+            } else {
+                $('#card_id').removeClass('error_box');
+                $('#card_id-error-message').hide();
+                return true;
             }
         }
 
-        window.prevStep = function(step) {
-            document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
-            document.getElementById(`step${step}`).classList.add('active');
-            document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
-            document.getElementById(`step${step}Content`).classList.add('active');
+        function validateEmail() {
+            var email = $('#email').val();
+            var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Regular expression to validate email format
+
+            if (!emailPattern.test(email)) {
+                $('#email').addClass('error_box');
+                $('#email-error-message').text('รูปแบบอีเมลไม่ถูกต้อง').show();
+                return false;
+            } else {
+                $('#email').removeClass('error_box');
+                $('#email-error-message').hide();
+                return true;
+            }
+        }
+
+        function validateName() {
+            var name = $('#name').val().trim();
+            if (name === '') {
+                $('#name').addClass('error_box');
+                $('#name-error-message').text('กรุณากรอกชื่อ').show();
+                return false;
+            } else {
+                $('#name').removeClass('error_box');
+                $('#name-error-message').hide();
+                return true;
+            }
+        }
+
+        function validateSurname() {
+            var surname = $('#surname').val().trim();
+            if (surname === '') {
+                $('#surname').addClass('error_box');
+                $('#surname-error-message').text('กรุณากรอกนามสกุล').show();
+                return false;
+            } else {
+                $('#surname').removeClass('error_box');
+                $('#surname-error-message').hide();
+                return true;
+            }
+        }
+
+        function validatePhone() {
+            var phone = $('#phone').val();
+            var isNumeric = /^\d{10}$/.test(phone); // Regular expression to check for exactly 10 digits
+
+            if (!isNumeric) {
+                $('#phone').addClass('error_box');
+                $('#phone-error-message').text('เบอร์โทรศัพท์ต้องมีความยาว 10 หลัก และเป็นตัวเลขเท่านั้น')
+                    .show();
+                return false;
+            } else {
+                $('#phone').removeClass('error_box');
+                $('#phone-error-message').hide();
+                return true;
+            }
+        }
+
+
+        function validateInputs() {
+            var isCardIdValid = validateCardId();
+            var isEmailValid = validateEmail();
+            var isNameValid = validateName();
+            var isSurnameValid = validateSurname();
+            var isPhoneValid = validatePhone();
+            return isCardIdValid && isEmailValid && isNameValid && isSurnameValid && isPhoneValid;
         }
 
         $(document).ready(function() {
             // Set default selection to 'user' when the page loads
             toggleElements('org_center');
-
-            function validateInputs() {
-                var isCardIdValid = validateCardId();
-                var isEmailValid = validateEmail();
-                var isNameValid = validateName();
-                var isSurnameValid = validateSurname();
-                var isPhoneValid = validatePhone();
-                return isCardIdValid && isEmailValid && isNameValid && isSurnameValid && isPhoneValid;
-            }
-
-            function validateCardId() {
-                var card_id = $('#card_id').val();
-                var isNumeric = /^\d{13}$/.test(card_id); // Regular expression to check for exactly 13 digits
-
-                if (!isNumeric) {
-                    $('#card_id').addClass('error_box');
-                    $('#card_id-error-message').text(
-                        'เลขประจำตัวประชาชนต้องมีความยาว 13 หลัก และเป็นตัวเลขเท่านั้น').show();
-                    return false;
-                } else {
-                    $('#card_id').removeClass('error_box');
-                    $('#card_id-error-message').hide();
-                    return true;
-                }
-            }
-
-            function validateEmail() {
-                var email = $('#email').val();
-                var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Regular expression to validate email format
-
-                if (!emailPattern.test(email)) {
-                    $('#email').addClass('error_box');
-                    $('#email-error-message').text('รูปแบบอีเมลไม่ถูกต้อง').show();
-                    return false;
-                } else {
-                    $('#email').removeClass('error_box');
-                    $('#email-error-message').hide();
-                    return true;
-                }
-            }
-
-            function validateName() {
-                var name = $('#name').val().trim();
-                if (name === '') {
-                    $('#name').addClass('error_box');
-                    $('#name-error-message').text('กรุณากรอกชื่อ').show();
-                    return false;
-                } else {
-                    $('#name').removeClass('error_box');
-                    $('#name-error-message').hide();
-                    return true;
-                }
-            }
-
-            function validateSurname() {
-                var surname = $('#surname').val().trim();
-                if (surname === '') {
-                    $('#surname').addClass('error_box');
-                    $('#surname-error-message').text('กรุณากรอกนามสกุล').show();
-                    return false;
-                } else {
-                    $('#surname').removeClass('error_box');
-                    $('#surname-error-message').hide();
-                    return true;
-                }
-            }
-
-            function validatePhone() {
-                var phone = $('#phone').val();
-                var isNumeric = /^\d{10}$/.test(phone); // Regular expression to check for exactly 10 digits
-
-                if (!isNumeric) {
-                    $('#phone').addClass('error_box');
-                    $('#phone-error-message').text('เบอร์โทรศัพท์ต้องมีความยาว 10 หลัก และเป็นตัวเลขเท่านั้น')
-                        .show();
-                    return false;
-                } else {
-                    $('#phone').removeClass('error_box');
-                    $('#phone-error-message').hide();
-                    return true;
-                }
-            }
 
             $('#card_id').on('blur', function() {
                 validateCardId();
@@ -554,6 +526,35 @@
                 validatePhone();
             });
         });
+
+        window.nextStep = function(step) {
+            if (step === 2 && !document.getElementById('termsCheck').checked) {
+                showAlert(1, "ไม่สามารถดำเนินการได้", "กรุณายอมรับข้อกำหนดและเงื่อนไข เพื่อดำเนินการต่อ");
+                return;
+            }
+
+            if (step === 3 && !validateInputs()) {
+                showAlert(1, "ไม่สามารถดำเนินการได้", "กรุณากรอกข้อมูลให้ครบถ้วน เพื่อดำเนินการต่อ");
+                return;
+            }
+
+            document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
+            document.getElementById(`step${step}`).classList.add('active');
+            document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
+            document.getElementById(`step${step}Content`).classList.add('active');
+
+            // Mark previous steps as completed
+            for (let i = 1; i < step; i++) {
+                document.getElementById(`step${i}`).classList.add('completed');
+            }
+        }
+
+        window.prevStep = function(step) {
+            document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
+            document.getElementById(`step${step}`).classList.add('active');
+            document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
+            document.getElementById(`step${step}Content`).classList.add('active');
+        }
     </script>
 </body>
 
