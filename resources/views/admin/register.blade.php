@@ -118,7 +118,7 @@
             <div class="col-md-9">
                 <form action="{{ route('register') }}" method="POST" id="registrationForm">
                     @csrf
-                    <div id="step1Content" class="step-content">
+                    <div id="step1Content" class="step-content active">
                         <!-- Content for step 1 -->
                         <div class="mb-3">
                             <hr>
@@ -191,7 +191,7 @@
                         <button type="button" class="btn btn-secondary" onclick="prevStep(1)">ย้อนกลับ</button>
                         <button type="button" class="btn btn-primary" onclick="nextStep(3)">ถัดไป</button>
                     </div>
-                    <div id="step3Content" class="step-content active">
+                    <div id="step3Content" class="step-content">
                         <!-- Content for step 3 -->
                         <hr>
                         <h5>ข้อมูลหน่วยงาน</h5>
