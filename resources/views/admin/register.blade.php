@@ -453,78 +453,79 @@
             return isCardIdValid && isEmailValid && isNameValid && isSurnameValid && isPhoneValid;
         }
 
+        function checkAvailability(inputId, route, errorMessage) {
+            var value = $(inputId).val();
+            $.ajax({
+                url: route,
+                method: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    value: value
+                },
+                success: function(response) {
+                    console.log(response);
+                    if (!response.isAvailable) {
+                        showAlert(1, "ไม่สามารถดำเนินการได้", errorMessage);
+                        $(inputId).addClass('error_box');
+                        $(inputId + '-error-message').text(errorMessage).show();
+                        $('#next-button').prop('disabled', true);
+                    } else {
+                        $(inputId).removeClass('error_box');
+                        $(inputId + '-error-message').hide();
+                        $('#next-button').prop('disabled', !validateInputs());
+                    }
+                }
+            });
+        }
+
         $(document).ready(function() {
             // Set default selection to 'user' when the page loads
             toggleElements('org_center');
+        });
 
-            $('#card_id').on('blur', function() {
-                validateCardId();
-                $('#next-button').prop('disabled', !validateInputs());
-            });
-
-
-            $('#email').on('blur', function() {
-                validateEmail();
-                $('#next-button').prop('disabled', !validateInputs());
-            });
-
-            $('#name').on('blur', function() {
-                validateName();
-                $('#next-button').prop('disabled', !validateInputs());
-            });
-
-            $('#surname').on('blur', function() {
-                validateSurname();
-                $('#next-button').prop('disabled', !validateInputs());
-            });
-
-            $('#phone').on('blur', function() {
-                validatePhone();
-                $('#next-button').prop('disabled', !validateInputs());
-            });
+        $('#card_id').on('blur', function() {
+            validateCardId();
+            $('#next-button').prop('disabled', !validateInputs());
+        });
 
 
-            function checkAvailability(inputId, route, errorMessage) {
-                var value = $(inputId).val();
-                $.ajax({
-                    url: route,
-                    method: 'POST',
-                    data: {
-                        _token: '{{ csrf_token() }}',
-                        value: value
-                    },
-                    success: function(response) {
-                        if (!response.isAvailable) {
-                            showAlert(1, "ไม่สามารถดำเนินการได้", errorMessage);
-                            $(inputId).addClass('error_box');
-                            $(inputId + '-error-message').text(errorMessage).show();
-                            $('#next-button').prop('disabled', true);
-                        } else {
-                            $(inputId).removeClass('error_box');
-                            $(inputId + '-error-message').hide();
-                            $('#next-button').prop('disabled', !validateInputs());
-                        }
-                    }
-                });
+        $('#email').on('blur', function() {
+            validateEmail();
+            $('#next-button').prop('disabled', !validateInputs());
+        });
+
+        $('#name').on('blur', function() {
+            validateName();
+            $('#next-button').prop('disabled', !validateInputs());
+        });
+
+        $('#surname').on('blur', function() {
+            validateSurname();
+            $('#next-button').prop('disabled', !validateInputs());
+        });
+
+        $('#phone').on('blur', function() {
+            validatePhone();
+            $('#next-button').prop('disabled', !validateInputs());
+        });
+
+        $('#card_id').on('blur', function() {
+            if (validateCardId()) {
+                console.log('aa');
+                checkAvailability('#card_id', '{{ route('check.card_id') }}',
+                    'เลขประจำตัวประชาชนนี้ มีบัญชีผู้ใช้งานแล้ว');
             }
+        });
 
-            $('#card_id').on('blur', function() {
-                if (validateCardId()) {
-                    checkAvailability('#card_id', '{{ route('check.card_id') }}',
-                        'เลขประจำตัวประชาชนนี้ มีบัญชีผู้ใช้งานแล้ว');
-                }
-            });
+        $('#email').on('blur', function() {
+            if (validateEmail()) {
+                checkAvailability('#email', '{{ route('check.email') }}',
+                    'อีเมล์นี้มีบัญชีผู้ใช้งานแล้ว');
+            }
+        });
 
-            $('#email').on('blur', function() {
-                if (validateEmail()) {
-                    checkAvailability('#email', '{{ route('check.email') }}',
-                        'อีเมล์นี้มีบัญชีผู้ใช้งานแล้ว');
-                }
-            });
-
-            $('#phone').on('blur', function() {
-                validatePhone();
-            });
+        $('#phone').on('blur', function() {
+            validatePhone();
         });
 
         window.nextStep = function(step) {
