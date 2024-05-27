@@ -262,7 +262,8 @@
                             </div>
                             <div id="org_province_Container" class="">
                                 <label for="provinceSelect">จังหวัด</label>
-                                <select name="account" class="form-control" id="provinceSelect" name="provinceSelect">
+                                <select name="account" class="form-control" id="provinceSelect"
+                                    name="provinceSelect">
                                     @foreach ($province as $key => $item)
                                         <option value="{{ $item->PROV_ID }}">
                                             {{ $item->PROV_NAME }}</option>
@@ -367,6 +368,35 @@
                     select.removeAttribute('required');
                 }
             }
+        }
+
+        window.nextStep = function(step) {
+            if (step === 2 && !document.getElementById('termsCheck').checked) {
+                showAlert(1, "ไม่สามารถดำเนินการได้", "กรุณายอมรับข้อกำหนดและเงื่อนไข เพื่อดำเนินการต่อ");
+                return;
+            }
+
+            if (step === 3 && !validateInputs()) {
+                showAlert(1, "ไม่สามารถดำเนินการได้", "กรุณากรอกข้อมูลให้ครบถ้วน เพื่อดำเนินการต่อ");
+                return;
+            }
+
+            document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
+            document.getElementById(`step${step}`).classList.add('active');
+            document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
+            document.getElementById(`step${step}Content`).classList.add('active');
+
+            // Mark previous steps as completed
+            for (let i = 1; i < step; i++) {
+                document.getElementById(`step${i}`).classList.add('completed');
+            }
+        }
+
+        window.prevStep = function(step) {
+            document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
+            document.getElementById(`step${step}`).classList.add('active');
+            document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
+            document.getElementById(`step${step}Content`).classList.add('active');
         }
 
         $(document).ready(function() {
@@ -523,35 +553,6 @@
             $('#phone').on('blur', function() {
                 validatePhone();
             });
-
-            window.nextStep = function(step) {
-                if (step === 2 && !document.getElementById('termsCheck').checked) {
-                    showAlert(1, "ไม่สามารถดำเนินการได้", "กรุณายอมรับข้อกำหนดและเงื่อนไข เพื่อดำเนินการต่อ");
-                    return;
-                }
-
-                if (step === 3 && !validateInputs()) {
-                    showAlert(1, "ไม่สามารถดำเนินการได้", "กรุณากรอกข้อมูลให้ครบถ้วน เพื่อดำเนินการต่อ");
-                    return;
-                }
-
-                document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
-                document.getElementById(`step${step}`).classList.add('active');
-                document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
-                document.getElementById(`step${step}Content`).classList.add('active');
-
-                // Mark previous steps as completed
-                for (let i = 1; i < step; i++) {
-                    document.getElementById(`step${i}`).classList.add('completed');
-                }
-            }
-
-            window.prevStep = function(step) {
-                document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
-                document.getElementById(`step${step}`).classList.add('active');
-                document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
-                document.getElementById(`step${step}Content`).classList.add('active');
-            }
         });
     </script>
 </body>
