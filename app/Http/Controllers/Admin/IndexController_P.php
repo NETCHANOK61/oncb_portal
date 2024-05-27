@@ -136,7 +136,7 @@ class IndexController extends Controller
     {
         $token = 'TZyirc31YL';
         $key = '9YXXlYhOvy0sBjSAcPQFIllvNUF4E8NC';
-        $username = $req->input('email');
+        $username = $req->input('username');
         $password = $req->input('password');
         $authen = false;
         $userprofile = null;
