@@ -66,7 +66,7 @@ class RegisteredUserController extends Controller
 
     public function checkEmail(Request $request)
     {
-        $isAvailable = !User::where('email', $request->email)->exists();
+        $isAvailable = !User::where('email', $request->value)->exists();
         return response()->json(['isAvailable' => $isAvailable]);
     }
 
