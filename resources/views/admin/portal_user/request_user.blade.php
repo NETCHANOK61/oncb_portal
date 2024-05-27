@@ -127,7 +127,7 @@
         //     });
         // }
 
-        function approved(id, userid, password) {
+        function approved(id) {
             Swal.fire({
                 title: 'ต้องการอนุมัติ?',
                 text: "คุณต้องการอนุมัติคำขอนี้",
@@ -139,41 +139,28 @@
                 cancelButtonText: 'ยกเลิก'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    var formAction = "/portal/approveUserPortal/" + id;
-                    // Now formAction contains the URL to the approveUserPortal route
+                    var formAction = "{{ route('portal.approveUserPortal', ':user') }}";
+                    formAction = formAction.replace(':user', id);
 
-                    // Data to be sent in the POST request
-                    var postData = {
-                        userid: userid,
-                        password: password
-                    };
+                    // Create a form element
+                    var form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = formAction;
 
-                    // Perform the POST request
-                    fetch(formAction, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                // Add any other headers if needed
-                            },
-                            body: JSON.stringify(postData) // Convert the data to JSON format
-                        })
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error('Network response was not ok');
-                            }
-                            return response.json(); // Assuming response is JSON, change accordingly
-                        })
-                        .then(data => {
-                            // Handle response data as needed
-                            console.log(data);
-                        })
-                        .catch(error => {
-                            // Handle errors
-                            console.error('There was a problem with the fetch operation:', error);
-                        });
+                    // Add CSRF token input
+                    var csrfTokenInput = document.createElement('input');
+                    csrfTokenInput.type = 'hidden';
+                    csrfTokenInput.name = '_token';
+                    csrfTokenInput.value = '{{ csrf_token() }}';
+                    form.appendChild(csrfTokenInput);
+
+                    // Append the form to the body and submit
+                    document.body.appendChild(form);
+                    form.submit();
                 }
             });
         }
+
         function showPDF(path_file) {
             Swal.fire({
                 html: `<iframe src="{{ asset('${path_file}') }}" frameborder="0" width="95%" height="500"></iframe>`, // Use the path_file to set the src attribute of the iframe
