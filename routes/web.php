@@ -11,7 +11,7 @@ use App\Http\Controllers\SchoolController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegionController;
-use App\Http\Controllers\UserRequestcontroller;
+use App\Http\Controllers\UserRequestPortalcontroller;
 use App\Models\Province;
 use App\Services\MenuService;
 use Illuminate\Session\Middleware\AuthenticateSession;
@@ -96,8 +96,8 @@ Route::middleware(['auth'])->name('portal.')->prefix('portal')->group(function (
     Route::get('/edit_user/{id}', [PortalSystemController::class, 'editUser'])->name('editUser');
     Route::post('/update_user/{id}', [PortalSystemController::class, 'updateUser'])->name('updateUser');
 
-    Route::get('/request_user_portal', [UserRequestcontroller::class, 'index'])->name('requestUserPortal');
-    Route::post('/approve_user_portal/{id}', [UserRequestcontroller::class, 'approve'])->name('approveUserPortal');
+    Route::get('/request_user_portal', [UserRequestPortalcontroller::class, 'index'])->name('requestUserPortal');
+    Route::post('/approve_user_portal/{id}', [UserRequestPortalcontroller::class, 'approve'])->name('approveUserPortal');
 
     // Route::get('/add_system', [PortalSystemController::class, 'addSystem'])->name('addSystem')->middleware(['auth', 'role:admin|superAdmin']);
     // Route::post('/store_system', [PortalSystemController::class, 'store'])->name('storeSystem')->middleware(['auth', 'role:admin|superAdmin']);
