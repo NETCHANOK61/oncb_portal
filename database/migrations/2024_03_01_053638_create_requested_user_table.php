@@ -18,10 +18,12 @@ return new class extends Migration {
             $table->string('card_id', 13);
             $table->string('phone', 10);
             $table->string('email', 255)->nullable();
+            $table->string('userid', 255)->nullable();
             $table->string('agency', 10)->nullable();
             $table->string('PROV_ID', 10)->nullable();
             $table->string('AMP_ID', 10)->nullable();
             $table->string('edu_area_id', 10)->nullable();
+            $table->string('school', 255)->nullable();
             $table->string('dept_id', 10)->nullable();
             $table->string('file', 255)->nullable();
             $table->timestamps();

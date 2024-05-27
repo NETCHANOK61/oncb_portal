@@ -25,7 +25,8 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-        $region = Region::orderBy('REG_ID')->get();
+        // $region = Region::orderBy('REG_ID')->get();
+        $region = Agency::orderBy('agency_id')->get();
 
         $province = Province::orderBy('PROV_ID')->get();
 
@@ -68,7 +69,7 @@ class RegisteredUserController extends Controller
         $isAvailable = !User::where('email', $request->email)->exists();
         return response()->json(['isAvailable' => $isAvailable]);
     }
-    
+
     public function checkCard_id(Request $request)
     {
         $isAvailable = !User::where('card_id', $request->value)->exists();
@@ -78,6 +79,7 @@ class RegisteredUserController extends Controller
     public function storeRequested(Request $request)
     {
         // Handle file upload
+        $filePath = null; // Initialize filePath
         if ($request->hasFile('file_upload')) {
             $file = $request->file('file_upload');
             $fileName = time() . '_' . $file->getClientOriginalName();
@@ -85,22 +87,42 @@ class RegisteredUserController extends Controller
             $file->move(public_path('assets/pdf'), $fileName);
         }
 
-        $user = RequestedUser::create([
+        // Base user data
+        $userData = [
             'name' => $request->name,
             'surname' => $request->surname,
             'phone' => $request->phone,
             'email' => $request->email,
             'card_id' => $request->card_id,
-            'userid' => $request->username_ad,
-            'password' => $request->password_ad,
-            'file' => $filePath ? $filePath : null // Handle case where file is not uploaded
-        ]);
+            'file' => $filePath // Handle case where file is not uploaded
+        ];
+
+        // Check role and add additional data if needed
+        if ($request->role == 'org_center') {
+            $userData['userid'] = $request->username_ad;
+            $userData['dept_id'] = $request->dept;
+        } elseif ($request->role == 'org_other') {
+            // 
+        } elseif ($request->role == 'org_region') {
+            $userData['dept_id'] = $request->regionSelect;
+        } elseif ($request->role == 'org_province') {
+            $userData['PROV_ID'] = $request->provinceSelect;
+        } elseif ($request->role == 'org_ampher') {
+            $userData['PROV_ID'] = $request->provinceSelect;
+            $userData['AMP_ID'] = $request->ampherSelect;
+        } elseif ($request->role == 'school') {
+            $userData['PROV_ID'] = $request->provinceSelect_edu;
+            $userData['edu_area_id'] = $request->edu_area;
+            $userData['school'] = $request->school_list;
+        }
+
+        $user = RequestedUser::create($userData);
 
         $user_id = $user->id;
 
         return redirect()->route('register.submit', ['id' => $user_id]);
     }
-    
+
     public function requestedSubmit(Request $request, $id)
     {
         $data = RequestedUser::find($id);

@@ -199,30 +199,99 @@
                             <div class="row">
                                 <label for="userType" class="form-label">กรุณาเลือกประเภทผู้ใช้งานของคุณ:</label>
                                 <div class="col-6">
-                                    <input type="radio" id="org_center" name="role" value="user"
+                                    <input type="radio" id="org_center" name="role" value="org_center"
                                         onclick="toggleElements('org_center')" checked>
                                     <label for="org_center">ผู้ใช้งานที่มี AD</label>
                                 </div>
                                 <div class="col-6">
-                                    <input type="radio" id="org_region" name="role" value="staff"
-                                        onclick="toggleElements('org_region')">
-                                    <label for="org_region">ผู้ใช้งานจากหน่วยนอก</label>
+                                    <input type="radio" id="org_other" name="role" value="org_other"
+                                        onclick="toggleElements('org_other')">
+                                    <label for="org_other">ผู้ใช้งานจากหน่วยนอก</label>
                                 </div>
                                 <div class="col-6">
-                                    <input type="radio" id="org_region" name="role" value="staff"
+                                    <input type="radio" id="org_region" name="role" value="org_region"
                                         onclick="toggleElements('org_region')">
-                                    <label for="org_region">ผู้ใช้งานระดับจังหวัด</label>
+                                    <label for="org_region">ผู้ใช้งานระดับภาค</label>
                                 </div>
                                 <div class="col-6">
-                                    <input type="radio" id="org_region" name="role" value="staff"
-                                        onclick="toggleElements('org_region')">
-                                    <label for="org_region">ผู้ใช้งานระดับอำเภอ</label>
+                                    <input type="radio" id="org_province" name="role" value="org_province"
+                                        onclick="toggleElements('org_province')">
+                                    <label for="org_province">ผู้ใช้งานระดับจังหวัด</label>
                                 </div>
                                 <div class="col-6">
-                                    <input type="radio" id="school" name="role" value="staff"
+                                    <input type="radio" id="org_ampher" name="role" value="org_ampher"
+                                        onclick="toggleElements('org_ampher')">
+                                    <label for="org_ampher">ผู้ใช้งานระดับอำเภอ</label>
+                                </div>
+                                <div class="col-6">
+                                    <input type="radio" id="school" name="role" value="school"
                                         onclick="toggleElements('school')">
                                     <label for="school">ผู้ใช้งานในกลุ่มสถานศึกษา</label>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="form-group mt-3">
+                            <div id="org_center_Container" class="select">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label class="" for="username_ad_input">username AD</label>
+                                            <input type="text" name="username_ad" id="username_ad"
+                                                class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <label class="" for="username_ad_input">แผนก</label>
+                                        <select name="account" class="form-control" id="dept" name="dept">
+                                            @foreach ($agencies as $key => $item)
+                                                <option value="{{ $item->div_code }}">
+                                                    {{ $item->dept_name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="org_region_Container" class="">
+                                <label for="regionSelect">ภาค</label>
+                                <select name="account" class="form-control" id="regionSelect" name="regionSelect">
+                                    @foreach ($region as $key => $item)
+                                        <option value="{{ $item->agency_id }}">
+                                            {{ $item->dept_name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div id="org_province_Container" class="">
+                                <label for="provinceSelect">จังหวัด</label>
+                                <select name="account" class="form-control" id="provinceSelect" name="provinceSelect">
+                                    @foreach ($province as $key => $item)
+                                        <option value="{{ $item->PROV_ID }}">
+                                            {{ $item->PROV_NAME }}</option>
+                                    @endforeach
+                                </select>
+
+                            </div>
+                            <div id="org_ampher_Container" class="">
+                                <label for="ampherSelect">อำเภอ</label>
+                                <select name="account" class="form-control" id="ampherSelect" name="ampherSelect">
+                                    @foreach ($ampher as $key => $item)
+                                        <option value="{{ $item->AMP_ID }}">
+                                            {{ $item->AMP_NAME }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div id="school_Container" class="select">
+                                <label for="provinceSelect_edu">จังหวัด</label>
+                                <select name="provinceSelect_edu" class="form-control" id="provinceSelect_edu">
+                                    @foreach ($province as $key => $item)
+                                        <option value="{{ $item->PROV_ID }}">
+                                            {{ $item->PROV_NAME }}</option>
+                                    @endforeach
+                                </select>
+                                <label for="edu_area">สำนักงานการศึกษาขั้นพื้นฐาน</label>
+                                <select name="edu_area" class="form-control" id="edu_area"></select>
+                                <label for="school_list">โรงเรียน</label>
+                                <select name="school_list" class="form-control" id="school_list">
+                                </select>
                             </div>
                         </div>
                         <div class="mb-3">
@@ -246,7 +315,64 @@
             });
         }
 
+        function toggleElements(role) {
+            const containerMapping = {
+                org_center: document.getElementById("org_center_Container"),
+                org_region: document.getElementById("org_region_Container"),
+                org_province: document.getElementById("org_province_Container"),
+                org_ampher: document.getElementById("org_ampher_Container"),
+                school: document.getElementById("school_Container")
+            };
+
+            const h1Element = document.getElementById("h1Element");
+            const registerBtn = document.getElementById("registerBtn");
+
+            // Hide all containers initially
+            for (const container of Object.values(containerMapping)) {
+                container.style.display = "none";
+            }
+
+            // Show the container that matches the role
+            if (role === "org_ampher") {
+                containerMapping["org_province"].style.display = "block";
+                containerMapping["org_ampher"].style.display = "block";
+                setRequired(containerMapping["org_province"], true);
+                setRequired(containerMapping["org_ampher"], true);
+            } else if (containerMapping[role]) {
+                containerMapping[role].style.display = "block";
+                setRequired(containerMapping[role], true);
+            }
+
+            // Display the register button
+            registerBtn.style.display = 'block';
+        }
+
+        // Function to set or remove the required attribute from all input elements within a container
+        function setRequired(container, isRequired) {
+            const inputs = container.getElementsByTagName('input');
+            const selects = container.getElementsByTagName('select');
+
+            for (const input of inputs) {
+                if (isRequired) {
+                    input.setAttribute('required', 'required');
+                } else {
+                    input.removeAttribute('required');
+                }
+            }
+
+            for (const select of selects) {
+                if (isRequired) {
+                    select.setAttribute('required', 'required');
+                } else {
+                    select.removeAttribute('required');
+                }
+            }
+        }
+
         $(document).ready(function() {
+            // Set default selection to 'user' when the page loads
+            toggleElements('org_center');
+
             function validateInputs() {
                 var isCardIdValid = validateCardId();
                 var isEmailValid = validateEmail();
