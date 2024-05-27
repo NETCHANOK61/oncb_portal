@@ -30,7 +30,8 @@ class UserRequestcontroller extends Controller
             'card_id' => $request_user->card_id,
             'file' => $request_user->file,
             'username' => $request->input('username'),
-            'surname' => $request_user->surname
+            'surname' => $request_user->surname,
+            'phone' => $request->phone
         ]);
 
         $portal = User_portal::create([
@@ -39,7 +40,8 @@ class UserRequestcontroller extends Controller
             'email' => $request_user->email,
             'card_id' => $request_user->card_id,
             'file' => $request_user->file,
-            'username' => $request->input('username')
+            'username' => $request->input('username'),
+            'phone' => $request_user->phone
         ]);
 
         $request_user->update([
