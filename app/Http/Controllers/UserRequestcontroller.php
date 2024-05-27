@@ -41,6 +41,7 @@ class UserRequestcontroller extends Controller
             'card_id' => $request_user->card_id,
             'file' => $request_user->file,
             'username' => $request->input('username'),
+            'password' => Hash::make($request->input('password')),
             'phone' => $request_user->phone
         ]);
 
