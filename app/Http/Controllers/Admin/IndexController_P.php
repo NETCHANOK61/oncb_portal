@@ -200,7 +200,7 @@ class IndexController extends Controller
     public function submitlogin(Request $req)
     {
         $adldap = new oncbAD();
-        $username = $req->input('username');
+        $username = $req->input('email');
         $password = $req->input('password');
         $authen = false;
         $userprofile = null;
@@ -220,6 +220,8 @@ class IndexController extends Controller
         $userapi = $this->callApi($req);
         $userObject = $userapi;
 
+        // dd($userapi);
+
         if (!is_null($userapi) && isset($userapi['login'])) {
             $authen = $userapi['login'];
             if ($authen) {
@@ -227,19 +229,28 @@ class IndexController extends Controller
 
                 if ($user) {
                     $system_all = System::where('status', 1)->get();
+                    // dd($user);
+                    // Auth::login($user);
+                    // return $this->index();
                     return view('admin.systemForUser', compact('userObject', 'user', 'system_all'));
                 } else {
-                    return back()->with('error', 'ไม่พบบัญชีผู้ใช้งาน');
+                    return redirect('/');
                 }
+
+                // return view('admin.portal.main', compact('userObject'));
             }
         } else {
+            // return back()->with('error', 'รหัสผ่านหรือชื่อผู้ใช้ไม่ถูกต้อง');
             $user = User::where('email', $username)->first();
 
             if ($user) {
                 $system_all = System::where('status', 1)->get();
+                // dd($user);
+                // Auth::login($user);
+                // return $this->index();
                 return view('admin.systemForUser', compact('userObject', 'user', 'system_all'));
             } else {
-                return back()->with('error', 'ไม่พบบัญชีผู้ใช้งาน');
+                return redirect('/');
             }
         }
     }
@@ -317,7 +328,6 @@ class IndexController extends Controller
         $token = bin2hex(random_bytes(16));
     
         if (!$apiKey) {
-            // In case of an error in submitLoginForm
             return redirect('/');
         }
     
