@@ -136,7 +136,7 @@ class IndexController extends Controller
     {
         $token = 'TZyirc31YL';
         $key = '9YXXlYhOvy0sBjSAcPQFIllvNUF4E8NC';
-        $username = $req->input('email');
+        $username = $req->input('username');
         $password = $req->input('password');
         $authen = false;
         $userprofile = null;
@@ -204,8 +204,6 @@ class IndexController extends Controller
         $password = $req->input('password');
         $authen = false;
         $userprofile = null;
-
-
 
         if (trim($username) == "" || trim($password) == "") {
             return back()->with('error', 'ข้อมูลไม่ครบถ้วน กรุณากรอกชื่อผู้ใช้และรหัสผ่าน');
