@@ -116,7 +116,7 @@
                 </div>
             </div>
             <div class="col-md-9">
-                <form action="{{ route('register.request') }}" method="POST" id="registrationForm">
+                <form action="{{ route('register.request') }}" method="POST" id="registrationForm" enctype="multipart/form-data">
                     @csrf
                     <div id="step1Content" class="step-content active">
                         <!-- Content for step 1 -->
