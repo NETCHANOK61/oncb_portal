@@ -200,7 +200,7 @@ class IndexController extends Controller
     public function submitlogin(Request $req)
     {
         $adldap = new oncbAD();
-        $username = $req->input('email');
+        $username = $req->input('username');
         $password = $req->input('password');
         $authen = false;
         $userprofile = null;
