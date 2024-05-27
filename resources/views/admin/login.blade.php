@@ -20,7 +20,7 @@
         href="{{ asset('../assets/login/vendor/daterangepicker/daterangepicker.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('../assets/login/css/util.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('../assets/login/css/main.css') }}">
-    <title>NISPA-2024</title>
+    <title>WEB-PORTAL</title>
 </head>
 
 <body>

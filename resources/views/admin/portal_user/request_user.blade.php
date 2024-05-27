@@ -68,6 +68,65 @@
         <!-- ROW-1 CLOSED -->
     </div>
     <script>
+        // function approved(id, userid, password) {
+        //     Swal.fire({
+        //         title: 'ต้องการอนุมัติ?',
+        //         text: "คุณต้องการอนุมัติคำขอนี้",
+        //         icon: 'warning',
+        //         showCancelButton: true,
+        //         confirmButtonColor: '#3085d6',
+        //         cancelButtonColor: '#d33',
+        //         confirmButtonText: 'อนุมัติ',
+        //         cancelButtonText: 'ยกเลิก'
+        //     }).then((result) => {
+        //         if (result.isConfirmed) {
+        //             var formAction = "{{ route('portal.approveUserPortal', ':user') }}";
+        //             formAction = formAction.replace(':user', id);
+
+        //             var isReadOnly = userid !== 'null' && userid !== '';
+
+        //             Swal.fire({
+        //                 title: isReadOnly ?
+        //                     'ผู้ใช้งานนี้มีบัญชีกับ AD ของส่วนกลางแล้ว' : 'กรุณากำหนดชื่อผู้ใช้และรหัสผ่าน',
+        //                 html: '<form id="myForm" action="' + formAction + '" method="POST">' +
+        //                     '<input type="hidden" name="_token" value="{{ csrf_token() }}">' +
+        //                     '<input type="hidden" name="userid" value="' + userid + '">' +
+        //                     '<div style="text-align: center;">' +
+        //                     '<div style="margin-bottom: 10px;">' +
+        //                     '<label style="display: inline-block; width: 100px; text-align: right; margin-right: 10px;">Username</label>' +
+        //                     '<input id="username" name="username" class="swal2-input" style="width: 200px;" placeholder="ชื่อผู้ใช้" value="' +
+        //                     (isReadOnly ? userid : '') + '" ' + (isReadOnly ? 'readonly' : '') + '>' +
+        //                     '</div>' +
+        //                     '<div>' +
+        //                     '<label style="display: inline-block; width: 100px; text-align: right; margin-right: 10px;">รหัสผ่าน</label>' +
+        //                     '<input type="password" id="password" name="password" class="swal2-input" style="width: 200px;" placeholder="รหัสผ่าน" value="' +
+        //                     (isReadOnly ? password : '') + '" ' + (isReadOnly ? 'readonly' : '') + '>' +
+        //                     '</div>' +
+        //                     '</div><br>' +
+        //                     (isReadOnly ? '' :
+        //                         '<div style="padding-left: 50%">' +
+        //                         '<div id="generatePasswordButton"><img src="{{ asset('assets/images/password.png') }}" width="50"></div>' +
+        //                         '</div>') +
+        //                     '</form>',
+        //                 showCancelButton: true,
+        //                 confirmButtonColor: '#3085d6',
+        //                 cancelButtonColor: '#d33',
+        //                 confirmButtonText: 'บันทึก',
+        //                 cancelButtonText: 'ยกเลิก',
+        //                 preConfirm: () => {
+        //                     document.getElementById('myForm').submit(); // Submit the form
+        //                 }
+        //             });
+
+        //             // Attach event listener to the button after it's created, only if it's visible
+        //             if (!isReadOnly) {
+        //                 document.getElementById("generatePasswordButton").addEventListener("click",
+        //                     setGeneratedPassword);
+        //             }
+        //         }
+        //     });
+        // }
+
         function approved(id, userid, password) {
             Swal.fire({
                 title: 'ต้องการอนุมัติ?',
@@ -80,53 +139,41 @@
                 cancelButtonText: 'ยกเลิก'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    var formAction = "{{ route('portal.approveUserPortal', ':user') }}";
-                    formAction = formAction.replace(':user', id);
+                    var formAction = "/portal/approveUserPortal/" + id;
+                    // Now formAction contains the URL to the approveUserPortal route
 
-                    var isReadOnly = userid !== 'null' && userid !== '';
+                    // Data to be sent in the POST request
+                    var postData = {
+                        userid: userid,
+                        password: password
+                    };
 
-                    Swal.fire({
-                        title: isReadOnly ?
-                            'ผู้ใช้งานนี้มีบัญชีกับ AD ของส่วนกลางแล้ว' : 'กรุณากำหนดชื่อผู้ใช้และรหัสผ่าน',
-                        html: '<form id="myForm" action="' + formAction + '" method="POST">' +
-                            '<input type="hidden" name="_token" value="{{ csrf_token() }}">' +
-                            '<input type="hidden" name="userid" value="' + userid + '">' +
-                            '<div style="text-align: center;">' +
-                            '<div style="margin-bottom: 10px;">' +
-                            '<label style="display: inline-block; width: 100px; text-align: right; margin-right: 10px;">Username</label>' +
-                            '<input id="username" name="username" class="swal2-input" style="width: 200px;" placeholder="ชื่อผู้ใช้" value="' +
-                            (isReadOnly ? userid : '') + '" ' + (isReadOnly ? 'readonly' : '') + '>' +
-                            '</div>' +
-                            '<div>' +
-                            '<label style="display: inline-block; width: 100px; text-align: right; margin-right: 10px;">รหัสผ่าน</label>' +
-                            '<input type="password" id="password" name="password" class="swal2-input" style="width: 200px;" placeholder="รหัสผ่าน" value="' +
-                            (isReadOnly ? password : '') + '" ' + (isReadOnly ? 'readonly' : '') + '>' +
-                            '</div>' +
-                            '</div><br>' +
-                            (isReadOnly ? '' :
-                                '<div style="padding-left: 50%">' +
-                                '<div id="generatePasswordButton"><img src="{{ asset('assets/images/password.png') }}" width="50"></div>' +
-                                '</div>') +
-                            '</form>',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'บันทึก',
-                        cancelButtonText: 'ยกเลิก',
-                        preConfirm: () => {
-                            document.getElementById('myForm').submit(); // Submit the form
-                        }
-                    });
-
-                    // Attach event listener to the button after it's created, only if it's visible
-                    if (!isReadOnly) {
-                        document.getElementById("generatePasswordButton").addEventListener("click",
-                            setGeneratedPassword);
-                    }
+                    // Perform the POST request
+                    fetch(formAction, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                // Add any other headers if needed
+                            },
+                            body: JSON.stringify(postData) // Convert the data to JSON format
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json(); // Assuming response is JSON, change accordingly
+                        })
+                        .then(data => {
+                            // Handle response data as needed
+                            console.log(data);
+                        })
+                        .catch(error => {
+                            // Handle errors
+                            console.error('There was a problem with the fetch operation:', error);
+                        });
                 }
             });
         }
-
         function showPDF(path_file) {
             Swal.fire({
                 html: `<iframe src="{{ asset('${path_file}') }}" frameborder="0" width="95%" height="500"></iframe>`, // Use the path_file to set the src attribute of the iframe
