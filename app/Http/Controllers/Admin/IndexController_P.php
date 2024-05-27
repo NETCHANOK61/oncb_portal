@@ -240,14 +240,21 @@ class IndexController extends Controller
                 // return view('admin.portal.main', compact('userObject'));
             }
         } else {
-            // return back()->with('error', 'รหัสผ่านหรือชื่อผู้ใช้ไม่ถูกต้อง');
-            $user = User::where('email', $username)->first();
+            // $user = User::where('email', $username)->first();
 
-            if ($user) {
+            // if ($user) {
+            //     $system_all = System::where('status', 1)->get();
+            //     // dd($user);
+            //     // Auth::login($user);
+            //     // return $this->index();
+            //     return view('admin.systemForUser', compact('userObject', 'user', 'system_all'));
+            // } else {
+            //     return redirect('/');
+            // }
+
+            if (Auth::attempt(['email' => $username, 'password' => $password])) {
                 $system_all = System::where('status', 1)->get();
-                // dd($user);
-                // Auth::login($user);
-                // return $this->index();
+                $user = User::where('email', $username)->first();
                 return view('admin.systemForUser', compact('userObject', 'user', 'system_all'));
             } else {
                 return redirect('/');
@@ -326,27 +333,27 @@ class IndexController extends Controller
         $system = System::where('url', $apiUrl)->first();
         $apiKey = $system ? $system->API_KEY : null;
         $token = bin2hex(random_bytes(16));
-    
+
         if (!$apiKey) {
             return redirect('/');
         }
-    
+
         $encodedUrl = md5($apiUrl . ':' . $token);  // Encode or hash the URL to use as a key
         if (!$request->session()->get('verified_' . $encodedUrl, false)) {
             $authorization = base64_encode($apiKey . ':' . $token);
-    
+
             $response = Http::withHeaders([
                 'Content-Type' => 'application/json',
                 'Authorization' => 'Bearer ' . $token
             ])->post($apiUrl, [
                 'status' => 'authorization'
             ]);
-    
+
             if ($response->successful() && $response->json()['authorization'] === $authorization) {
                 $request->session()->put('verified_' . $encodedUrl, true);
                 $redirectUrl = $response->json()['redirect_url'];
                 $data = $request->input('data');
-    
+
                 // Redirect to a new URL with the data packed for POST submission
                 return view('redirect', [
                     'redirectUrl' => $redirectUrl,
@@ -359,8 +366,8 @@ class IndexController extends Controller
         }
         // In case of an error in submitLoginForm
         return redirect()->route('formView')->withInput()->withErrors(['authorization' => 'Failed to verify authorization.']);
-    }    
-    
+    }
+
     public function showForm(Request $request)
     {
         return view('yourFormView', [
