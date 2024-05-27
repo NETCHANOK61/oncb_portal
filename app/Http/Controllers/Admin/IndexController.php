@@ -286,26 +286,19 @@ class IndexController extends Controller
         }
     }
 
-    // Handles the initial challenge request
     public function login_to_nispa(Request $request)
     {
         $status = $request->input('status');
         if ($status === 'authorization') {
-            $token = $request->input('token');
-            $apiKey = config('api.keys.nispa');
-            $authorization = base64_encode($apiKey . ':' . $token);
-            return response()->json(['authorization' => $authorization]);
-        } elseif ($status === 'authorized') {
-            $data = json_decode($request->input('data'), true);
-            $email = $data['email'];
-            $password = $data['password'];
-            $user = User::where('email', $email)->first();
-            if ($user) {
-                Auth::login($user);
-                $redirectUrl = "http://127.0.0.1:8002/redirect_to_nispa";
-                return response()->json(['status' => 'allowed', 'redirect_url' => $redirectUrl]);
-            } else {
-                return response()->json(['error' => 'Authentication failed'], 401);
+            $token = $request->header('Authorization');
+            $token = str_replace('Bearer ', '', $token);
+            $apiKey = env('API_KEY_NISPA');
+    
+            // Validate token and apiKey
+            if ($token && $apiKey) {
+                $expectedAuthorization = base64_encode($apiKey . ':' . $token);
+                $redirectUrl = "https://nispa.oncb.go.th/redirect_to_nispa";
+                return response()->json(['authorization' => $expectedAuthorization, 'redirect_url' => $redirectUrl]);
             }
         }
         return response()->json(['error' => 'Authentication failed'], 401);
@@ -320,13 +313,14 @@ class IndexController extends Controller
         }
 
         $data = json_decode($request->input('data'), true);
-        $data = json_decode($data, true);
+        // dd($data);
+        // $data = json_decode($data, true);
         $email = $data['email'];
-        $password = $data['password'];
 
         // Check if user exists and password is correct
         $user = User::where('email', $email)->first();
-        if ($user && Auth::attempt(['email' => $email, 'password' => $password])) {
+        Auth::login($user);
+        if ($user) {
             // Log in the user and redirect to the intended page
             return $this->index();
         } else {
