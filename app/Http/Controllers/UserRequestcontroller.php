@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\RequestedUser;
 use App\Models\User;
+use App\Models\User_portal;
 use App\Services\MenuService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -30,6 +31,15 @@ class UserRequestcontroller extends Controller
             'file' => $request_user->file,
             'username' => $request->input('username'),
             'surname' => $request_user->surname
+        ]);
+
+        $portal = User_portal::create([
+            'name' => $request_user->name,
+            'surname' => $request_user->surname,
+            'email' => $request_user->email,
+            'card_id' => $request_user->card_id,
+            'file' => $request_user->file,
+            'username' => $request->input('username')
         ]);
 
         $request_user->update([
