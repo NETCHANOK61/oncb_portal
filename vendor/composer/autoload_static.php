@@ -636,6 +636,7 @@ class ComposerStaticInit938d4560834943ed81e843b336c6705b
         'App\\Models\\SchoolMinistry' => __DIR__ . '/../..' . '/app/Models/SchoolMinistry.php',
         'App\\Models\\Test' => __DIR__ . '/../..' . '/app/Models/Test.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
+        'App\\Models\\User_portal' => __DIR__ . '/../..' . '/app/Models/User_portal.php',
         'App\\Models\\bud_dpis' => __DIR__ . '/../..' . '/app/Models/bud_dpis.php',
         'App\\Models\\oncbAD' => __DIR__ . '/../..' . '/app/Models/oncbAD.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',

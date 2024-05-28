@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Menu;
 use App\Models\User;
 use App\Services\MenuService;
-use Hash;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -137,13 +137,14 @@ class Usercontroller extends Controller
     public function updateUser(Request $request, User $user)
     {
         //
-        $mergedName = $request->input('firstname') . ' ' . $request->input('lastname');
+        // $mergedName = $request->input('firstname') . ' ' . $request->input('lastname');
 
         $user->update([
             'name' => $request->firstname,
             'email' => $request->email,
-            'password' => Hash::make($request->password),
         ]);
+
+        $user->syncRoles($request->roleGroup);
 
         $notification = array(
             'message' => 'User Updated Successfully!',

@@ -56,6 +56,7 @@ return array(
     'App\\Models\\SchoolMinistry' => $baseDir . '/app/Models/SchoolMinistry.php',
     'App\\Models\\Test' => $baseDir . '/app/Models/Test.php',
     'App\\Models\\User' => $baseDir . '/app/Models/User.php',
+    'App\\Models\\User_portal' => $baseDir . '/app/Models/User_portal.php',
     'App\\Models\\bud_dpis' => $baseDir . '/app/Models/bud_dpis.php',
     'App\\Models\\oncbAD' => $baseDir . '/app/Models/oncbAD.php',
     'App\\Providers\\AppServiceProvider' => $baseDir . '/app/Providers/AppServiceProvider.php',

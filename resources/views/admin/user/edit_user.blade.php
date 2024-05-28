@@ -57,13 +57,13 @@
                                                                     value="{{ $user->email }}" />
                                                             </div>
                                                         </div>
-                                                        <div class="col-6">
+                                                        {{-- <div class="col-6">
                                                             <div class="form-group">
                                                                 <label for="passwordInput">รหัสผ่าน</label>
                                                                 <input type="text" class="form-control" id="password"
                                                                     name="password" placeholder="รหัสผ่าน" value="{{ $user->password }}" />
                                                             </div>
-                                                        </div>
+                                                        </div> --}}
                                                         <div class="col-6">
                                                             <div class="form-group">
                                                                 <label for="roleInput">บทบาท</label>
