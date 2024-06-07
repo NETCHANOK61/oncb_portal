@@ -56,11 +56,11 @@
                     </div>
 
                     <span class="d-block text-center my-4 text-muted">&mdash; หรือ &mdash;</span>
-                    {{-- <div class="container-login100-form-btn">
+                    <div class="container-login100-form-btn">
                         <a class="login100-form-btn" href="{{ route('ldapLogin') }}">
                             เข้าสู่ระบบ AD
                         </a>
-                    </div> --}}
+                    </div>
                     <br>
                       <div class="container-login100-form-btn">
                         <!-- Update your blade template with the new route -->
