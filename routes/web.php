@@ -75,6 +75,8 @@ Route::get('/get-school_with_edu/{province}/{edu}', [RegionController::class, 'g
 
 Route::post('request-user', [RegisteredUserController::class, 'storeRequested'])->name('register.request');
 Route::get('request-submit/{id}', [RegisteredUserController::class, 'requestedSubmit'])->name('register.submit');
+Route::post('/check-email', [RegisteredUserController::class, 'checkEmail'])->name('check.email');
+Route::post('/check-card_id', [RegisteredUserController::class, 'checkCard_id'])->name('check.card_id');
 
 Route::middleware('auth')->group(function () {
     Route::get('/logout', [IndexController::class, 'logout'])->name('auth.logout');
