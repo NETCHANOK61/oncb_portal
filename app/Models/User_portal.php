@@ -26,6 +26,7 @@ class User_portal extends Model
         'agency',
         'PROV_ID',
         'AMP_ID',
-        'edu_area_id'
+        'edu_area_id',
+        'NISPA'
     ];
 }

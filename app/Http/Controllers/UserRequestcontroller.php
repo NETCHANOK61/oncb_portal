@@ -42,7 +42,8 @@ class UserRequestcontroller extends Controller
             'file' => $request_user->file,
             'username' => $request->input('username'),
             'password' => Hash::make($request->input('password')),
-            'phone' => $request_user->phone
+            'phone' => $request_user->phone,
+            'NISPA' => 1
         ]);
 
         $request_user->update([
