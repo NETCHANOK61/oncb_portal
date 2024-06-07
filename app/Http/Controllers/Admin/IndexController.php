@@ -231,7 +231,7 @@ class IndexController extends Controller
                 }
             }
         } else {
-            if (Auth::attempt(['username' => $username, 'password' => $password]) || Auth::attempt(['email' => $username, 'password' => $password])) {
+            if (Auth::attempt(['username' => $username, 'password' => $password])) {
                 $user = Auth::user();
                 $system_all = System::where('status', 1)->get();
                 return view('admin.systemForUser', compact('userObject', 'user', 'system_all'));
@@ -312,28 +312,28 @@ class IndexController extends Controller
         $system = System::where('url', $apiUrl)->first();
         $apiKey = $system ? $system->API_KEY : null;
         $token = bin2hex(random_bytes(16));
-
+    
         if (!$apiKey) {
             // In case of an error in submitLoginForm
             return redirect('/');
         }
-
+    
         $encodedUrl = md5($apiUrl . ':' . $token);  // Encode or hash the URL to use as a key
         if (!$request->session()->get('verified_' . $encodedUrl, false)) {
             $authorization = base64_encode($apiKey . ':' . $token);
-
+    
             $response = Http::withHeaders([
                 'Content-Type' => 'application/json',
                 'Authorization' => 'Bearer ' . $token
             ])->post($apiUrl, [
                 'status' => 'authorization'
             ]);
-
+    
             if ($response->successful() && $response->json()['authorization'] === $authorization) {
                 $request->session()->put('verified_' . $encodedUrl, true);
                 $redirectUrl = $response->json()['redirect_url'];
                 $data = $request->input('data');
-
+    
                 // Redirect to a new URL with the data packed for POST submission
                 return view('redirect', [
                     'redirectUrl' => $redirectUrl,
@@ -346,8 +346,8 @@ class IndexController extends Controller
         }
         // In case of an error in submitLoginForm
         return redirect()->route('formView')->withInput()->withErrors(['authorization' => 'Failed to verify authorization.']);
-    }
-
+    }    
+    
     public function showForm(Request $request)
     {
         return view('yourFormView', [
