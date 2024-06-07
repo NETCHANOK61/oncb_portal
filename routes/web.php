@@ -85,6 +85,7 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth'])->name('admin.')->prefix('admin')->group(function () {
     $nispa_url = 'http://192.168.200.101';
 
+    Route::post('/check-username', [RegisteredUserController::class, 'checkUsername'])->name('check.username');
     Route::get('/index', [IndexController::class, 'index'])->name('index');
     Route::resource('/roles', RoleController::class)->middleware(['auth', 'role:admin|superAdmin']);
     Route::post('/update_roles/{id}', [RoleController::class, 'update'])->name('update.roles')->middleware(['auth', 'role:admin|superAdmin']);

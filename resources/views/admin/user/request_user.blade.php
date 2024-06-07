@@ -92,6 +92,8 @@
                             '<div style="margin-bottom: 10px;">' +
                             '<label style="display: inline-block; width: 100px; text-align: right; margin-right: 10px;">Username</label>' +
                             '<input id="username" name="username" class="swal2-input" style="width: 200px;" placeholder="ชื่อผู้ใช้">' +
+                            '<div id="usernameError" style="color: red;"></div>' +
+                            // Error message container
                             '</div>' +
                             '<div>' +
                             '<label style="display: inline-block; width: 100px; text-align: right; margin-right: 10px;">รหัสผ่าน</label>' +
@@ -108,7 +110,11 @@
                         confirmButtonText: 'บันทึก',
                         cancelButtonText: 'ยกเลิก',
                         preConfirm: () => {
-                            document.getElementById('myForm').submit(); // Submit the form
+                            if (!validateUsername()) { // Validate the username
+                                return false; // Prevent form submission if validation fails
+                            }
+                            document.getElementById('myForm')
+                                .submit(); // Submit the form if validation passes
                         }
                     });
 
@@ -117,6 +123,34 @@
                         setGeneratedPassword);
                 }
             });
+        }
+
+        function validateUsername() {
+            var username = document.getElementById('username').value.trim(); // Get the username value
+            var usernameError = document.getElementById('usernameError'); // Get the error message container
+
+            if (username === '') {
+                usernameError.textContent = 'กรุณากรอกชื่อผู้ใช้';
+                return false;
+            } else {
+                $.ajax({
+                    url: '{{ route('admin.check.username') }}',
+                    method: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        value: username
+                    },
+                    success: function(response) {
+                        if (!response.isAvailable) {
+                            usernameError.textContent = 'ชื่อผู้ใช้นี้ ถูกใช้งานแล้ว';
+                            return false;
+                        } else {
+                            usernameError.textContent = '';
+                            return true;
+                        }
+                    }
+                });
+            }
         }
 
         function showPDF(path_file) {

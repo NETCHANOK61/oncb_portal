@@ -75,6 +75,12 @@ class RegisteredUserController extends Controller
         return response()->json(['isAvailable' => $isAvailable]);
     }
 
+    public function checkUsername(Request $request)
+    {
+        $isAvailable = !User::where('username', $request->value)->exists();
+        return response()->json(['isAvailable' => $isAvailable]);
+    }
+
     public function storeRequested(Request $request)
     {
         // $request->validate([
