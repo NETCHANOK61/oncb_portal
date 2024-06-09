@@ -235,7 +235,8 @@ class IndexController extends Controller
                 $user = Auth::user();
                 $system_all = System::where('status', 1)->get();
                 return view('admin.systemForUser', compact('userObject', 'user', 'system_all'));
-            } else {
+            } 
+            else {
                 return back()->with('error', 'ไม่พบบัญชีผู้ใช้งาน');
             }
         }

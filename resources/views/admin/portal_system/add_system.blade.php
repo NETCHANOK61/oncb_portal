@@ -27,6 +27,11 @@
                             <div class="content_wrapper">
                                 {{-- tab 1 --}}
                                 <div class="tab_content">
+                                    @if ($errors->has('duplicate'))
+                                        <div class="alert alert-danger">
+                                            {{ $errors->first('duplicate') }}
+                                        </div>
+                                    @endif
                                     <form id="roleForm" action="{{ route('portal.storeSystem') }}" method="POST">
                                         @csrf
                                         <div class="card-body">
@@ -36,7 +41,8 @@
                                                         <label for="fieldInput">ชื่อระบบเต็ม (ภาษาไทย)</label>
                                                         <input type="text"
                                                             class="form-control @error('fullname') is-invalid @enderror"
-                                                            id="fullname" name="fullname" />
+                                                            id="fullname" name="fullname"
+                                                            value="{{ old('fullname') }}" />
                                                     </div>
                                                     @error('fullname')
                                                         <span class="text-danger">{{ $message }}</span>
@@ -47,7 +53,8 @@
                                                         <label for="fieldSizeInput">ชื่อย่อ (ภาษาอังกฤษ)</label>
                                                         <input type="text"
                                                             class="form-control @error('en_name') is-invalid @enderror"
-                                                            id="en_name" name="en_name" />
+                                                            id="en_name" name="en_name"
+                                                            value="{{ old('en_name') }}" />
                                                     </div>
                                                     @error('en_name')
                                                         <span class="text-danger">{{ $message }}</span>
@@ -58,7 +65,8 @@
                                                         <label for="labelInput">URL</label>
                                                         <input type="text"
                                                             class="form-control @error('url') is-invalid @enderror"
-                                                            id="url" name="url" />
+                                                            id="url" name="url"
+                                                            value="{{ old('url') }}" />
                                                     </div>
                                                     @error('url')
                                                         <span class="text-danger">{{ $message }}</span>
@@ -68,7 +76,8 @@
                                                     <label for="status">สถานะ</label>
                                                     <div class="form-group">
                                                         <label class="switch">
-                                                            <input type="checkbox" checked name="status">
+                                                            <input type="checkbox" name="status"
+                                                                {{ old('status', true) ? 'checked' : '' }}>
                                                             <span class="slider round"></span>
                                                             <span class="status-text on-text">เปิด</span>
                                                             <span class="status-text off-text">ปิด</span>

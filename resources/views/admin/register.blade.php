@@ -463,6 +463,7 @@
                     value: value
                 },
                 success: function(response) {
+                    console.log(response);
                     if (!response.isAvailable) {
                         showAlert(1, "ไม่สามารถดำเนินการได้", errorMessage);
                         $(inputId).addClass('error_box');
@@ -510,7 +511,6 @@
 
         $('#card_id').on('blur', function() {
             if (validateCardId()) {
-                console.log('aa');
                 checkAvailability('#card_id', '{{ route('check.card_id') }}',
                     'เลขประจำตัวประชาชนนี้ มีบัญชีผู้ใช้งานแล้ว');
             }

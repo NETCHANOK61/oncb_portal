@@ -8,6 +8,7 @@ use App\Models\Test;
 use App\Models\User;
 use App\Services\MenuService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Schema;
 
@@ -91,7 +92,7 @@ class PortalSystemController extends Controller
                 $updates[$fieldName] = 0;
             }
         }
-        
+
         // Update the user with the field-value pairs
         $user->update($updates);
 
@@ -102,23 +103,74 @@ class PortalSystemController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+    // public function store(Request $request)
+    // {
+    //     $en_name = $request->en_name;
+    //     //
+    //     System::create([
+    //         'fullname' => $request->fullname,
+    //         'en_name' => $request->en_name,
+    //         'status' => $request->status ? '1' : '0',
+    //         'url' => $request->url,
+    //         'API_KEY' => Str::random(43)
+    //     ]);
+
+    //     Schema::table('users', function ($table) use ($en_name) {
+    //         $table->integer($en_name)->default(0);
+    //     });
+    //     // return $this->allColumn();
+    //     return redirect()->route('portal.allSystem');
+    // }
+
     public function store(Request $request)
     {
-        $en_name = $request->en_name;
-        //
-        System::create([
-            'fullname' => $request->fullname,
-            'en_name' => $request->en_name,
-            'status' => $request->status ? '1' : '0',
-            'url' => $request->url,
-            'API_KEY' => Str::random(43)
-        ]);
+        // Define validation rules
+        $rules = [
+            'fullname' => 'required|string|max:255',
+            'en_name' => 'required|string|max:255',
+            'url' => 'required|url|max:255',
+            'status' => 'boolean',
+        ];
 
-        Schema::table('users', function ($table) use ($en_name) {
-            $table->integer($en_name)->default(0);
-        });
-        // return $this->allColumn();
-        return redirect()->route('portal.allSystem');
+        // Custom error messages
+        $messages = [
+            'fullname.required' => 'กรุณากรอกชื่อระบบเต็ม (ภาษาไทย)',
+            'en_name.required' => 'กรุณากรอกชื่อย่อ (ภาษาอังกฤษ)',
+            'url.required' => 'กรุณากรอก URL',
+            'status.required' => 'กรุณาเลือกสถานะ',
+        ];
+
+        // Validate input
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        // Check for existing record
+        $existingSystem = System::where('fullname', $request->fullname)
+            ->orWhere('en_name', $request->en_name)
+            ->orWhere('url', $request->url)
+            ->first();
+
+        if ($existingSystem) {
+            return redirect()->back()
+                ->withErrors(['duplicate' => 'ระบบนี้มีอยู่แล้วในฐานข้อมูล'])
+                ->withInput();
+        }
+
+        // Create a new system instance and save it to the database
+        $system = new System();
+        $system->fullname = $request->fullname;
+        $system->en_name = $request->en_name;
+        $system->url = $request->url;
+        $system->status = $request->status ? 1 : 0;
+        $system->API_KEY = Str::random(43);
+        $system->save();
+
+        return redirect()->route('portal.allSystem')->with('success', 'System created successfully.');
     }
 
     public function deleteSystem(string $id)
