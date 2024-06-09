@@ -72,7 +72,7 @@
                         <!-- <button class="login100-form-btn" onclick="redirectToMainIndex()">
                             เข้าสู่ระบบด้วย Digital ID
                         </button> -->
-                        <a href="{{ route('register') }}" class="login100-form-btn">ลงทะเบียนขอใช้งาน</a>
+                        <a href="{{ route('register_screen') }}" class="login100-form-btn">ลงทะเบียนขอใช้งาน</a>
                     </div>
                     <div class="text-center p-t-20">
                         <a class="txt1" href="#">
