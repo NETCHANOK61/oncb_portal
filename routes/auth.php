@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
     Route::get('register', [RegisteredPortalUserController::class, 'create'])
-                ->name('register');
+                ->name('register_screen');
 
     Route::post('register', [RegisteredPortalUserController::class, 'store']);
 

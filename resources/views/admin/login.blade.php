@@ -79,7 +79,7 @@
                 <br>
                 <span class="d-block text-center my-4 text-muted">&mdash; หรือ &mdash;</span>
                 <div class="container-login100-form-btn">
-                    <a href="{{ route('register') }}" class="login100-form-btn">ลงทะเบียนขอใช้งาน (ระบบอื่น ๆ)</a>
+                    <a href="{{ route('register_screen') }}" class="login100-form-btn">ลงทะเบียนขอใช้งาน (ระบบอื่น ๆ)</a>
                 </div>
                 <br>
                 <div class="container-login100-form-btn">
