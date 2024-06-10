@@ -25,6 +25,7 @@ class UserRequestPortalcontroller extends Controller
         $user = User::create([
             'name' => $request_user->name,
             'email' => $request_user->email,
+            'userid' => $request_user->userid ?  $request_user->userid : null,
             'phone' => $request_user->phone ? $request_user->phone : null,
             'card_id' => $request_user->card_id,
             'file' => $request_user->file,

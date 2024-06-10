@@ -128,16 +128,14 @@ class PortalSystemController extends Controller
         $rules = [
             'fullname' => 'required|string|max:255',
             'en_name' => 'required|string|max:255',
-            'url' => 'required|url|max:255',
-            'status' => 'boolean',
+            'url' => 'required|url|max:255'
         ];
 
         // Custom error messages
         $messages = [
             'fullname.required' => 'กรุณากรอกชื่อระบบเต็ม (ภาษาไทย)',
             'en_name.required' => 'กรุณากรอกชื่อย่อ (ภาษาอังกฤษ)',
-            'url.required' => 'กรุณากรอก URL',
-            'status.required' => 'กรุณาเลือกสถานะ',
+            'url.required' => 'กรุณากรอก URL'
         ];
 
         // Validate input

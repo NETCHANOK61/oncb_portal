@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\IndexController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\Usercontroller;
+use App\Http\Controllers\Auth\RegisteredPortalUserController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Backend\PropertyTypeController;
 use App\Http\Controllers\PortalSystemController;
@@ -73,10 +74,10 @@ Route::post('/get-school', [RegionController::class, 'getSchool']);
 Route::get('/get-edu_area/{province}', [RegionController::class, 'getEduArea'])->name('getEduArea');
 Route::get('/get-school_with_edu/{province}/{edu}', [RegionController::class, 'getSchoolEdu'])->name('getSchoolEdu');
 
-Route::post('request-user', [RegisteredUserController::class, 'storeRequested'])->name('register.request');
-Route::get('request-submit/{id}', [RegisteredUserController::class, 'requestedSubmit'])->name('register.submit');
-Route::post('/check-email', [RegisteredUserController::class, 'checkEmail'])->name('check.email');
-Route::post('/check-card_id', [RegisteredUserController::class, 'checkCard_id'])->name('check.card_id');
+Route::post('request-user', [RegisteredPortalUserController::class, 'storeRequested'])->name('register.request');
+Route::get('request-submit/{id}', [RegisteredPortalUserController::class, 'requestedSubmit'])->name('register.submit');
+Route::post('/check-email', [RegisteredPortalUserController::class, 'checkEmail'])->name('check.email');
+Route::post('/check-card_id', [RegisteredPortalUserController::class, 'checkCard_id'])->name('check.card_id');
 
 Route::middleware('auth')->group(function () {
     Route::get('/logout', [IndexController::class, 'logout'])->name('auth.logout');
