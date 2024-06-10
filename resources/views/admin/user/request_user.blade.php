@@ -68,8 +68,64 @@
         <!-- ROW-1 CLOSED -->
     </div>
     <script>
+        // function approved(id) {
+        //     var data_id = id;
+        //     Swal.fire({
+        //         title: 'ต้องการอนุมัติ?',
+        //         text: "คุณต้องการอนุมัติคำขอนี้",
+        //         icon: 'warning',
+        //         showCancelButton: true,
+        //         confirmButtonColor: '#3085d6',
+        //         cancelButtonColor: '#d33',
+        //         confirmButtonText: 'อนุมัติ',
+        //         cancelButtonText: 'ยกเลิก'
+        //     }).then((result) => {
+        //         if (result.isConfirmed) {
+        //             var formAction = "{{ route('admin.users_request.approve', ':user') }}";
+        //             formAction = formAction.replace(':user', data_id);
+
+        //             Swal.fire({
+        //                 title: 'กรุณาใส่ชื่อผู้ใช้และรหัสผ่าน',
+        //                 html: '<form id="myForm" action="' + formAction + '" method="POST">' +
+        //                     '<input type="hidden" name="_token" value="{{ csrf_token() }}">' +
+        //                     '<div style="text-align: center;">' +
+        //                     '<div style="margin-bottom: 10px;">' +
+        //                     '<label style="display: inline-block; width: 100px; text-align: right; margin-right: 10px;">Username</label>' +
+        //                     '<input id="username" name="username" class="swal2-input" style="width: 200px;" placeholder="ชื่อผู้ใช้">' +
+        //                     '<div id="usernameError" style="color: red;"></div>' +
+        //                     // Error message container
+        //                     '</div>' +
+        //                     '<div>' +
+        //                     '<label style="display: inline-block; width: 100px; text-align: right; margin-right: 10px;">รหัสผ่าน</label>' +
+        //                     '<input type="text" id="password" name="password" class="swal2-input" style="width: 200px;" placeholder="รหัสผ่าน">' +
+        //                     '</div>' +
+        //                     '</div><br>' +
+        //                     '<div style="padding-left: 50%">' +
+        //                     '<div id="generatePasswordButton"><img src="{{ asset('assets/images/password.png') }}" width="50"></div>' +
+        //                     '</div>' +
+        //                     '</form>',
+        //                 showCancelButton: true,
+        //                 confirmButtonColor: '#3085d6',
+        //                 cancelButtonColor: '#d33',
+        //                 confirmButtonText: 'บันทึก',
+        //                 cancelButtonText: 'ยกเลิก',
+        //                 preConfirm: () => {
+        //                     if (!validateUsername()) { // Validate the username
+        //                         return false; // Prevent form submission if validation fails
+        //                     }
+        //                     document.getElementById('myForm')
+        //                         .submit(); // Submit the form if validation passes
+        //                 }
+        //             });
+
+        //             // Attach event listener to the button after it's created
+        //             document.getElementById("generatePasswordButton").addEventListener("click",
+        //                 setGeneratedPassword);
+        //         }
+        //     });
+        // }
+
         function approved(id) {
-            var data_id = id;
             Swal.fire({
                 title: 'ต้องการอนุมัติ?',
                 text: "คุณต้องการอนุมัติคำขอนี้",
@@ -82,75 +138,25 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     var formAction = "{{ route('admin.users_request.approve', ':user') }}";
-                    formAction = formAction.replace(':user', data_id);
+                    formAction = formAction.replace(':user', id);
 
-                    Swal.fire({
-                        title: 'กรุณาใส่ชื่อผู้ใช้และรหัสผ่าน',
-                        html: '<form id="myForm" action="' + formAction + '" method="POST">' +
-                            '<input type="hidden" name="_token" value="{{ csrf_token() }}">' +
-                            '<div style="text-align: center;">' +
-                            '<div style="margin-bottom: 10px;">' +
-                            '<label style="display: inline-block; width: 100px; text-align: right; margin-right: 10px;">Username</label>' +
-                            '<input id="username" name="username" class="swal2-input" style="width: 200px;" placeholder="ชื่อผู้ใช้">' +
-                            '<div id="usernameError" style="color: red;"></div>' +
-                            // Error message container
-                            '</div>' +
-                            '<div>' +
-                            '<label style="display: inline-block; width: 100px; text-align: right; margin-right: 10px;">รหัสผ่าน</label>' +
-                            '<input type="text" id="password" name="password" class="swal2-input" style="width: 200px;" placeholder="รหัสผ่าน">' +
-                            '</div>' +
-                            '</div><br>' +
-                            '<div style="padding-left: 50%">' +
-                            '<div id="generatePasswordButton"><img src="{{ asset('assets/images/password.png') }}" width="50"></div>' +
-                            '</div>' +
-                            '</form>',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'บันทึก',
-                        cancelButtonText: 'ยกเลิก',
-                        preConfirm: () => {
-                            if (!validateUsername()) { // Validate the username
-                                return false; // Prevent form submission if validation fails
-                            }
-                            document.getElementById('myForm')
-                                .submit(); // Submit the form if validation passes
-                        }
-                    });
+                    // Create a form element
+                    var form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = formAction;
 
-                    // Attach event listener to the button after it's created
-                    document.getElementById("generatePasswordButton").addEventListener("click",
-                        setGeneratedPassword);
+                    // Add CSRF token input
+                    var csrfTokenInput = document.createElement('input');
+                    csrfTokenInput.type = 'hidden';
+                    csrfTokenInput.name = '_token';
+                    csrfTokenInput.value = '{{ csrf_token() }}';
+                    form.appendChild(csrfTokenInput);
+
+                    // Append the form to the body and submit
+                    document.body.appendChild(form);
+                    form.submit();
                 }
             });
-        }
-
-        function validateUsername() {
-            var username = document.getElementById('username').value.trim(); // Get the username value
-            var usernameError = document.getElementById('usernameError'); // Get the error message container
-
-            if (username === '') {
-                usernameError.textContent = 'กรุณากรอกชื่อผู้ใช้';
-                return false;
-            } else {
-                $.ajax({
-                    url: '{{ route('admin.check.username') }}',
-                    method: 'POST',
-                    data: {
-                        _token: '{{ csrf_token() }}',
-                        value: username
-                    },
-                    success: function(response) {
-                        if (!response.isAvailable) {
-                            usernameError.textContent = 'ชื่อผู้ใช้นี้ ถูกใช้งานแล้ว';
-                            return false;
-                        } else {
-                            usernameError.textContent = '';
-                            return true;
-                        }
-                    }
-                });
-            }
         }
 
         function showPDF(path_file) {
