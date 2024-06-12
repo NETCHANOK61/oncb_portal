@@ -18,7 +18,16 @@ class UserRequestPortalcontroller extends Controller
         return view('admin.portal_user.request_user', compact('menuItems', 'request_user'));
     }
 
-    public function approve(Request $request, $id)
+    // rejectList
+    public function rejectList()
+    {
+        //
+        $menuItems = MenuService::getMenuItems();
+        $request_user = RequestedUser::where('approved', '2')->get();
+        return view('admin.portal_user.reject_user', compact('menuItems', 'request_user'));
+    }
+
+    public function approve($id, Request $request)
     {
         $request_user = RequestedUser::find($id);
 
@@ -55,5 +64,16 @@ class UserRequestPortalcontroller extends Controller
 
         // Redirect back or return a response
         // return redirect()->back()->with('success', 'User request approved successfully.');
+    }
+
+    public function reject($id, Request $request)
+    {
+        $request_user = RequestedUser::find($id);
+
+        $request_user->update([
+            'approved' => '2'
+        ]);
+
+        return redirect()->route('portal.rejectUserList');
     }
 }

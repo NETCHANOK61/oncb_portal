@@ -50,8 +50,9 @@
                                                     onclick="approved({{ $item->id }}, '{{ $item->userid }}', '{{ $item->password }}')">
                                                     <i class="fa fa-pencil"></i> อนุมัติผู้ใช้งาน
                                                 </button>
-                                                <button class="btn btn-danger">
-                                                    ปฎิเสธคำขอ
+                                                <button class="btn btn-danger"
+                                                    onclick="rejected({{ $item->id }}, '{{ $item->userid }}', '{{ $item->password }}')">
+                                                    <i class="fa fa-pencil"></i> ปฏิเสธผู้ใช้งาน
                                                 </button>
                                             </td>
                                         </tr>
@@ -126,6 +127,40 @@
         //         }
         //     });
         // }
+
+        function rejected(id) {
+            Swal.fire({
+                title: 'ต้องการปฏิเสธ?',
+                text: "คุณต้องการปฏิเสธคำขอนี้",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'ปฏิเสธ',
+                cancelButtonText: 'ยกเลิก'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    var formAction = "{{ route('portal.rejectUserPortal', ':user') }}";
+                    formAction = formAction.replace(':user', id);
+
+                    // Create a form element
+                    var form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = formAction;
+
+                    // Add CSRF token input
+                    var csrfTokenInput = document.createElement('input');
+                    csrfTokenInput.type = 'hidden';
+                    csrfTokenInput.name = '_token';
+                    csrfTokenInput.value = '{{ csrf_token() }}';
+                    form.appendChild(csrfTokenInput);
+
+                    // Append the form to the body and submit
+                    document.body.appendChild(form);
+                    form.submit();
+                }
+            });
+        }
 
         function approved(id) {
             Swal.fire({

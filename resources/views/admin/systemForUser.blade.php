@@ -33,6 +33,9 @@
                     web portal
                     สวัสดีคุณ {{ $user->name }} {{ $user->surname }}
                 </span>
+                <a class="login100-form-title p-b-20 p-t-20" href="{{ route('auth.logout') }}" >
+                    <i class="fa fa-sign-out logout-icon" aria-hidden="true"></i> ออกจากระบบ
+                </a>
                 <hr style="background-color: #fff">
                 <h5 style="color: #fff">กรุณาเลือกระบบที่คุณต้องการใช้งาน</h5>
                 <br>

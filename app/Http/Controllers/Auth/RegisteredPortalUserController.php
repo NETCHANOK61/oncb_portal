@@ -76,6 +76,12 @@ class RegisteredPortalUserController extends Controller
         return response()->json(['isAvailable' => $isAvailable]);
     }
 
+    public function checkUser_id(Request $request)
+    {
+        $isAvailable = !User::where('userid', $request->value)->exists();
+        return response()->json(['isAvailable' => $isAvailable]);
+    }
+
     public function storeRequested(Request $request)
     {
         // Handle file upload

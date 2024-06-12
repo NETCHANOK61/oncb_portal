@@ -8,8 +8,10 @@ use App\Models\Test;
 use App\Models\User;
 use App\Services\MenuService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema as FacadesSchema;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Nette\Schema\Schema as SchemaSchema;
 use Schema;
 
 class PortalSystemController extends Controller
@@ -168,6 +170,11 @@ class PortalSystemController extends Controller
         $system->API_KEY = Str::random(43);
         $system->save();
 
+        // Add a new column to the users table
+        Schema::table('users', function ($table) use ($system) {
+            $table->integer($system->en_name)->default(0);
+        });
+
         return redirect()->route('portal.allSystem')->with('success', 'System created successfully.');
     }
 
@@ -191,6 +198,65 @@ class PortalSystemController extends Controller
 
         // return $this->allColumn();
         return redirect()->route('portal.allSystem');
+    }
+
+    public function editSystem(string $id)
+    {
+        $system = System::findOrFail($id);
+        $menu = Menu::all();
+        $menuItems = MenuService::getMenuItems();
+
+        return view('admin.portal_system.edit_system', compact('menu', 'menuItems', 'system'));
+    }
+
+    public function updateSystem(Request $request, $id)
+    {
+        $form = System::findOrFail($id);
+
+        // Define validation rules
+        $rules = [
+            'fullname' => 'required|string|max:255',
+            'en_name' => 'required|string|max:255',
+            'url' => 'required|url|max:255'
+        ];
+
+        // Custom error messages
+        $messages = [
+            'fullname.required' => 'กรุณากรอกชื่อระบบเต็ม (ภาษาไทย)',
+            'en_name.required' => 'กรุณากรอกชื่อย่อ (ภาษาอังกฤษ)',
+            'url.required' => 'กรุณากรอก URL'
+        ];
+
+        // Validate input
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        // Check for existing record
+        $existingSystem = System::where(function ($query) use ($request) {
+            $query->where('fullname', $request->fullname)
+                ->orWhere('en_name', $request->en_name)
+                ->orWhere('url', $request->url);
+        })->where('id', '<>', $id)->first();
+
+        if ($existingSystem) {
+            return redirect()->back()
+                ->withErrors(['duplicate' => 'ระบบนี้มีอยู่แล้วในฐานข้อมูล'])
+                ->withInput();
+        }
+
+        // Update the existing system
+        $form->fullname = $request->fullname;
+        $form->en_name = $request->en_name;
+        $form->url = $request->url;
+        $form->status = $request->status ? 1 : 0;
+        $form->save();
+
+        return redirect()->route('portal.allSystem')->with('success', 'System updated successfully.');
     }
 
     /**

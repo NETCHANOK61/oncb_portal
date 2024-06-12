@@ -116,8 +116,9 @@
                 </div>
             </div>
             <div class="col-md-9">
+                {{--  --}}
                 <form action="{{ route('register.request') }}" method="POST" id="registrationForm"
-                    enctype="multipart/form-data" onsubmit="return validateForm()">
+                    enctype="multipart/form-data">
                     @csrf
                     <div id="step1Content" class="step-content active">
                         <!-- Content for step 1 -->
@@ -246,7 +247,7 @@
                                     <div class="col-6">
                                         <label class="" for="username_ad_input">แผนก</label>
                                         <select name="account" class="form-control" id="dept" name="dept">
-                                            <option value="">-เลือกแผนก/ หน่วย</option>
+                                            <option value="" selected>-เลือกแผนก/ หน่วย</option>
                                             @foreach ($agencies as $key => $item)
                                                 <option value="{{ $item->div_code }}">
                                                     {{ $item->dept_name }}</option>
@@ -282,11 +283,12 @@
                             </div>
                             <div id="org_ampher_Container" class="">
                                 <label for="ampherSelect">อำเภอ</label>
-                                <select name="account" class="form-control" id="ampherSelect" name="ampherSelect">
-                                    @foreach ($ampher as $key => $item)
+                                <select name="ampherSelect" class="form-control" id="ampherSelect"
+                                    name="ampherSelect">
+                                    {{-- @foreach ($ampher as $key => $item)
                                         <option value="{{ $item->AMP_ID }}">
                                             {{ $item->AMP_NAME }}</option>
-                                    @endforeach
+                                    @endforeach --}}
                                 </select>
                                 <div id="ampherSelect-error-message" class="error-message" style="display: none;">
                                 </div>
@@ -314,8 +316,11 @@
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label for="file_upload" class="form-label">ไฟล์แนบ</label>
-                            <input type="file" class="form-control" id="file_upload" name="file_upload" required>
+                            <label for="file_upload" class="form-label">ไฟล์แนบ (.pdf, .doc, รูปภาพ)</label>
+                            <input type="file" class="form-control" id="file_upload" name="file_upload"
+                                accept=".pdf,.doc,.docx,image/*" required>
+                            <div id="file_upload-error-message" class="error-message" style="display: none;">
+                            </div>
                         </div>
                         <button type="button" class="btn btn-secondary" onclick="prevStep(2)">ย้อนกลับ</button>
                         <button type="submit" class="btn btn-primary">ส่งคำขอ</button>
@@ -364,29 +369,100 @@
 
             // Display the register button
             registerBtn.style.display = 'block';
+
+            var provinceSelect = document.getElementById('provinceSelect');
+            var ampherSelect = document.getElementById('ampherSelect');
+            var provinceSelect_edu = document.getElementById('provinceSelect_edu');
+            var edu_area = document.getElementById('edu_area');
+            var school_list = document.getElementById('school_list');
         }
 
-        // Function to set or remove the required attribute from all input elements within a container
-        // function setRequired(container, isRequired) {
-        //     const inputs = container.getElementsByTagName('input');
-        //     const selects = container.getElementsByTagName('select');
+        document.getElementById('regionSelect').addEventListener('change', function() {
+            var regionId = $(this).val();
+            $.ajax({
+                url: '/get-provinces/' + regionId,
+                method: 'GET',
+                data: {
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(data) {
+                    $('#provinceSelect').empty();
+                    $('#ampherSelect').empty();
+                    $.each(data, function(key, value) {
+                        $('#provinceSelect').append('<option value="' + value
+                            .PROV_ID + '">' + value.PROV_NAME + '</option>');
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.log(error);
+                }
+            });
+        });
 
-        //     for (const input of inputs) {
-        //         if (isRequired) {
-        //             input.setAttribute('required', 'required');
-        //         } else {
-        //             input.removeAttribute('required');
-        //         }
-        //     }
+        document.getElementById('provinceSelect_edu').addEventListener('change', function() {
+            var provinceId_edu = $(this).val();
+            $.ajax({
+                url: '/get-edu_area/' + provinceId_edu,
+                method: 'GET',
+                data: {
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(data) {
+                    $('#edu_area').empty();
+                    $('#school_list').empty();
+                    $.each(data, function(key, value) {
+                        $('#edu_area').append('<option value="' + value
+                            .edu_area_id + '">' + value.edu_area_name + '</option>');
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.log(error);
+                }
+            });
+        });
 
-        //     for (const select of selects) {
-        //         if (isRequired) {
-        //             select.setAttribute('required', 'required');
-        //         } else {
-        //             select.removeAttribute('required');
-        //         }
-        //     }
-        // }
+        document.getElementById('edu_area').addEventListener('change', function() {
+            var edu_area = $(this).val();
+            $.ajax({
+                url: '/get-school_with_edu/' + provinceSelect_edu.value + '/' + edu_area,
+                method: 'GET',
+                data: {
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(data) {
+                    $('#school_list').empty();
+                    $.each(data, function(key, value) {
+                        $('#school_list').append('<option value="' + value
+                            .Dep_id + '">' + value.Thai_Name + '</option>');
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.log(error);
+                }
+            });
+        });
+
+        document.getElementById('provinceSelect').addEventListener('change', function() {
+            var province_id = $(this).val();
+            $.ajax({
+                url: '/get-amphurs/' + province_id,
+                method: 'GET',
+                data: {
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(data) {
+                    $('#ampherSelect').empty();
+                    $('#ampherSelect').append('<option value="">-เลือกอำเภอ-</option>');
+                    $.each(data, function(key, value) {
+                        $('#ampherSelect').append('<option value="' + value
+                            .AMP_ID + '">' + value.AMP_NAME + '</option>');
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.log(error);
+                }
+            });
+        });
 
         function validateCardId() {
             var card_id = $('#card_id').val();
@@ -573,80 +649,162 @@
             document.getElementById(`step${step}Content`).classList.add('active');
         }
 
-        function validateForm() {
+        async function checkUsername(usernameAd) {
+            return new Promise((resolve, reject) => {
+                $.ajax({
+                    url: '/check-user_id',
+                    method: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        value: usernameAd.trim()
+                    },
+                    success: function(response) {
+                        if (!response.isAvailable) {
+                            showAlert(1, "ไม่สามารถดำเนินการได้",
+                                "username นี้ มีบัญชีผู้ใช้งานแล้ว");
+                            $('#username_ad').addClass('error_box');
+                            $('#username_ad-error-message').text(
+                                "username นี้ มีบัญชีผู้ใช้งานแล้ว").show();
+                            resolve(false);
+                        } else {
+                            $('#username_ad').removeClass('error_box');
+                            $('#username_ad-error-message').hide();
+                            resolve(true);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.log(error);
+                        resolve(false);
+                    }
+                });
+            });
+        }
+
+        function validateFileType() {
+            const fileInput = document.getElementById('file_upload');
+            const filePath = fileInput.value;
+            const allowedExtensions = /(\.pdf|\.doc|\.docx|\.jpg|\.jpeg|\.png|\.gif)$/i;
+
+            if (!allowedExtensions.exec(filePath)) {
+                showAlert(1, "ไม่สามารถดำเนินการได้", "กรุณาอัปโหลดไฟล์ที่เป็น PDF, DOC, DOCX, หรือ รูปภาพ");
+                $('#file_upload').addClass('error_box');
+                $('#file_upload-error-message').text("กรุณาอัปโหลดไฟล์").show();
+                fileInput.value = '';
+                return false;
+            }
+            return true;
+        }
+
+
+        async function validateForm(event) {
+            event.preventDefault(); // Prevent form submission
+
             var role = document.querySelector('input[name="role"]:checked').value;
+            var valid = true;
 
             if (role === 'org_center') {
                 var usernameAd = document.getElementById('username_ad').value;
                 var department = document.getElementById('dept').value;
 
-                // Validate username AD and department fields
                 if (usernameAd.trim() === '') {
                     $('#username_ad').addClass('error_box');
                     $('#username_ad-error-message').text("กรุณากรอก username ของคุณ").show();
-                    return false;
+                    valid = false;
+                } else {
+                    var usernameValid = await checkUsername(usernameAd);
+                    if (!usernameValid) valid = false;
                 }
+
                 if (department.trim() === '') {
                     $('#dept').addClass('error_box');
-                    $('#dept-error-message').text("กรุณากรอก แผนก ของคุณ").show();
-                    return false;
+                    $('#dept-error-message').text("กรุณาเลือก แผนก ของคุณ").show();
+                    valid = false;
+                } else {
+                    $('#dept').removeClass('error_box');
+                    $('#dept-error-message').hide();
                 }
             } else if (role === 'org_region') {
                 var regionSelect = document.getElementById('regionSelect').value;
 
                 if (regionSelect === '') {
                     $('#regionSelect').addClass('error_box');
-                    $('#regionSelect-error-message').text("กรุณากรอก ภาค ของคุณ").show();
-                    return false;
+                    $('#regionSelect-error-message').text("กรุณาเลือก ภาค ของคุณ").show();
+                    valid = false;
+                } else {
+                    $('#regionSelect').removeClass('error_box');
+                    $('#regionSelect-error-message').hide();
                 }
             } else if (role === 'org_province') {
                 var provinceSelect = document.getElementById('provinceSelect').value;
 
-                if (provinceSelect === '') {
+                if (provinceSelect === '00') {
                     $('#provinceSelect').addClass('error_box');
-                    $('#provinceSelect-error-message').text("กรุณากรอก จังหวัด ของคุณ").show();
-                    return false;
+                    $('#provinceSelect-error-message').text("กรุณาเลือก จังหวัด ของคุณ").show();
+                    valid = false;
+                } else {
+                    $('#provinceSelect').removeClass('error_box');
+                    $('#provinceSelect-error-message').hide();
                 }
             } else if (role === 'org_ampher') {
                 var ampherSelect = document.getElementById('ampherSelect').value;
                 var provinceSelect = document.getElementById('provinceSelect').value;
-                if (provinceSelect === '') {
+
+                if (provinceSelect === '00') {
                     $('#provinceSelect').addClass('error_box');
-                    $('#provinceSelect-error-message').text("กรุณากรอก จังหวัด ของคุณ").show();
-                    return false;
+                    $('#provinceSelect-error-message').text("กรุณาเลือก จังหวัด ของคุณ").show();
+                    valid = false;
+                } else {
+                    $('#provinceSelect').removeClass('error_box');
+                    $('#provinceSelect-error-message').hide();
                 }
 
-                if (ampherSelect === '') {
+                if (ampherSelect === '00') {
                     $('#ampherSelect').addClass('error_box');
-                    $('#ampherSelect-error-message').text("กรุณากรอก อำเภอ ของคุณ").show();
-                    return false;
+                    $('#ampherSelect-error-message').text("กรุณาเลือก อำเภอ ของคุณ").show();
+                    valid = false;
+                } else {
+                    $('#ampherSelect').removeClass('error_box');
+                    $('#ampherSelect-error-message').hide();
                 }
             } else if (role === 'school') {
                 var provinceSelectEdu = document.getElementById('provinceSelect_edu').value;
                 var eduArea = document.getElementById('edu_area').value;
                 var schoolList = document.getElementById('school_list').value;
 
-                if (provinceSelectEdu === '') {
+                if (provinceSelectEdu === '00') {
                     $('#provinceSelect_edu').addClass('error_box');
-                    $('#provinceSelect_edu-error-message').text("กรุณากรอก อำเภอ ของคุณ").show();
-                    return false;
+                    $('#provinceSelect_edu-error-message').text("กรุณาเลือก จังหวัด ของคุณ").show();
+                    valid = false;
+                } else {
+                    $('#provinceSelect_edu').removeClass('error_box');
+                    $('#provinceSelect_edu-error-message').hide();
                 }
-                if (eduArea === '') {
+                if (eduArea.trim() === '') {
                     $('#edu_area').addClass('error_box');
-                    $('#edu_area-error-message').text("กรุณากรอก อำเภอ ของคุณ").show();
-                    return false;
+                    $('#edu_area-error-message').text("กรุณาเลือก เขตพื้นที่การศึกษา ของคุณ").show();
+                    valid = false;
+                } else {
+                    $('#edu_area').removeClass('error_box');
+                    $('#edu_area-error-message').hide();
                 }
-                if (schoolList === '') {
+                if (schoolList.trim() === '') {
                     $('#school_list').addClass('error_box');
-                    $('#school_list-error-message').text("กรุณากรอก อำเภอ ของคุณ").show();
-                    return false;
+                    $('#school_list-error-message').text("กรุณาเลือก โรงเรียน ของคุณ").show();
+                    valid = false;
+                } else {
+                    $('#school_list').removeClass('error_box');
+                    $('#school_list-error-message').hide();
                 }
             }
 
-            // Add more validation logic for other roles if needed
-
-            return true; // If all validations pass
+            if (validateFileType() && valid) {
+                document.getElementById('registrationForm').submit();
+            }
         }
+
+        document.getElementById('registrationForm').addEventListener('submit', validateForm);
+    </script>
+
     </script>
 </body>
 

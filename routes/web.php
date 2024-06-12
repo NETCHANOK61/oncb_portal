@@ -78,6 +78,7 @@ Route::post('request-user', [RegisteredPortalUserController::class, 'storeReques
 Route::get('request-submit/{id}', [RegisteredPortalUserController::class, 'requestedSubmit'])->name('register.submit');
 Route::post('/check-email', [RegisteredPortalUserController::class, 'checkEmail'])->name('check.email');
 Route::post('/check-card_id', [RegisteredPortalUserController::class, 'checkCard_id'])->name('check.card_id');
+Route::post('/check-user_id', [RegisteredPortalUserController::class, 'checkUser_id'])->name('check.user_id');
 
 Route::middleware('auth')->group(function () {
     Route::get('/logout', [IndexController::class, 'logout'])->name('auth.logout');
@@ -92,6 +93,8 @@ Route::middleware(['auth'])->name('portal.')->prefix('portal')->group(function (
     Route::post('/store_system', [PortalSystemController::class, 'store'])->name('storeSystem');
     Route::get('/delete_system/{id}', [PortalSystemController::class, 'deleteSystem'])->name('deleteSystem');
     Route::get('/return_system/{id}', [PortalSystemController::class, 'returnSystem'])->name('returnSystem');
+    Route::get('/edit_system/{id}', [PortalSystemController::class, 'editSystem'])->name('editSystem');
+    Route::get('/update_system/{id}', [PortalSystemController::class, 'updateSystem'])->name('updateSystem');
 
     Route::get('/all_user', [PortalSystemController::class, 'allUser'])->name('allUser');
     Route::get('/edit_user/{id}', [PortalSystemController::class, 'editUser'])->name('editUser');
@@ -99,6 +102,8 @@ Route::middleware(['auth'])->name('portal.')->prefix('portal')->group(function (
 
     Route::get('/request_user_portal', [UserRequestPortalcontroller::class, 'index'])->name('requestUserPortal');
     Route::post('/approve_user_portal/{id}', [UserRequestPortalcontroller::class, 'approve'])->name('approveUserPortal');
+    Route::get('/reject_user_list', [UserRequestPortalcontroller::class, 'rejectList'])->name('rejectUserList');
+    Route::post('/reject_user_portal/{id}', [UserRequestPortalcontroller::class, 'reject'])->name('rejectUserPortal');
 
     // Route::get('/add_system', [PortalSystemController::class, 'addSystem'])->name('addSystem')->middleware(['auth', 'role:admin|superAdmin']);
     // Route::post('/store_system', [PortalSystemController::class, 'store'])->name('storeSystem')->middleware(['auth', 'role:admin|superAdmin']);

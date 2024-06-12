@@ -52,9 +52,9 @@
                                             <td>{{ $item->url == null ? '-' : $item->url }}</td>
                                             <td>{{ $item->API_KEY == null ? '-' : $item->API_KEY }}</td>
                                             <td>
-                                                {{-- <a href="{{ route('admin.edit.column', $item->id) }}"
+                                                <a href="{{ route('portal.editSystem', $item->id) }}"
                                                     class="btn btn-warning"><i class="fa fa-pencil"></i>
-                                                    แก้ไข</a> --}}
+                                                    แก้ไข</a>
                                                 @if ($item->status == 0)
                                                 <a href="{{ route('portal.returnSystem', $item->id) }}"
                                                     class="btn btn-light"><i class="fa fa-undo"></i>
