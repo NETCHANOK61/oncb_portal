@@ -42,7 +42,7 @@ class IndexController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect('https://portal.oncb.go.th/');
     }
 
     public function login()

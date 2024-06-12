@@ -68,17 +68,17 @@
                             <span class="text-center user-semi-title ">{{ Auth::user()->roles[0]->name }}</span>
                         </div>
                         <!-- <div class="dropdown-divider"></div> -->
-                        {{-- <a class="dropdown-item" href="{{ route('logout') }}">
+                        <a class="dropdown-item" href="{{ route('auth.logout') }}">
                             <i class="dropdown-icon mdi  mdi-logout-variant"></i> ออกจากระบบ
-                        </a> --}}
-                        <form method="POST" action="{{ route('auth.logout') }}">
+                        </a>
+                        {{-- <form method="POST" action="{{ route('auth.logout') }}">
                             @csrf
                             <a class="dropdown-item" href="{{ route('auth.logout') }}"
                                 onclick="event.preventDefault();
                             this.closest('form').submit();">
                                 <i class="dropdown-icon mdi  mdi-logout-variant"></i> ออกจากระบบ
                             </a>
-                        </form>
+                        </form> --}}
                     </div>
                 </div><!-- PROFILE -->
                 <!-- SIDE-MENU -->
