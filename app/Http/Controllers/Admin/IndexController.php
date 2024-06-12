@@ -146,7 +146,8 @@ class IndexController extends Controller
             return back()->with('error', 'ข้อมูลไม่ครบถ้วน กรุณากรอกชื่อผู้ใช้และรหัสผ่าน');
         }
         $msg = $this->ONCBPack($username, $password, $key, $token);
-        $url = "https://nccdor.nccd.go.th/warroom/api/wsloginns/" . $msg;
+        // $url = "https://nccdor.nccd.go.th/warroom/api/wsloginns/" . $msg;
+        $url = "https://nccdor.nccd.go.th/warroom/api/wslogin/" . $msg;
         $client = curl_init($url);
         //echo $client;
         curl_setopt($client, CURLOPT_RETURNTRANSFER, true);
@@ -155,6 +156,9 @@ class IndexController extends Controller
         curl_setopt($client, CURLOPT_TIMEOUT, 30);
 
         $response = curl_exec($client);
+
+        $result = json_decode($response, true);
+        // dd($result);
         //echo $response;
         if ($error_number = curl_errno($client)) {
             if (in_array($error_number, array(CURLE_OPERATION_TIMEDOUT, CURLE_OPERATION_TIMEOUTED))) {
@@ -171,21 +175,26 @@ class IndexController extends Controller
                     $userprofile['login'] = true;
                     $userprofile['userid'] = $user[0]['userid'];
                     $userprofile['enname'] = $user[1]['ENname'];
-                    $userprofile['thname'] = $user[2]['THname'];
                     $userprofile['mail'] = $user[3]['mail'];
-                    $userprofile['depart_id'] = $user[4]['depart_id'];
-                    $userprofile['department'] = $user[5]['department'];
-                    $userprofile['logintime'] = $user[6]['logintime'];
-                    //$userprofile['role'] = $user[7]['role']['rolebsp'];
-                    $userprofile['rolebsp'] = $user[7]['role']['rolebsp'];
-                    $userprofile['role_name'] = 'สิทธิ์ ' . $user[5]['department'];
                     $userprofile['employeeid'] = $user[8]['employeeid'];
                     $userprofile['employeenumber'] = $user[9]['employeenumber'];
                     $userprofile['division'] = $user[10]['division'];
+                    
+                    // $userprofile['thname'] = $user[2]['THname'];
+                    $userprofile['thname'] = $user[2][1];
 
-                    if ($userprofile['rolebsp'] == '') {
-                        $userprofile['login'] = false;
-                    }
+                    // $userprofile['depart_id'] = $user[4]['depart_id'];
+
+                    // $userprofile['department'] = $user[5]['department'];
+                    // $userprofile['department'] = $user[4]['department'];
+                    // $userprofile['logintime'] = $user[6]['logintime'];
+                    // $userprofile['role'] = $user[7]['role']['role'];
+                    // $userprofile['rolebsp'] = $user[7]['role']['rolebsp'];
+                    // $userprofile['role_name'] = 'สิทธิ์ ' . $user[5]['department'];
+
+                    // if ($userprofile['rolebsp'] == '') {
+                    //     $userprofile['login'] = false;
+                    // }
                 } else {
                     $userprofile['login'] = false;
                 }
@@ -215,7 +224,6 @@ class IndexController extends Controller
         // }
 
         $userapi = $this->callApi($req);
-        // dd($userapi);
         $userObject = $userapi;
 
         if (!is_null($userapi) || isset($userapi['login'])) {
