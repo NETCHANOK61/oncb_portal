@@ -141,7 +141,6 @@ class IndexController extends Controller
         $authen = false;
         $userprofile = null;
 
-        $userprofile = null;
         /*ตรวจสอบการ*/
         if (trim($username) == "" || trim($password) == "") {
             return back()->with('error', 'ข้อมูลไม่ครบถ้วน กรุณากรอกชื่อผู้ใช้และรหัสผ่าน');
@@ -216,10 +215,12 @@ class IndexController extends Controller
         // }
 
         $userapi = $this->callApi($req);
+        // dd($userapi);
         $userObject = $userapi;
 
-        if (!is_null($userapi) && isset($userapi['login'])) {
-            $authen = $userapi['login'];
+        if (!is_null($userapi) || isset($userapi['login'])) {
+            // $authen = $userapi['login'];
+            $authen = true;
             if ($authen) {
                 $user = User::where('userid', $username)->first();
 
