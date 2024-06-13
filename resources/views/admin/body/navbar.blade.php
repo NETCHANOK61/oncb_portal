@@ -30,6 +30,7 @@
                         <a href="{{ route('portal.allUser') }}" class="slide-item">ผู้ใช้งานทั้งหมด</a>
                         <a href="{{ route('portal.requestUserPortal') }}" class="slide-item">ผู้ใช้งานที่ลงทะเบียน</a>
                         <a href="{{ route('portal.rejectUserList') }}" class="slide-item">ผู้ใช้งานที่ถูกยกเลิกคำขอ</a>
+                        <a href="{{ route('portal.requestNewSystemList') }}" class="slide-item">ผู้ใช้งานที่ร้องขอเพิ่มระบบ</a>
                     </div>
                     <div role="sec_tab" aria-controls="sec_tab2">
                         <div class="row">

@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use DB;
+use Illuminate\Support\Facades\DB as FacadesDB;
 
 class User extends Authenticatable
 {
@@ -57,16 +58,22 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function managedSystems()
+    {
+        return $this->belongsToMany(System::class, 'portal_system_admin', 'user_id', 'system_id')->withTimestamps();
+    }
+
     public static function getPermissionGroups()
     {
-        $permission_groups = DB::table('permissions')->select('group_name')->groupBy('group_name')->get();
+        $permission_groups = FacadesDB::table('permissions')->select('group_name')->groupBy('group_name')->get();
 
         return $permission_groups;
     } // end method
 
     public static function getPermissionByGroupName($group_name)
     {
-        $permissions = DB::table('permissions')->select('name', 'id')->where('group_name', $group_name)->get();
+        $permissions = FacadesDB::table('permissions')->select('name', 'id')->where('group_name', $group_name)->get();
 
         return $permissions;
     } // end method
@@ -84,9 +91,4 @@ class User extends Authenticatable
         }
         return $hasPermission;
     } // end method
-
-    public function managedSystems()
-    {
-        return $this->belongsToMany(System::class, 'system_administrators', 'user_id', 'system_id')->withTimestamps();
-    }
 }

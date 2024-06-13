@@ -12,6 +12,7 @@ use App\Http\Controllers\SchoolController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegionController;
+use App\Http\Controllers\UserRequestNewSysController;
 use App\Http\Controllers\UserRequestPortalcontroller;
 use App\Models\Province;
 use App\Services\MenuService;
@@ -106,6 +107,9 @@ Route::middleware(['auth'])->name('portal.')->prefix('portal')->group(function (
     Route::post('/approve_user_portal/{id}', [UserRequestPortalcontroller::class, 'approve'])->name('approveUserPortal');
     Route::get('/reject_user_list', [UserRequestPortalcontroller::class, 'rejectList'])->name('rejectUserList');
     Route::post('/reject_user_portal/{id}', [UserRequestPortalcontroller::class, 'reject'])->name('rejectUserPortal');
+
+    Route::get('/request_new_system', [UserRequestNewSysController::class, 'index'])->name('requestNewSystemList');
+    Route::post('/approve_new_system/{id}/{sys_id}', [UserRequestNewSysController::class, 'approve'])->name('approveNewSystem');
 
     // Route::get('/add_system', [PortalSystemController::class, 'addSystem'])->name('addSystem')->middleware(['auth', 'role:admin|superAdmin']);
     // Route::post('/store_system', [PortalSystemController::class, 'store'])->name('storeSystem')->middleware(['auth', 'role:admin|superAdmin']);

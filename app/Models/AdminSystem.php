@@ -5,10 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class System extends Model
+class AdminSystem extends Model
 {
     use HasFactory;
-
-    protected $table = 'portal_system';
-    protected $guarded = [];
+    protected $table = 'portal_system_admin';
 }

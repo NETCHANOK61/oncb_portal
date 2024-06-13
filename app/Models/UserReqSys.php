@@ -13,4 +13,14 @@ class UserReqSys extends Model
         'users_id',
         'portal_system_id',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'users_id', 'id');
+    }
+
+    public function portalSystem()
+    {
+        return $this->belongsTo(System::class, 'portal_system_id', 'id');
+    }
 }
