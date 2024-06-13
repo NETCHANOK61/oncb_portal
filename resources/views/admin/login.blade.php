@@ -44,7 +44,7 @@
                     id="loginForm"> --}}
                 <form class="login100-form validate-form" method="POST" action="{{ route('submitlogin') }}"
                     id="loginForm">
-
+                    <span class="d-block text-center mb-2" style="color: #fff">&mdash; เข้าสู่ระบบด้วย AD &mdash;</span>
                     @csrf
 
                     <div class="wrap-input100">
@@ -71,15 +71,16 @@
                     <div class="alert alert-danger">กรุณากรอกรหัสผ่านให้ถูกต้อง</div>
                 @endif
                 <br>
+                <span class="d-block text-center my-4 text-muted">&mdash; หรือ &mdash;</span>
                 <div class="container-login100-form-btn">
                     <!-- Update your blade template with the new route -->
                     <a href="https://imauthsbx.bora.dopa.go.th/api/v2/oauth2/auth/?response_type=code&client_id=N1BHQUJTZjh2dm9GMGRxZjk1MUVtSnFDSm1SaU0yWDQ&redirect_uri=https://portal.oncb.go.th/login_with_thaiid&scope=pid%20name%20name_en%20address%20given_name%20family_name%20given_name_en%20family_name_en%20gender%20title%20ial&state=login"
                         class="login100-form-btn">เข้าสู่ระบบด้วย ThaiID</a>
                 </div>
                 <br>
-                <span class="d-block text-center my-4 text-muted">&mdash; หรือ &mdash;</span>
                 <div class="container-login100-form-btn">
-                    <a href="{{ route('register_screen') }}" class="login100-form-btn">ลงทะเบียนขอใช้งาน (ระบบอื่น ๆ)</a>
+                    <a href="{{ route('register_screen') }}" class="login100-form-btn">ลงทะเบียนขอใช้งาน (ระบบอื่น
+                        ๆ)</a>
                 </div>
                 <br>
                 <div class="container-login100-form-btn">
