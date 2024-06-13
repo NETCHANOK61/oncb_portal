@@ -171,30 +171,31 @@ class IndexController extends Controller
                 if ($result['status'] == 200) {
 
                     $user = $result['data'];
+                    $fields_to_extract = ['userid', 'ENname', 'THname', 'mail', 'employeeid', 'department', 'depart_id', 'logintime', 'role', 'employeenumber', 'division'];
+                    $extracted_values = [];
 
-                    $userprofile['login'] = true;
-                    $userprofile['userid'] = $user[0]['userid'];
-                    $userprofile['enname'] = $user[1]['ENname'];
-                    $userprofile['mail'] = $user[3]['mail'];
-                    $userprofile['employeeid'] = $user[8]['employeeid'];
-                    $userprofile['employeenumber'] = $user[9]['employeenumber'];
-                    $userprofile['division'] = $user[10]['division'];
-                    
-                    // $userprofile['thname'] = $user[2]['THname'];
-                    $userprofile['thname'] = $user[2][1];
-
-                    // $userprofile['depart_id'] = $user[4]['depart_id'];
-
-                    // $userprofile['department'] = $user[5]['department'];
-                    // $userprofile['department'] = $user[4]['department'];
-                    // $userprofile['logintime'] = $user[6]['logintime'];
-                    // $userprofile['role'] = $user[7]['role']['role'];
-                    // $userprofile['rolebsp'] = $user[7]['role']['rolebsp'];
-                    // $userprofile['role_name'] = 'สิทธิ์ ' . $user[5]['department'];
-
-                    // if ($userprofile['rolebsp'] == '') {
-                    //     $userprofile['login'] = false;
-                    // }
+                    foreach ($fields_to_extract as $field) {
+                        foreach ($user as $item) {
+                            if (isset($item[$field])) {
+                                $extracted_values[$field] = $item[$field];
+                                break; // Exit inner loop once the field is found
+                            }
+                        }
+                    }
+                    $userprofile = [
+                        'login' => true,
+                        'userid' => $extracted_values['userid'] ?? null,
+                        'enname' => $extracted_values['ENname'] ?? null,
+                        'thname' => $extracted_values['THname'] ?? null,
+                        'mail' => $extracted_values['mail'] ?? null,
+                        'employeeid' => $extracted_values['employeeid'] ?? null,
+                        'department' => $extracted_values['department'] ?? null,
+                        'depart_id' => $extracted_values['depart_id'] ?? null,
+                        'logintime' => $extracted_values['logintime'] ?? null,
+                        'role' => $extracted_values['role'] ?? null,
+                        'employeenumber' => $extracted_values['employeenumber'] ?? null,
+                        'division' => $extracted_values['division'] ?? null
+                    ];
                 } else {
                     $userprofile['login'] = false;
                 }
@@ -244,8 +245,7 @@ class IndexController extends Controller
                 $user = Auth::user();
                 $system_all = System::where('status', 1)->get();
                 return view('admin.systemForUser', compact('userObject', 'user', 'system_all'));
-            } 
-            else {
+            } else {
                 return back()->with('error', 'ไม่พบบัญชีผู้ใช้งาน');
             }
         }
@@ -322,28 +322,28 @@ class IndexController extends Controller
         $system = System::where('url', $apiUrl)->first();
         $apiKey = $system ? $system->API_KEY : null;
         $token = bin2hex(random_bytes(16));
-    
+
         if (!$apiKey) {
             // In case of an error in submitLoginForm
             return redirect('/');
         }
-    
+
         $encodedUrl = md5($apiUrl . ':' . $token);  // Encode or hash the URL to use as a key
         if (!$request->session()->get('verified_' . $encodedUrl, false)) {
             $authorization = base64_encode($apiKey . ':' . $token);
-    
+
             $response = Http::withHeaders([
                 'Content-Type' => 'application/json',
                 'Authorization' => 'Bearer ' . $token
             ])->post($apiUrl, [
                 'status' => 'authorization'
             ]);
-    
+
             if ($response->successful() && $response->json()['authorization'] === $authorization) {
                 $request->session()->put('verified_' . $encodedUrl, true);
                 $redirectUrl = $response->json()['redirect_url'];
                 $data = $request->input('data');
-    
+
                 // Redirect to a new URL with the data packed for POST submission
                 return view('redirect', [
                     'redirectUrl' => $redirectUrl,
@@ -356,8 +356,8 @@ class IndexController extends Controller
         }
         // In case of an error in submitLoginForm
         return redirect()->route('formView')->withInput()->withErrors(['authorization' => 'Failed to verify authorization.']);
-    }    
-    
+    }
+
     public function showForm(Request $request)
     {
         return view('yourFormView', [
