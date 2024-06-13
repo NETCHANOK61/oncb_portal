@@ -84,4 +84,9 @@ class User extends Authenticatable
         }
         return $hasPermission;
     } // end method
+
+    public function managedSystems()
+    {
+        return $this->belongsToMany(System::class, 'system_administrators', 'user_id', 'system_id')->withTimestamps();
+    }
 }

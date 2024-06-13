@@ -41,8 +41,7 @@
                                                         <label for="fieldInput">ชื่อระบบเต็ม (ภาษาไทย)</label>
                                                         <input type="text"
                                                             class="form-control @error('fullname') is-invalid @enderror"
-                                                            id="fullname" name="fullname"
-                                                            value="{{ old('fullname') }}" />
+                                                            id="fullname" name="fullname" value="{{ old('fullname') }}" />
                                                     </div>
                                                     @error('fullname')
                                                         <span class="text-danger">{{ $message }}</span>
@@ -53,8 +52,7 @@
                                                         <label for="fieldSizeInput">ชื่อย่อ (ภาษาอังกฤษ)</label>
                                                         <input type="text"
                                                             class="form-control @error('en_name') is-invalid @enderror"
-                                                            id="en_name" name="en_name"
-                                                            value="{{ old('en_name') }}" />
+                                                            id="en_name" name="en_name" value="{{ old('en_name') }}" />
                                                     </div>
                                                     @error('en_name')
                                                         <span class="text-danger">{{ $message }}</span>
@@ -65,8 +63,7 @@
                                                         <label for="labelInput">URL</label>
                                                         <input type="text"
                                                             class="form-control @error('url') is-invalid @enderror"
-                                                            id="url" name="url"
-                                                            value="{{ old('url') }}" />
+                                                            id="url" name="url" value="{{ old('url') }}" />
                                                     </div>
                                                     @error('url')
                                                         <span class="text-danger">{{ $message }}</span>
@@ -82,6 +79,30 @@
                                                             <span class="status-text on-text">เปิด</span>
                                                             <span class="status-text off-text">ปิด</span>
                                                         </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label for="adminGroup">กำหนด Admin</label>
+                                                        <select name="adminGroup[]" class="multi-select" multiple>
+                                                            @foreach ($admin_from_users as $item)
+                                                                <option value="{{ $item->id }}">
+                                                                    {{ $item->name }} {{ $item->surname }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label for="superAdminGroup">กำหนด Super Admin</label>
+                                                        <select name="superAdminGroup[]" class="multi-select" multiple>
+                                                            @foreach ($superAdmin_from_users as $item)
+                                                                <option value="{{ $item->id }}">
+                                                                    {{ $item->name }} {{ $item->surname }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
                                                     </div>
                                                 </div>
                                             </div>

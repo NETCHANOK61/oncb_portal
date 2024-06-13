@@ -33,42 +33,54 @@
                     web portal
                     สวัสดีคุณ {{ $user->name }} {{ $user->surname }}
                 </span>
-                <a class="login100-form-title p-b-20 p-t-20" href="{{ route('auth.logout') }}" >
-                    <i class="fa fa-sign-out logout-icon" aria-hidden="true"></i> ออกจากระบบ
-                </a>
+                <div style="display: flex; justify-content: center;">
+                    <button type="button" class="btn btn-info">
+                        <a class="login100-form-title" href="{{ route('showReqSystem') }}">
+                            <i class="fa fa-plus-circle" aria-hidden="true"></i> ร้องขอใช้ระบบเพิ่ม
+                        </a>
+                    </button>
+                    <div style="padding-right: 5%"></div>
+                    <button type="button" class="btn btn-secondary">
+                        <a class="login100-form-title" href="{{ route('auth.logout') }}">
+                            <i class="fa fa-sign-out logout-icon" aria-hidden="true"></i> ออกจากระบบ
+                        </a>
+                    </button>
+                </div>
                 <hr style="background-color: #fff">
                 <h5 style="color: #fff">กรุณาเลือกระบบที่คุณต้องการใช้งาน</h5>
                 <br>
                 @if ($user->role == 'superAdmin' || $user->role == 'admin')
-                    <form class="login100-form validate-form" method="POST"
-                        action="{{ route('login_to_portal_management') }}">
+                    <form class="validate-form" method="POST" action="{{ route('login_to_portal_management') }}">
                         @csrf
                         <input type="hidden" name="email" id="email" value="{{ $user->email }}">
                         <input type="hidden" name="password" id="password" value="{{ $user->password }}">
-                        <button type="submit" class="btn btn-danger w-full">
+                        <button type="submit" class="btn btn-primary w-full">
                             บริหารจัดการ Web Portal
                         </button>
                     </form>
                 @endif
                 <br>
-                <div class="row">
-                    @foreach ($system_all as $system)
-                        @php $column_name = $system->en_name; @endphp
-                        @if ($user->$column_name == '1')
-                            <div class="col">
-                                <form class="login100-form validate-form" method="POST"
-                                    action="{{ route('submitLoginForm') }}">
-                                    @csrf
-                                    <input type="hidden" name="api_url" value="{{ $system->url }}">
-                                    {{-- <input type="hidden" name="password" id="password" value="{{ $user->password }}"> --}}
-                                    <input type="hidden" name="data" value="{{ $user }}">
-                                    <button type="submit" class="btn btn-light w-full">
-                                        {{ $system->fullname }}
-                                    </button>
-                                </form>
-                            </div>
-                        @endif
-                    @endforeach
+                <div style="padding: 10px; max-height: 150px; overflow-x: hidden; overflow-x: hidden;">
+                    <div class="row">
+                        @php $counter = 1; @endphp
+                        @foreach ($system_all as $system)
+                            @php $column_name = $system->en_name; @endphp
+                            @if ($user->$column_name == '1')
+                                <div class="col-md-6 mb-3">
+                                    <form class="validate-form" method="POST" action="{{ route('submitLoginForm') }}">
+                                        @csrf
+                                        <input type="hidden" name="api_url" value="{{ $system->url }}">
+                                        {{-- <input type="hidden" name="password" id="password" value="{{ $user->password }}"> --}}
+                                        <input type="hidden" name="data" value="{{ $user }}">
+                                        <button type="submit" class="btn btn-light w-100" style="white-space: normal">
+                                            {{ $counter }}. <br> {{ $system->fullname }}
+                                        </button>
+                                    </form>
+                                </div>
+                                @php $counter++; @endphp
+                            @endif
+                        @endforeach
+                    </div>
                 </div>
             </div>
         </div>

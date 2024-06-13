@@ -9,7 +9,7 @@ class User_nispa extends Model
 {
     use HasFactory;
 
-    protected $connection = 'mysql2';
+    protected $connection = 'sqlsrv_2';
 
-    protected $table = 'users';
+    protected $table = 'requested_user';
 }

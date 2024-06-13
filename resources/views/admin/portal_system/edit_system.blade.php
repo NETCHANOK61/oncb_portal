@@ -32,7 +32,7 @@
                                             {{ $errors->first('duplicate') }}
                                         </div>
                                     @endif
-                                    <form id="roleForm" action="{{ route('portal.storeSystem', $system->id) }}"
+                                    <form id="roleForm" action="{{ route('portal.updateSystem', $system->id) }}"
                                         method="POST">
                                         @csrf
                                         <div class="card-body">
@@ -54,8 +54,7 @@
                                                         <label for="fieldSizeInput">ชื่อย่อ (ภาษาอังกฤษ)</label>
                                                         <input type="text"
                                                             class="form-control @error('en_name') is-invalid @enderror"
-                                                            id="en_name" name="en_name"
-                                                            value="{{ $system->en_name }}" />
+                                                            id="en_name" name="en_name" value="{{ $system->en_name }}" />
                                                     </div>
                                                     @error('en_name')
                                                         <span class="text-danger">{{ $message }}</span>
@@ -82,6 +81,32 @@
                                                             <span class="status-text on-text">เปิด</span>
                                                             <span class="status-text off-text">ปิด</span>
                                                         </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label for="adminGroup">กำหนด Admin</label>
+                                                        <select name="adminGroup[]" class="multi-select" multiple>
+                                                            @foreach ($admin_from_users as $item)
+                                                                <option value="{{ $item->id }}"
+                                                                    {{ in_array($item->id, $current_admins) ? 'selected' : '' }}>
+                                                                    {{ $item->name }} {{ $item->surname }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label for="superAdminGroup">กำหนด Super Admin</label>
+                                                        <select name="superAdminGroup[]" class="multi-select" multiple>
+                                                            @foreach ($superAdmin_from_users as $item)
+                                                                <option value="{{ $item->id }}"
+                                                                    {{ in_array($item->id, $current_super_admins) ? 'selected' : '' }}>
+                                                                    {{ $item->name }} {{ $item->surname }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
                                                     </div>
                                                 </div>
                                             </div>

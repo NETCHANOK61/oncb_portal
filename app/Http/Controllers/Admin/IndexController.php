@@ -17,6 +17,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Http;
 use App\Models\User;
+use App\Models\User_nispa;
+use App\Models\UserReqSys;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth; // Import the Auth facade
 
@@ -31,6 +33,73 @@ class IndexController extends Controller
         $menuItems = MenuService::getMenuItems();
 
         return view('admin.dashboard', compact('menuItems'));
+    }
+
+    public function showReqSystem()
+    {
+        //
+        $system = System::all();
+        return view('admin.userRequestSystem', compact('system'));
+    }
+
+    public function storeReqSystem(Request $request)
+    {
+        // Ensure user is authenticated
+        if (!Auth::check()) {
+            return redirect()->route('logout'); // Replace with your logout route
+        }
+
+        // Validate the form data
+        $request->validate([
+            'selected_systems' => 'required|array',
+            'upload_file' => 'required_if:selected_systems.*,NISPA|file|max:10240',
+        ]);
+
+        // Check if NISPA is selected
+        $nispa = System::where('en_name', 'NISPA')->first();
+        if ($nispa && in_array($nispa->id, $request->selected_systems)) {
+            if ($request->hasFile('upload_file')) {
+                // Process file upload
+                $file = $request->file('upload_file');
+                $fileName = time() . '_' . $file->getClientOriginalName();
+                $filePath = 'assets/pdf/' . $fileName;
+                $file->move(public_path('assets/pdf'), $fileName);
+
+                // Save data for NISPA system
+                $user = Auth::user();
+                $userData = [
+                    'name' => $user->name,
+                    'surname' => $user->surname,
+                    'phone' => $user->phone,
+                    'email' => $user->email,
+                    'card_id' => $user->card_id,
+                    'agency' => $user->agency,
+                    'PROV_ID' => $user->PROV_ID,
+                    'AMP_ID' => $user->AMP_ID,
+                    'edu_area_id' => $user->edu_area_id,
+                    'file' => $filePath
+                ];
+
+                User_nispa::create($userData);
+
+                // Redirect to status page or any other page
+                return redirect()->back()->with('success', 'บันทึกคำขอใช้งานระบบ NISPA สำเร็จ');
+            } else {
+                return redirect()->back()->withErrors(['upload_file' => 'กรุณาอัปโหลดไฟล์ของคุณสำหรับระบบ NISPA']);
+            }
+        } else {
+            $user = Auth::user();
+            foreach ($request->selected_systems as $systemId) {
+                $userReqData = [
+                    'users_id' => $user->id,
+                    'portal_system_id' => $systemId,
+                    // Add other fields as needed
+                ];
+
+                UserReqSys::create($userReqData);
+            }
+            return redirect()->back()->with('success', 'บันทึกคำขอใช้งานระบบอื่น ๆ สำเร็จ');
+        }
     }
 
     public function logout(Request $request): RedirectResponse
@@ -48,8 +117,8 @@ class IndexController extends Controller
     {
         $system = System::find($systemId);
         $user = User::find($userId);
+        Auth::login($user);
         //
-        dd($user);
         return view('admin.systemForUser', compact('data'));
     }
 
@@ -118,6 +187,7 @@ class IndexController extends Controller
                     $userObject = $responseData;
                     if ($user) {
                         $system_all = System::where('status', 1)->get();
+                        Auth::login($user);
                         return view('admin.systemForUser', compact('userObject', 'user', 'system_all'));
                     } else {
                         return redirect('/');
@@ -235,6 +305,7 @@ class IndexController extends Controller
 
                 if ($user) {
                     $system_all = System::where('status', 1)->get();
+                    Auth::login($user);
                     return view('admin.systemForUser', compact('userObject', 'user', 'system_all'));
                 } else {
                     return back()->with('error', 'ไม่พบบัญชีผู้ใช้งาน');
@@ -244,6 +315,7 @@ class IndexController extends Controller
             if (Auth::attempt(['username' => $username, 'password' => $password])) {
                 $user = Auth::user();
                 $system_all = System::where('status', 1)->get();
+                Auth::login($user);
                 return view('admin.systemForUser', compact('userObject', 'user', 'system_all'));
             } else {
                 return back()->with('error', 'ไม่พบบัญชีผู้ใช้งาน');
@@ -286,6 +358,7 @@ class IndexController extends Controller
             // dd($user);
             // Auth::login($user);
             // return $this->index();
+            Auth::login($user);
             return view('admin.systemForUser', compact('userObject', 'user', 'system_all'));
         } else {
             return redirect('/');

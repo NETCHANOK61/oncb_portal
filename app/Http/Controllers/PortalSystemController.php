@@ -8,11 +8,9 @@ use App\Models\Test;
 use App\Models\User;
 use App\Services\MenuService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Schema as FacadesSchema;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-use Nette\Schema\Schema as SchemaSchema;
-use Schema;
+use Illuminate\Support\Facades\Schema;
 
 class PortalSystemController extends Controller
 {
@@ -44,9 +42,11 @@ class PortalSystemController extends Controller
         $menu = Menu::all();
         $menuItems = MenuService::getMenuItems();
         $data = System::all();
+        $admin_from_users = User::whereIn('role', ['admin'])->get();
+        $superAdmin_from_users = User::whereIn('role', ['superAdmin'])->get();
         // $columns = Schema::getColumnListing((new Test())->getTable());
 
-        return view('admin.portal_system.add_system', compact('menu', 'menuItems', 'data'));
+        return view('admin.portal_system.add_system', compact('menu', 'menuItems', 'data', 'admin_from_users', 'superAdmin_from_users'));
     }
 
     public function allUser()
@@ -130,14 +130,20 @@ class PortalSystemController extends Controller
         $rules = [
             'fullname' => 'required|string|max:255',
             'en_name' => 'required|string|max:255',
-            'url' => 'required|url|max:255'
+            'url' => 'required|url|max:255',
+            'adminGroup' => 'nullable|array',
+            'adminGroup.*' => 'exists:users,id',
+            'superAdminGroup' => 'nullable|array',
+            'superAdminGroup.*' => 'exists:users,id'
         ];
 
         // Custom error messages
         $messages = [
             'fullname.required' => 'กรุณากรอกชื่อระบบเต็ม (ภาษาไทย)',
             'en_name.required' => 'กรุณากรอกชื่อย่อ (ภาษาอังกฤษ)',
-            'url.required' => 'กรุณากรอก URL'
+            'url.required' => 'กรุณากรอก URL',
+            'adminGroup.*.exists' => 'ผู้ใช้ที่เลือกไม่มีอยู่ในระบบ',
+            'superAdminGroup.*.exists' => 'ผู้ใช้ที่เลือกไม่มีอยู่ในระบบ'
         ];
 
         // Validate input
@@ -170,10 +176,19 @@ class PortalSystemController extends Controller
         $system->API_KEY = Str::random(43);
         $system->save();
 
-        // Add a new column to the users table
         Schema::table('users', function ($table) use ($system) {
             $table->integer($system->en_name)->default(0);
         });
+
+        // Attach administrators
+        if ($request->has('adminGroup')) {
+            $system->administrators()->attach($request->adminGroup, ['role' => 'admin']);
+        }
+
+        // Attach super administrators
+        if ($request->has('superAdminGroup')) {
+            $system->administrators()->attach($request->superAdminGroup, ['role' => 'super_admin']);
+        }
 
         return redirect()->route('portal.allSystem')->with('success', 'System created successfully.');
     }
@@ -206,58 +221,94 @@ class PortalSystemController extends Controller
         $menu = Menu::all();
         $menuItems = MenuService::getMenuItems();
 
-        return view('admin.portal_system.edit_system', compact('menu', 'menuItems', 'system'));
+        $admin_from_users = User::whereIn('role', ['admin'])->get();
+        $superAdmin_from_users = User::whereIn('role', ['superAdmin'])->get();
+
+        // Get current admins and super admins
+        $current_admins = $system->administrators()->wherePivot('role', 'admin')->pluck('user_id')->toArray();
+        $current_super_admins = $system->administrators()->wherePivot('role', 'super_admin')->pluck('user_id')->toArray();
+
+        return view('admin.portal_system.edit_system', compact('system', 'menuItems', 'menu', 'admin_from_users', 'superAdmin_from_users', 'current_admins', 'current_super_admins'));
     }
 
     public function updateSystem(Request $request, $id)
     {
-        $form = System::findOrFail($id);
-
+        $system = System::findOrFail($id);
+    
         // Define validation rules
         $rules = [
             'fullname' => 'required|string|max:255',
             'en_name' => 'required|string|max:255',
-            'url' => 'required|url|max:255'
+            'url' => 'required|url|max:255',
+            'adminGroup' => 'nullable|array',
+            'adminGroup.*' => 'exists:users,id',
+            'superAdminGroup' => 'nullable|array',
+            'superAdminGroup.*' => 'exists:users,id'
         ];
-
+    
         // Custom error messages
         $messages = [
             'fullname.required' => 'กรุณากรอกชื่อระบบเต็ม (ภาษาไทย)',
             'en_name.required' => 'กรุณากรอกชื่อย่อ (ภาษาอังกฤษ)',
-            'url.required' => 'กรุณากรอก URL'
+            'url.required' => 'กรุณากรอก URL',
+            'adminGroup.*.exists' => 'ผู้ใช้ที่เลือกไม่มีอยู่ในระบบ',
+            'superAdminGroup.*.exists' => 'ผู้ใช้ที่เลือกไม่มีอยู่ในระบบ'
         ];
-
+    
         // Validate input
         $validator = Validator::make($request->all(), $rules, $messages);
-
+    
         if ($validator->fails()) {
             return redirect()->back()
                 ->withErrors($validator)
                 ->withInput();
         }
-
-        // Check for existing record
+    
+        // Check for existing record with the same fullname, en_name, or url but different id
         $existingSystem = System::where(function ($query) use ($request) {
             $query->where('fullname', $request->fullname)
-                ->orWhere('en_name', $request->en_name)
-                ->orWhere('url', $request->url);
+                  ->orWhere('en_name', $request->en_name)
+                  ->orWhere('url', $request->url);
         })->where('id', '<>', $id)->first();
-
+    
         if ($existingSystem) {
             return redirect()->back()
                 ->withErrors(['duplicate' => 'ระบบนี้มีอยู่แล้วในฐานข้อมูล'])
                 ->withInput();
         }
-
+    
         // Update the existing system
-        $form->fullname = $request->fullname;
-        $form->en_name = $request->en_name;
-        $form->url = $request->url;
-        $form->status = $request->status ? 1 : 0;
-        $form->save();
-
+        $system->update([
+            'fullname' => $request->fullname,
+            'en_name' => $request->en_name,
+            'url' => $request->url,
+            'status' => $request->status ? 1 : 0,
+        ]);
+    
+        // Sync administrators
+        $adminGroup = $request->input('adminGroup', []);
+        $superAdminGroup = $request->input('superAdminGroup', []);
+    
+        // Detach all current admins and super admins
+        $system->administrators()->detach();
+    
+        // Attach new admins
+        if (!empty($adminGroup)) {
+            foreach ($adminGroup as $adminId) {
+                $system->administrators()->attach($adminId, ['role' => 'admin']);
+            }
+        }
+    
+        // Attach new super admins
+        if (!empty($superAdminGroup)) {
+            foreach ($superAdminGroup as $superAdminId) {
+                $system->administrators()->attach($superAdminId, ['role' => 'super_admin']);
+            }
+        }
+    
         return redirect()->route('portal.allSystem')->with('success', 'System updated successfully.');
     }
+    
 
     /**
      * Display the specified resource.

@@ -59,8 +59,8 @@ Route::get('/login_with_thaiid', [IndexController::class, 'login_with_thaiid'])-
 
 Route::get('/check_callback', [IndexController::class, 'check_callback'])->name('check_callback');
 // Route::post('/ldap_login', [IndexController::class, 'ldapLogin'])->name('ldap_login');
-Route::get('/ldap_login', [IndexController::class, 'ldapLogin'])->name('ldapLogin');
 Route::post('/submitlogin', [IndexController::class, 'submitlogin'])->name('submitlogin');
+Route::get('/ldap_login', [IndexController::class, 'ldapLogin'])->name('ldapLogin');
 Route::get('/req_system/{system}/{user}', [IndexController::class, 'req_system'])->name('req_system');
 
 Route::post('/authorization', [IndexController::class, 'submitLoginForm'])->name('submitLoginForm');
@@ -82,6 +82,8 @@ Route::post('/check-user_id', [RegisteredPortalUserController::class, 'checkUser
 
 Route::middleware('auth')->group(function () {
     Route::get('/logout', [IndexController::class, 'logout'])->name('auth.logout');
+    Route::get('/request_new_system', [IndexController::class, 'showReqSystem'])->name('showReqSystem');
+    Route::post('/request_new_system', [IndexController::class, 'storeReqSystem'])->name('storeReqSystem');
 });
 
 Route::middleware(['auth'])->name('portal.')->prefix('portal')->group(function () {
@@ -94,7 +96,7 @@ Route::middleware(['auth'])->name('portal.')->prefix('portal')->group(function (
     Route::get('/delete_system/{id}', [PortalSystemController::class, 'deleteSystem'])->name('deleteSystem');
     Route::get('/return_system/{id}', [PortalSystemController::class, 'returnSystem'])->name('returnSystem');
     Route::get('/edit_system/{id}', [PortalSystemController::class, 'editSystem'])->name('editSystem');
-    Route::get('/update_system/{id}', [PortalSystemController::class, 'updateSystem'])->name('updateSystem');
+    Route::post('/update_system/{id}', [PortalSystemController::class, 'updateSystem'])->name('updateSystem');
 
     Route::get('/all_user', [PortalSystemController::class, 'allUser'])->name('allUser');
     Route::get('/edit_user/{id}', [PortalSystemController::class, 'editUser'])->name('editUser');
