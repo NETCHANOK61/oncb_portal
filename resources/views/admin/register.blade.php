@@ -116,7 +116,8 @@
                 </div>
             </div>
             <div class="col-md-9">
-                <form action="{{ route('register.request') }}" method="POST" id="registrationForm" enctype="multipart/form-data">
+                <form action="{{ route('register.request') }}" method="POST" id="registrationForm"
+                    enctype="multipart/form-data" onsubmit="return validateForm()">
                     @csrf
                     <div id="step1Content" class="step-content active">
                         <!-- Content for step 1 -->
@@ -238,16 +239,21 @@
                                             <label class="" for="username_ad_input">username AD</label>
                                             <input type="text" name="username_ad" id="username_ad"
                                                 class="form-control">
+                                            <div id="username_ad-error-message" class="error-message"
+                                                style="display: none;"></div>
                                         </div>
                                     </div>
                                     <div class="col-6">
                                         <label class="" for="username_ad_input">แผนก</label>
                                         <select name="account" class="form-control" id="dept" name="dept">
+                                            <option value="">-เลือกแผนก/ หน่วย</option>
                                             @foreach ($agencies as $key => $item)
                                                 <option value="{{ $item->div_code }}">
                                                     {{ $item->dept_name }}</option>
                                             @endforeach
                                         </select>
+                                        <div id="dept-error-message" class="error-message" style="display: none;">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -259,6 +265,8 @@
                                             {{ $item->dept_name }}</option>
                                     @endforeach
                                 </select>
+                                <div id="regionSelect-error-message" class="error-message" style="display: none;">
+                                </div>
                             </div>
                             <div id="org_province_Container" class="">
                                 <label for="provinceSelect">จังหวัด</label>
@@ -269,7 +277,8 @@
                                             {{ $item->PROV_NAME }}</option>
                                     @endforeach
                                 </select>
-
+                                <div id="provinceSelect-error-message" class="error-message" style="display: none;">
+                                </div>
                             </div>
                             <div id="org_ampher_Container" class="">
                                 <label for="ampherSelect">อำเภอ</label>
@@ -279,6 +288,8 @@
                                             {{ $item->AMP_NAME }}</option>
                                     @endforeach
                                 </select>
+                                <div id="ampherSelect-error-message" class="error-message" style="display: none;">
+                                </div>
                             </div>
                             <div id="school_Container" class="select">
                                 <label for="provinceSelect_edu">จังหวัด</label>
@@ -288,11 +299,18 @@
                                             {{ $item->PROV_NAME }}</option>
                                     @endforeach
                                 </select>
+                                <div id="provinceSelect_edu-error-message" class="error-message"
+                                    style="display: none;">
+                                </div>
                                 <label for="edu_area">สำนักงานการศึกษาขั้นพื้นฐาน</label>
                                 <select name="edu_area" class="form-control" id="edu_area"></select>
+                                <div id="edu_area-error-message" class="error-message" style="display: none;">
+                                </div>
                                 <label for="school_list">โรงเรียน</label>
                                 <select name="school_list" class="form-control" id="school_list">
                                 </select>
+                                <div id="school_list-error-message" class="error-message" style="display: none;">
+                                </div>
                             </div>
                         </div>
                         <div class="mb-3">
@@ -510,7 +528,6 @@
 
         $('#card_id').on('blur', function() {
             if (validateCardId()) {
-                console.log('aa');
                 checkAvailability('#card_id', '{{ route('check.card_id') }}',
                     'เลขประจำตัวประชาชนนี้ มีบัญชีผู้ใช้งานแล้ว');
             }
@@ -554,6 +571,81 @@
             document.getElementById(`step${step}`).classList.add('active');
             document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
             document.getElementById(`step${step}Content`).classList.add('active');
+        }
+
+        function validateForm() {
+            var role = document.querySelector('input[name="role"]:checked').value;
+
+            if (role === 'org_center') {
+                var usernameAd = document.getElementById('username_ad').value;
+                var department = document.getElementById('dept').value;
+
+                // Validate username AD and department fields
+                if (usernameAd.trim() === '') {
+                    $('#username_ad').addClass('error_box');
+                    $('#username_ad-error-message').text("กรุณากรอก username ของคุณ").show();
+                    return false;
+                }
+                if (department.trim() === '') {
+                    $('#dept').addClass('error_box');
+                    $('#dept-error-message').text("กรุณากรอก แผนก ของคุณ").show();
+                    return false;
+                }
+            } else if (role === 'org_region') {
+                var regionSelect = document.getElementById('regionSelect').value;
+
+                if (regionSelect === '') {
+                    $('#regionSelect').addClass('error_box');
+                    $('#regionSelect-error-message').text("กรุณากรอก ภาค ของคุณ").show();
+                    return false;
+                }
+            } else if (role === 'org_province') {
+                var provinceSelect = document.getElementById('provinceSelect').value;
+
+                if (provinceSelect === '') {
+                    $('#provinceSelect').addClass('error_box');
+                    $('#provinceSelect-error-message').text("กรุณากรอก จังหวัด ของคุณ").show();
+                    return false;
+                }
+            } else if (role === 'org_ampher') {
+                var ampherSelect = document.getElementById('ampherSelect').value;
+                var provinceSelect = document.getElementById('provinceSelect').value;
+                if (provinceSelect === '') {
+                    $('#provinceSelect').addClass('error_box');
+                    $('#provinceSelect-error-message').text("กรุณากรอก จังหวัด ของคุณ").show();
+                    return false;
+                }
+
+                if (ampherSelect === '') {
+                    $('#ampherSelect').addClass('error_box');
+                    $('#ampherSelect-error-message').text("กรุณากรอก อำเภอ ของคุณ").show();
+                    return false;
+                }
+            } else if (role === 'school') {
+                var provinceSelectEdu = document.getElementById('provinceSelect_edu').value;
+                var eduArea = document.getElementById('edu_area').value;
+                var schoolList = document.getElementById('school_list').value;
+
+                if (provinceSelectEdu === '') {
+                    $('#provinceSelect_edu').addClass('error_box');
+                    $('#provinceSelect_edu-error-message').text("กรุณากรอก อำเภอ ของคุณ").show();
+                    return false;
+                }
+                if (eduArea === '') {
+                    $('#edu_area').addClass('error_box');
+                    $('#edu_area-error-message').text("กรุณากรอก อำเภอ ของคุณ").show();
+                    return false;
+                }
+                if (schoolList === '') {
+                    $('#school_list').addClass('error_box');
+                    $('#school_list-error-message').text("กรุณากรอก อำเภอ ของคุณ").show();
+                    return false;
+                }
+            }
+
+            // Add more validation logic for other roles if needed
+
+            return true; // If all validations pass
         }
     </script>
 </body>
