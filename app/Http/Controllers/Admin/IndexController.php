@@ -38,8 +38,10 @@ class IndexController extends Controller
     public function showReqSystem()
     {
         //
+        $user = Auth::user();
+        $requested = UserReqSys::where('users_id', $user->id)->pluck('portal_system_id')->toArray();
         $system = System::all();
-        return view('admin.userRequestSystem', compact('system'));
+        return view('admin.userRequestSystem', compact('system', 'user', 'requested'));
     }
 
     public function storeReqSystem(Request $request)
@@ -82,10 +84,14 @@ class IndexController extends Controller
 
                 User_nispa::create($userData);
 
+                // Set session flash message
+                session()->flash('success', 'บันทึกคำขอใช้งานระบบ NISPA สำเร็จ');
+                session()->flash('logout', true);
+
                 // Redirect to status page or any other page
-                return redirect()->back()->with('success', 'บันทึกคำขอใช้งานระบบ NISPA สำเร็จ');
+                return redirect()->back();
             } else {
-                return redirect()->back()->withErrors(['upload_file' => 'กรุณาอัปโหลดไฟล์ของคุณสำหรับระบบ NISPA']);
+                return redirect()->back()->withErrors(['upload_file' => 'กรุณาอัปโหลดไฟล์ของคุณสำหรับระบบสารสนเทศยาเสพติดจังหวัด (NISPA)']);
             }
         } else {
             $user = Auth::user();
@@ -98,7 +104,9 @@ class IndexController extends Controller
 
                 UserReqSys::create($userReqData);
             }
-            return redirect()->back()->with('success', 'บันทึกคำขอใช้งานระบบอื่น ๆ สำเร็จ');
+            session()->flash('success', 'บันทึกคำขอใช้งานระบบเพิ่มเติมสำเร็จ');
+            session()->flash('logout', true);
+            return redirect()->back();
         }
     }
 

@@ -108,17 +108,6 @@
     <script src="{{ asset('../assets/login/vendor/daterangepicker/daterangepicker.js') }}"></script>
     <script src="{{ asset('../assets/login/vendor/countdowntime/countdowntime.js') }}"></script>
 
-
-    <script>
-        document.getElementById('loginLDAP').addEventListener('click', function() {
-            var form = document.getElementById('loginForm');
-            form.action = "{{ route('submitlogin') }}"; // Set the action to the Laravel route for LDAP login
-            form.method = "POST"; // Ensure the method is POST
-            form.submit(); // Submit the form
-        });
-    </script>
-    {{-- <script src="{{ asset('../assets/login/js/main.js') }}"></script> --}}
-
 </body>
 
 </html>
