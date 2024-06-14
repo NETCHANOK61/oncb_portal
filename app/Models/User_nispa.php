@@ -12,4 +12,18 @@ class User_nispa extends Model
     protected $connection = 'sqlsrv_2';
 
     protected $table = 'requested_user';
+
+    protected $fillable = [
+        'name',
+        'surname',
+        'phone',
+        'email',
+        'card_id',
+        'agency',
+        'PROV_ID',
+        'AMP_ID',
+        'edu_area_id',
+        'file',
+        'userid'
+    ];
 }
