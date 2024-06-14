@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Menu;
 use App\Models\System;
-use App\Models\Test;
+use App\Models\PortalSysAdmin;
 use App\Models\User;
 use App\Services\MenuService;
 use Illuminate\Http\Request;
@@ -225,8 +225,10 @@ class PortalSystemController extends Controller
         $superAdmin_from_users = User::whereIn('role', ['superAdmin'])->get();
 
         // Get current admins and super admins
-        $current_admins = $system->administrators()->wherePivot('role', 'admin')->pluck('user_id')->toArray();
-        $current_super_admins = $system->administrators()->wherePivot('role', 'super_admin')->pluck('user_id')->toArray();
+        $current_admins = PortalSysAdmin::where('role', 'admin')->pluck('user_id')->toArray();
+        $current_super_admins = PortalSysAdmin::where('role', 'super_admin')->pluck('user_id')->toArray();
+        // $current_admins = $system->administrators()->wherePivot('role', 'admin')->pluck('user_id')->toArray();
+        // $current_super_admins = $system->administrators()->wherePivot('role', 'super_admin')->pluck('user_id')->toArray();
 
         return view('admin.portal_system.edit_system', compact('system', 'menuItems', 'menu', 'admin_from_users', 'superAdmin_from_users', 'current_admins', 'current_super_admins'));
     }

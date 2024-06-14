@@ -57,16 +57,6 @@ class IndexController extends Controller
             'file_upload' => 'required_if:selected_systems,NISPA|file|max:10240',
         ]);
 
-        $user = Auth::user();
-        foreach ($request->selected_systems as $systemId) {
-            $userReqData = [
-                'users_id' => $user->id,
-                'portal_system_id' => $systemId,
-            ];
-
-            UserReqSys::create($userReqData);
-        }
-
         // Check if NISPA is selected
         $nispa = System::where('en_name', 'NISPA')->first();
         if ($nispa && in_array($nispa->id, $request->selected_systems)) {
@@ -95,6 +85,11 @@ class IndexController extends Controller
 
                 User_nispa::create($userData);
 
+                UserReqSys::create([
+                    'users_id' => $user->id,
+                    'portal_system_id' => $nispa->id,
+                ]);
+
                 // Set session flash message
                 session()->flash('success', 'บันทึกคำขอใช้งานระบบ NISPA สำเร็จ');
                 session()->flash('logout', true);
@@ -105,6 +100,15 @@ class IndexController extends Controller
                 return redirect()->back()->withErrors(['file_upload' => 'กรุณาอัปโหลดไฟล์ของคุณสำหรับระบบสารสนเทศยาเสพติดจังหวัด (NISPA)']);
             }
         } else {
+            $user = Auth::user();
+            foreach ($request->selected_systems as $systemId) {
+                $userReqData = [
+                    'users_id' => $user->id,
+                    'portal_system_id' => $systemId,
+                ];
+
+                UserReqSys::create($userReqData);
+            }
             session()->flash('success', 'บันทึกคำขอใช้งานระบบเพิ่มเติมสำเร็จ');
             session()->flash('logout', true);
             return redirect()->back();

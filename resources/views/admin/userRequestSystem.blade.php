@@ -49,7 +49,7 @@
                                             class="form-label text-light">ไฟล์แนบ (.pdf, .doc, รูปภาพ)</label>
                                         <input type="file" class="form-control" id="file_upload_{{ $sys->id }}"
                                             name="file_upload" accept=".pdf,.doc,.docx,image/*">
-                                        @error('upload_file')
+                                        @error('file_upload')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
