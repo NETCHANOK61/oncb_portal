@@ -34,36 +34,31 @@ class UserRequestcontroller extends Controller
             'phone' => $request->phone
         ]);
 
-        $portal = User_portal::create([
-            'name' => $request_user->name,
-            'surname' => $request_user->surname,
-            'email' => $request_user->email,
-            'card_id' => $request_user->card_id,
-            'file' => $request_user->file,
-            'username' => $request->input('username'),
-            'password' => Hash::make($request->input('password')),
-            'phone' => $request_user->phone,
-            'NISPA' => 1
-        ]);
-
         $request_user->update([
             'approved' => 1
         ]);
 
+        $portal = User_portal::where('email', $request_user->email)->first();
+
+        if ($portal) {
+            // Update existing record
+            $portal->NISPA = 1;
+            $portal->save();
+        } else {
+            // Create a new record
+            $portal = User_portal::create([
+                'name' => $request_user->name,
+                'surname' => $request_user->surname,
+                'email' => $request_user->email,
+                'card_id' => $request_user->card_id,
+                'file' => $request_user->file,
+                'username' => $request->input('username'),
+                'password' => Hash::make($request->input('password')),
+                'phone' => $request_user->phone,
+                'NISPA' => 1 // Set NISPA to 1
+            ]);
+        }
+
         return redirect()->route('admin.users.edit', $user);
-
-        // $menuItems = MenuService::getMenuItems();
-        // $request_user = RequestedUser::all();
-        // return view('admin.user.request_user', compact('menuItems', 'request_user'));
-        // Retrieve the username and password from the form submission
-        // $username = $request->input('username');
-        // $password = $request->input('password');
-
-        // dd($request);
-
-        // Process the approval logic here
-
-        // Redirect back or return a response
-        // return redirect()->back()->with('success', 'User request approved successfully.');
     }
 }
