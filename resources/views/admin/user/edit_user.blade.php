@@ -46,7 +46,8 @@
                                                             <div class="form-group">
                                                                 <label for="lastnameInput">นามสกุล</label>
                                                                 <input type="text" class="form-control" id="lastname"
-                                                                    name="lastname" placeholder="นามสกุล" value="{{ $user->surname }}"/>
+                                                                    name="lastname" placeholder="นามสกุล"
+                                                                    value="{{ $user->surname }}" />
                                                             </div>
                                                         </div>
                                                         <div class="col-6">
@@ -79,51 +80,7 @@
                                                                 </span>
                                                             </div>
                                                         </div>
-                                                        {{-- <div class="col-12">
-                                                            <div class="row">
-                                                                <div class="col-12">
-                                                                    <h3>Permission</h3>
-                                                                    <label class="custom-control custom-checkbox"
-                                                                        for="checkDefaultmain">
-                                                                        <input type="checkbox" class="custom-control-input"
-                                                                            id="checkDefaultmain">
-                                                                        <span class="custom-control-label">Permission
-                                                                            All</span>
-                                                                    </label>
-                                                                </div>
-                                                            </div>
-
-                                                            @foreach ($permission_group as $group)
-                                                                <div class="row">
-                                                                    <div class="col-3">
-                                                                        <label class="custom-control custom-checkbox">
-                                                                            <input type="checkbox"
-                                                                                class="custom-control-input"
-                                                                                name="example-checkbox" value="option1">
-                                                                            <span
-                                                                                class="custom-control-label">{{ $group->group_name }}</span>
-                                                                        </label>
-                                                                    </div>
-                                                                    <div class="col-9">
-                                                                        @foreach ($permissions as $permission)
-                                                                            <label class="custom-control custom-checkbox"
-                                                                                for="checkDefault{{ $permission->id }}">
-                                                                                <input type="checkbox"
-                                                                                    class="custom-control-input"
-                                                                                    name="permission[]"
-                                                                                    id="checkDefault{{ $permission->id }}"
-                                                                                    value="{{ $permission->name }}">
-                                                                                <span
-                                                                                    class="custom-control-label">{{ $permission->name }}</span>
-                                                                            </label>
-                                                                        @endforeach
-                                                                        <br>
-                                                                    </div>
-                                                                </div>
-                                                            @endforeach
-                                                        </div> --}}
                                                     </div>
-
                                                     <div class="card-footer" align="right">
                                                         <button type="submit"
                                                             class="btn btn-success-light mt-1">บันทึก</button>

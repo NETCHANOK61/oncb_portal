@@ -229,8 +229,8 @@
                                     <a href="{{ route('admin.users_request.index') }}"
                                         class="slide-item">จัดการคำขอสร้างผู้ใช้งาน</a>
                                     <a href="{{ route('admin.users.index') }}" class="slide-item">จัดการผู้ใช้งาน</a>
-                                    <a href="{{ route('admin.permissions.index') }}" class="slide-item">จัดการสิทธิ์</a>
                                     <a href="{{ route('admin.roles.index') }}" class="slide-item">จัดการบทบาท</a>
+                                    <a href="{{ route('admin.permissions.index') }}" class="slide-item">จัดการสิทธิ์</a>
                                     {{-- <a href="{{ route('all.admin') }}" class="slide-item">All Admin</a> --}}
                                     {{-- <a href="{{ route('add.admin') }}"class="slide-item">Add Admin</a> --}}
 

@@ -67,7 +67,7 @@ class UserRequestcontroller extends Controller
             ]);
         }
 
-        return redirect()->route('admin.users.edit', $user);
+        return redirect()->route('admin.users.show', $user);
     }
 
     public function reject($id)

@@ -6,9 +6,8 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ route('admin.permissions.index') }}">บริหารจัดการบทบาท
                     </a></li>
-                <li class="breadcrumb-item"><a href="{{ route('admin.permissions.index') }}">จัดการบทบาทของผู้ใช้งาน</a></li>
                 <li class="breadcrumb-item active" aria-current="page">
-                    แก้ไขข้อมูล
+                    แก้ไขข้อมูลบทบาท
                 </li>
             </ol>
         </div>

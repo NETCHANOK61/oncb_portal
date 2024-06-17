@@ -1,7 +1,6 @@
 @extends('admin.dashboard')
 @section('admin')
     <div class="side-app">
-
         <!-- PAGE-HEADER -->
         <div class="page-header">
             <ol class="breadcrumb">
@@ -30,7 +29,7 @@
                                 <thead>
                                     <tr align="center">
                                         <th class="text-center">ลำดับ</th>
-                                        <th class="text-center">ชื่อ</th>
+                                        <th class="text-center">ชื่อ-นามสกุล</th>
                                         <th class="text-center">อีเมล์</th>
                                         <th class="text-center">บทบาท</th>
                                         <th class="text-center">การจัดการ</th>
@@ -40,7 +39,7 @@
                                     @foreach ($users as $key => $item)
                                         <tr align="center">
                                             <td>{{ $key + 1 }}</td>
-                                            <td>{{ $item->name }}</td>
+                                            <td>{{ $item->name }} {{ $item->surname }}</td>
                                             <td>{{ $item->email }}</td>
                                             {{-- <td>{{ $item->status }}</td> --}}
                                             <td>

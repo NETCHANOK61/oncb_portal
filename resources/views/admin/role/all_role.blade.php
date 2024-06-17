@@ -6,7 +6,7 @@
         <div class="page-header">
             <ol class="breadcrumb">
                 {{-- <li class="breadcrumb-item"><a href="#">บริหารจัดการผู้ใช้งาน</a></li> --}}
-                <li class="breadcrumb-item active" aria-current="page">จัดการบทบาทของผู้ใช้งาน</li>
+                <li class="breadcrumb-item active" aria-current="page">จัดการบทบาทต่าง ๆ ในระบบ</li>
             </ol>
 
         </div>
@@ -48,8 +48,8 @@
                                             </td>
                                             {{-- <td>{{ $item->status }}</td> --}}
                                             <td>
-                                                <a href="#" class="btn btn-info"><i class="fa fa-eye"></i>
-                                                    รายละเอียด</a>
+                                                {{-- <a href="#" class="btn btn-info"><i class="fa fa-eye"></i>
+                                                    รายละเอียด</a> --}}
                                                 <a href="{{ route('admin.roles.edit', $item->id) }}"
                                                     class="btn btn-warning"><i class="fa fa-pencil"></i>
                                                     แก้ไข</a>

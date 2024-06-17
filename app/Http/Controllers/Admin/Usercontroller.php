@@ -45,17 +45,36 @@ class Usercontroller extends Controller
         return view('admin.user.role', compact('user', 'roles', 'firstUserRoleId', 'firstUserRole', 'permissions', 'permission_group', 'menuItems'));
     }
 
+    // public function assignRole(Request $request, User $user)
+    // {
+    //     //
+    //     if (!$user->hasRole($request->roleGroup)) {
+    //         $user->syncRoles($request->roleGroup);
+    //     }
+    //     // return to_route('admin.users.index');
+    //     $notification = array(
+    //         'message' => 'User Assigned Role Successfully!',
+    //         'alert-type' => 'success'
+    //     );
+
+    //     return redirect()->route('admin.users.show', ['user' => $user])->with($notification);
+    // }
+
     public function assignRole(Request $request, User $user)
     {
-        //
-        if (!$user->hasRole($request->roleGroup)) {
-            $user->syncRoles($request->roleGroup);
+        // Assuming $request->roleGroup is the role name/id you want to assign
+        $role = Role::findByName($request->roleGroup); // Assuming Role model is imported
+
+        if (!$user->hasRole($role->name)) {
+            $user->syncRoles([$role->name]);
+            // Sync permissions associated with the role
+            $user->syncPermissions($role->permissions->pluck('name')->toArray());
         }
-        // return to_route('admin.users.index');
-        $notification = array(
+
+        $notification = [
             'message' => 'User Assigned Role Successfully!',
             'alert-type' => 'success'
-        );
+        ];
 
         return redirect()->route('admin.users.show', ['user' => $user])->with($notification);
     }
@@ -119,7 +138,6 @@ class Usercontroller extends Controller
         );
 
         return redirect()->route('admin.users.index')->with($notification);
-
     }
 
     public function editUser(User $user)
@@ -136,8 +154,6 @@ class Usercontroller extends Controller
 
     public function updateUser(Request $request, User $user)
     {
-        //
-        // $mergedName = $request->input('firstname') . ' ' . $request->input('lastname');
 
         $user->update([
             'name' => $request->firstname,
@@ -151,7 +167,6 @@ class Usercontroller extends Controller
             'alert-type' => 'success'
         );
 
-        return redirect()->route('admin.users.edit', ['user' => $user])->with($notification);
+        return redirect()->route('admin.users.index')->with($notification);
     }
-
 }
