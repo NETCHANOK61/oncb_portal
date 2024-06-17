@@ -108,6 +108,8 @@ Route::middleware(['auth'])->name('admin.')->prefix('admin')->group(function () 
 
     Route::post('/users_approve/{id}', [UserRequestcontroller::class, 'approve'])->name('users_request.approve')->middleware(['auth', 'role:admin|superAdmin']);
 
+    Route::post('/users_reject/{id}', [UserRequestcontroller::class, 'reject'])->name('users_request.reject')->middleware(['auth', 'role:admin|superAdmin']);
+
     Route::get('/all_column', [MenuController::class, 'allColumn'])->name('allColumn')->middleware(['auth', 'role:admin|superAdmin']);
     Route::get('/add_column', [MenuController::class, 'addColumn'])->name('addColumn')->middleware(['auth', 'role:admin|superAdmin']);
     Route::post('/store_column', [MenuController::class, 'storeColumn'])->name('storeColumn')->middleware(['auth', 'role:admin|superAdmin']);
