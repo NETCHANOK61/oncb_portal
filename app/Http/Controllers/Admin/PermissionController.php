@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Menu;
 use App\Services\MenuService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
@@ -45,18 +46,38 @@ class PermissionController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        // $validate = $request->validate(['roleName'=>'required']);
-        Permission::create(['name' => $request->roleName, 'group_name' => $request->roleGroup]);
+        // Define validation rules
+        $rules = [
+            'permissionName' => 'required|string|max:255|unique:permissions,name',
+            'permissionGroup' => 'required|string|max:255'
+        ];
+
+        // Custom error messages
+        $messages = [
+            'permissionName.required' => 'กรุณากรอกชื่อสิทธิ์',
+            'permissionName.unique' => 'ชื่อสิทธิ์นี้มีอยู่แล้วในระบบ',
+            'permissionGroup.required' => 'กรุณาเลือกกลุ่มสิทธิ์',
+        ];
+
+        // Validate input
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+
+        Permission::create(['name' => $request->permissionName, 'group_name' => $request->permissionGroup, 'note' => $request->note, 'status' => $request->status_menu ? 1 : 0]);
 
         // return to_route('admin.permissions.index');
         $notification = array(
-            'message' => 'Role Created Successfully!',
+            'message' => 'Permission Created Successfully!',
             'alert-type' => 'success'
         );
 
         return redirect()->route('admin.permissions.index')->with($notification);
-
     }
 
     /**
@@ -85,22 +106,49 @@ class PermissionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
-        //
-        Permission::findOrFail($request->id)->update([
-            'name' => $request->roleName,
-            'group_name' => $request->roleGroup
+        // Find the permission by ID
+        $permission = Permission::findOrFail($id);
+
+        // Define validation rules
+        $rules = [
+            'permissionName' => 'required|string|max:255|unique:permissions,name,' . $permission->id,
+        ];
+
+        // Custom error messages
+        $messages = [
+            'permissionName.required' => 'กรุณากรอกชื่อสิทธิ์',
+            'permissionName.unique' => 'ชื่อสิทธิ์นี้มีอยู่แล้วในระบบ',
+        ];
+
+        // Validate input
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        // Update the permission
+        $permission->update([
+            'name' => $request->permissionName,
+            'group_name' => $request->permissionGroup,
+            'note' => $request->note,
+            'status' => $request->status ? 1 : 0
         ]);
 
-        $permission = Permission::findOrFail($request->id);
+        // Reload the permission
+        $permission = Permission::findOrFail($id);
 
-        // return to_route('admin.permissions.index');
-        $notification = array(
+        // Set notification message
+        $notification = [
             'message' => 'Permission Updated Informations Successfully!',
             'alert-type' => 'success'
-        );
+        ];
 
+        // Redirect to the edit page with notification
         return redirect()->route('admin.permissions.edit', ['permission' => $permission])->with($notification);
     }
 

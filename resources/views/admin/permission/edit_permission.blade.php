@@ -35,8 +35,8 @@
                                                 <div class="col-6">
                                                     <div class="form-group">
                                                         <label for="exampleInputEmail1">สิทธิ์</label>
-                                                        <input type="text" class="form-control" id="roleName"
-                                                            name="roleName" value="{{ $permission->name }}" />
+                                                        <input type="text" class="form-control" id="permissionName"
+                                                            name="permissionName" value="{{ $permission->name }}" />
                                                     </div>
                                                 </div>
                                                 <div class="col-6">
@@ -44,16 +44,33 @@
                                                         <label for="exampleInputname1">กลุ่มสิทธิ์</label>
                                                         <span>
                                                             <div class="form-group">
-                                                                <select name="roleGroup" multiple="multiple"
+                                                                <select name="permissionGroup" multiple="multiple"
                                                                     class="single-select">
                                                                     @foreach (['data_recording', 'data_status', 'data_report', 'other_system'] as $group)
                                                                         <option value="{{ $group }}"
                                                                             {{ $permission->group_name == $group ? 'selected' : '' }}>
-                                                                            {{ $group }}
+                                                                            @switch($group)
+                                                                                @case('data_recording')
+                                                                                    การบันทึกข้อมูล
+                                                                                @break
+
+                                                                                @case('data_status')
+                                                                                    สถานะการนำเข้าข้อมูล
+                                                                                @break
+
+                                                                                @case('data_report')
+                                                                                    รายงาน
+                                                                                @break
+
+                                                                                @case('other_system')
+                                                                                    เชื่อมโยงระบบอื่น ๆ
+                                                                                @break
+                                                                            @endswitch
                                                                         </option>
                                                                     @endforeach
                                                                 </select>
                                                             </div>
+
                                                         </span>
                                                     </div>
                                                 </div>
@@ -61,7 +78,9 @@
                                                     <label for="subMenuNameInput">สถานะ</label>
                                                     <div class="form-group">
                                                         <label class="switch">
-                                                            <input type="checkbox" checked name="status_menu">
+                                                            <input type="checkbox"
+                                                                {{ $permission->status == 1 ? 'checked' : '' }}
+                                                                name="status">
                                                             <span class="slider round"></span>
                                                             <span class="status-text on-text">เปิด</span>
                                                             <span class="status-text off-text">ปิด</span>
@@ -72,7 +91,7 @@
 
                                             <div class="form-group">
                                                 <label for="exampleInputEmail1">หมายเหตุ</label>
-                                                <textarea class="form-control" placeholder="หมายเหตุ" id="note" name="note" style="height: 100px">{{ $permission->guard_name }}</textarea>
+                                                <textarea class="form-control" placeholder="หมายเหตุ" id="note" name="note" style="height: 100px">{{ $permission->note }}</textarea>
 
                                             </div>
 

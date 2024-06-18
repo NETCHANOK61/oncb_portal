@@ -4,10 +4,8 @@
         <!-- PAGE-HEADER -->
         <div class="page-header">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ route('admin.permissions.index') }}">บริหารจัดการบทบาท
+                <li class="breadcrumb-item"><a href="{{ route('admin.permissions.index') }}">บริหารจัดการสิทธิ์
                     </a></li>
-                <li class="breadcrumb-item"><a href="{{ route('admin.permissions.index') }}">จัดการสิทธิ์ต่าง ๆ ในระบบ</a>
-                </li>
                 <li class="breadcrumb-item active" aria-current="page">
                     เพิ่มข้อมูล
                 </li>
@@ -37,8 +35,13 @@
                                                 <div class="col-6">
                                                     <div class="form-group">
                                                         <label for="exampleInputEmail1">สิทธิ์</label>
-                                                        <input type="text" class="form-control" id="roleName"
-                                                            name="roleName" placeholder="ชื่อสิทธิ์" />
+                                                        <input type="text"
+                                                            class="form-control @error('permissionName') is-invalid @enderror"
+                                                            id="permissionName" name="permissionName"
+                                                            placeholder="ชื่อสิทธิ์" value="{{ old('permissionName') }}" />
+                                                        @error('permissionName')
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                        @enderror
                                                     </div>
                                                 </div>
                                                 <div class="col-6">
@@ -46,13 +49,20 @@
                                                         <label for="exampleInputname1">กลุ่มสิทธิ์</label>
                                                         <span>
                                                             <div class="form-group">
-                                                                <select name="roleGroup" multiple="multiple"
+                                                                <select name="permissionGroup" multiple="multiple"
                                                                     class="single-select">
+                                                                    <option value="" selected>-เลือกกลุ่มสิทธิ์-
+                                                                    </option>
                                                                     <option value="data_recording">การบันทึกข้อมูล</option>
-                                                                    <option value="data_status">สถานะการนำเข้าข้อมูล</option>
+                                                                    <option value="data_status">สถานะการนำเข้าข้อมูล
+                                                                    </option>
                                                                     <option value="data_report">รายงาน</option>
-                                                                    <option value="other_system">เชื่อมโยงระบบอื่น ๆ</option>
+                                                                    <option value="other_system">เชื่อมโยงระบบอื่น ๆ
+                                                                    </option>
                                                                 </select>
+                                                                @error('permissionGroup')
+                                                                    <span class="text-danger">{{ $message }}</span>
+                                                                @enderror
                                                             </div>
                                                         </span>
                                                     </div>
@@ -61,7 +71,7 @@
                                                     <label for="subMenuNameInput">สถานะ</label>
                                                     <div class="form-group">
                                                         <label class="switch">
-                                                            <input type="checkbox" checked name="status_menu">
+                                                            <input type="checkbox" checked name="status">
                                                             <span class="slider round"></span>
                                                             <span class="status-text on-text">เปิด</span>
                                                             <span class="status-text off-text">ปิด</span>
