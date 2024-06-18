@@ -6,7 +6,6 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ route('admin.roles.index') }}">บริหารจัดการบทบาท
                     </a></li>
-                <li class="breadcrumb-item"><a href="{{ route('admin.roles.index') }}">จัดการบทบาทของผู้ใช้งาน</a></li>
                 <li class="breadcrumb-item active" aria-current="page">
                     เพิ่มข้อมูล
                 </li>
@@ -36,16 +35,21 @@
                                                 <div class="col-12">
                                                     <div class="form-group">
                                                         <label for="exampleInputEmail1">บทบาท</label>
-                                                        <input type="text" class="form-control" id="roleName"
-                                                            name="roleName" placeholder="ชื่อบทบาท"
+                                                        <input type="text"
+                                                            class="form-control @error('roleName') is-invalid @enderror"
+                                                            id="roleName" name="roleName" placeholder="ชื่อบทบาท"
                                                             value="{{ $role->name }}" />
+                                                        @error('roleName')
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                        @enderror
                                                     </div>
                                                 </div>
                                                 <div class="col-6">
                                                     <label for="subMenuNameInput">สถานะ</label>
                                                     <div class="form-group">
                                                         <label class="switch">
-                                                            <input type="checkbox" checked name="status_menu">
+                                                            <input type="checkbox" name="status_menu"
+                                                                {{ $role->status == 1 ? 'checked' : '' }}>
                                                             <span class="slider round"></span>
                                                             <span class="status-text on-text">เปิด</span>
                                                             <span class="status-text off-text">ปิด</span>
@@ -56,7 +60,7 @@
 
                                             <div class="form-group">
                                                 <label for="exampleInputEmail1">หมายเหตุ</label>
-                                                <textarea class="form-control" placeholder="หมายเหตุ" id="note" name="note" style="height: 100px">{{ $role->guard_name }}</textarea>
+                                                <textarea class="form-control" placeholder="หมายเหตุ" id="note" name="note" style="height: 100px">{{ $role->note }}</textarea>
 
                                             </div>
                                             <div class="card-footer" align="right">
@@ -89,27 +93,27 @@
                                                 <div class="row">
                                                     <div class="col-3">
                                                         @php
-                                                            $permissions = App\Models\User::getPermissionByGroupName(
+                                                            $group_permissions = App\Models\User::getPermissionByGroupName(
                                                                 $group->group_name,
                                                             );
                                                         @endphp
                                                         <label class="custom-control custom-checkbox">
                                                             <input type="checkbox" class="custom-control-input"
-                                                                name="example-checkbox" value="option1"
-                                                                {{ App\Models\User::roleHasPermissions($role, $permissions) ? 'checked' : '' }}>
+                                                                name="group_permissions[]" value="{{ $group->group_name }}"
+                                                                {{ in_array($group->group_name, $rolePermissions) ? 'checked' : '' }}>
                                                             <span
                                                                 class="custom-control-label">{{ $group->group_name }}</span>
                                                         </label>
                                                     </div>
                                                     <div class="col-9">
-                                                        @foreach ($permissions as $permission)
+                                                        @foreach ($group_permissions as $permission)
                                                             <label class="custom-control custom-checkbox"
                                                                 for="checkDefault{{ $permission->id }}">
                                                                 <input type="checkbox" class="custom-control-input"
                                                                     name="permission[]"
                                                                     id="checkDefault{{ $permission->id }}"
                                                                     value="{{ $permission->name }}"
-                                                                    {{ App\Models\User::roleHasPermissions($role, $permissions) ? 'checked' : '' }}>
+                                                                    {{ in_array($permission->id, $rolePermissions) ? 'checked' : '' }}>
                                                                 <span
                                                                     class="custom-control-label">{{ $permission->name }}</span>
                                                             </label>
@@ -122,12 +126,12 @@
                                             <div class="card-footer" align="right">
                                                 <button type="submit"
                                                     class="btn btn-success-light mt-1">บันทึกสิทธิ์</button>
-                                                {{-- <a href="#" class="btn btn-success-light mt-1">บันทึก</a> --}}
                                                 <a href="{{ route('admin.roles.index') }}"
                                                     class="btn btn-danger-light mt-1">ยกเลิก</a>
                                             </div>
                                         </div>
                                     </form>
+
                                 </div>
                             </div>
                         </div>

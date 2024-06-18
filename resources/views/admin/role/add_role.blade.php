@@ -6,7 +6,6 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ route('admin.roles.index') }}">บริหารจัดการบทบาท
                     </a></li>
-                <li class="breadcrumb-item"><a href="{{ route('admin.roles.index') }}">จัดการบทบาทของผู้ใช้งาน</a></li>
                 <li class="breadcrumb-item active" aria-current="page">
                     เพิ่มข้อมูล
                 </li>
@@ -35,26 +34,15 @@
                                                 <div class="col-12">
                                                     <div class="form-group">
                                                         <label for="exampleInputEmail1">บทบาท</label>
-                                                        <input type="text" class="form-control" id="roleName"
-                                                            name="roleName" placeholder="ชื่อบทบาท" />
+                                                        <input type="text"
+                                                            class="form-control @error('roleName') is-invalid @enderror"
+                                                            id="roleName" name="roleName" placeholder="ชื่อบทบาท"
+                                                            value="{{ old('roleName') }}" />
+                                                        @error('roleName')
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                        @enderror
                                                     </div>
                                                 </div>
-                                                {{-- <div class="col-6">
-                                                    <div class="form-group">
-                                                        <label for="exampleInputname1">กลุ่มบทบาท</label>
-                                                        <span>
-                                                            <div class="form-group">
-                                                                <select name="roleGroup" multiple="multiple"
-                                                                    class="single-select">
-                                                                    <option value="superAdmin">SuperAdmin</option>
-                                                                    <option value="admin">Admin</option>
-                                                                    <option value="staff">Staff</option>
-                                                                    <option value="user">User</option>
-                                                                </select>
-                                                            </div>
-                                                        </span>
-                                                    </div>
-                                                </div> --}}
                                                 <div class="col-6">
                                                     <label for="subMenuNameInput">สถานะ</label>
                                                     <div class="form-group">
@@ -70,18 +58,17 @@
 
                                             <div class="form-group">
                                                 <label for="exampleInputEmail1">หมายเหตุ</label>
-                                                <textarea class="form-control" placeholder="หมายเหตุ" id="note" name="note" style="height: 100px"></textarea>
-
+                                                <textarea class="form-control" placeholder="หมายเหตุ" id="note" name="note" style="height: 100px">{{ old('note') }}</textarea>
                                             </div>
 
                                             <div class="card-footer" align="right">
                                                 <button type="submit" class="btn btn-success-light mt-1">บันทึก</button>
-                                                {{-- <a href="#" class="btn btn-success-light mt-1">บันทึก</a> --}}
                                                 <a href="{{ route('admin.roles.index') }}"
                                                     class="btn btn-danger-light mt-1">ยกเลิก</a>
                                             </div>
                                         </div>
                                     </form>
+
                                 </div>
 
                             </div>

@@ -7,6 +7,7 @@ use App\Models\Menu;
 use App\Models\User;
 use App\Services\MenuService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
@@ -46,17 +47,39 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        Role::create(['name' => $request->roleName]);
+        // Define validation rules
+        $rules = [
+            'roleName' => 'required|string|max:255|unique:roles,name'
+        ];
 
-        // return to_route('admin.roles.index');
+        // Custom error messages
+        $messages = [
+            'roleName.required' => 'กรุณากรอกชื่อบทบาท',
+            'roleName.unique' => 'ชื่อบทบาทนี้มีอยู่แล้วในระบบ',
+        ];
+
+        // Validate input
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        // Create the role
+        Role::create(['name' => $request->roleName, 'note' => $request->note, 'status' => $request->status_menu ? 1 : 0]);
+
+        // Prepare the notification message
         $notification = array(
             'message' => 'Role Created Successfully!',
             'alert-type' => 'success'
         );
 
+        // Redirect to the roles index page with the notification
         return redirect()->route('admin.roles.index')->with($notification);
     }
+
 
     /**
      * Display the specified resource.
@@ -71,35 +94,61 @@ class RoleController extends Controller
      */
     public function edit(Role $role)
     {
-        //
         $permissions = Permission::all();
         $permission_group = User::getPermissionGroups();
 
+        // Fetch role permissions
+        $rolePermissions = $role->permissions()->pluck('id')->toArray();
+
         // menuTab
-        // $menuItems = Menu::where('status_menu', 1)->get();
         $menuItems = MenuService::getMenuItems();
 
-        return view('admin.role.edit_role', compact('role', 'permissions', 'permission_group', 'menuItems'));
+        return view('admin.role.edit_role', compact('role', 'permissions', 'permission_group', 'menuItems', 'rolePermissions'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
-        //
-        $role = Role::findOrFail($request->id);
+        // Find the role by ID
+        $role = Role::findOrFail($id);
+
+        // Define validation rules
+        $rules = [
+            'roleName' => 'required|string|max:255|unique:roles,name,' . $role->id
+        ];
+
+        // Custom error messages
+        $messages = [
+            'roleName.required' => 'กรุณากรอกชื่อบทบาท',
+            'roleName.unique' => 'ชื่อบทบาทนี้มีอยู่แล้วในระบบ',
+        ];
+
+        // Validate input
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        // Update the role
         $role->update([
-            'name' => $request->roleName
+            'name' => $request->roleName,
+            'note' => $request->note,
+            'status' => $request->status_menu ? 1 : 0
         ]);
-        // return to_route('admin.roles.index');
-        $notification = array(
-            'message' => 'Role Updated Informations Successfully!',
+
+        // Prepare the success notification
+        $notification = [
+            'message' => 'Role Updated Successfully!',
             'alert-type' => 'success'
-        );
+        ];
 
-        return redirect()->route('admin.roles.index')->with($notification);
-
+        // Redirect to the roles index page with the success notification
+        return redirect()->back()->with($notification);
     }
 
     /**
@@ -120,7 +169,6 @@ class RoleController extends Controller
         // }
 
         $permissions = $request->input('permission', []);
-
 
         foreach ($permissions as $permission) {
             // Check if the role already has the permission
