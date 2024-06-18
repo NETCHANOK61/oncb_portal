@@ -41,7 +41,12 @@ class UserRequestcontroller extends Controller
             'file' => $request_user->file,
             'username' => $request->input('username'),
             'surname' => $request_user->surname,
-            'phone' => $request->phone
+            'phone' => $request->phone,
+            'agency' => $request->agency,
+            'PROV_ID' => $request->PROV_ID,
+            'AMP_ID' => $request->AMP_ID,
+            'edu_area_id' => $request->edu_area_id,
+            'dept_id' => $request->dept_id
         ]);
 
         $request_user->update(['approved' => 1]);
@@ -61,9 +66,14 @@ class UserRequestcontroller extends Controller
                 'card_id' => $request_user->card_id,
                 'file' => $request_user->file,
                 'username' => $request->input('username'),
+                'userid' => $request_user->userid,
                 'password' => Hash::make($request->input('password')),
                 'phone' => $request_user->phone,
-                'NISPA' => 1
+                'NISPA' => 1,
+                'agency' => $request->agency,
+                'PROV_ID' => $request->PROV_ID,
+                'AMP_ID' => $request->AMP_ID,
+                'edu_area_id' => $request->edu_area_id,
             ]);
         }
 
