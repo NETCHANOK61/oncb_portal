@@ -312,9 +312,9 @@ class IndexController extends Controller
 
         if (!is_null($userapi) && isset($userapi['login'])) {
             $authen = $userapi['login'];
+            
             if ($authen) {
                 $user = User::where('userid', $username)->first();
-
                 if ($user) {
                     $system_all = System::where('status', 1)->get();
                     Auth::login($user);
