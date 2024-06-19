@@ -1,7 +1,6 @@
 @extends('admin.dashboard')
 @section('admin')
     <div class="side-app">
-
         <!-- PAGE-HEADER -->
         <div class="page-header">
             <ol class="breadcrumb">
@@ -17,9 +16,20 @@
             <div class="col-md-12 col-lg-12">
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <div class="card-title">คำขอที่ต้องการใช้งานระบบเพิ่ม</div>
+                        <div class="card-title">คำขอที่ต้องการใช้งานระบบเพิ่ม:
+                        </div>
                     </div>
                     <div class="card-body">
+                        <div style="padding-bottom: 2%">
+                            @if ($systemNames->isNotEmpty())
+                                @foreach ($systemNames as $name)
+                                    <span class="badge badge-pill badge-default"><span></span>
+                                        {{ $name }}</span>
+                                @endforeach
+                            @else
+                                <p>ไม่มีระบบที่อยู่ภายใต้การดูแลของคุณ</p>
+                            @endif
+                        </div>
                         <div class="table-responsive">
                             <!-- In admin/portal_user/request_user.blade.php -->
                             <!-- In admin/portal_user/request_user.blade.php -->
@@ -38,8 +48,8 @@
                                     @foreach ($request_user as $key => $item)
                                         <tr align="center">
                                             <td>{{ $key + 1 }}</td>
-                                            <td>{{ $item->name . ' ' . $item->surname }}</td>
-                                            <td>{{ $item->email }}</td>
+                                            <td>{{ $item->user->name . ' ' . $item->user->surname }}</td>
+                                            <td>{{ $item->user->email }}</td>
                                             <td>{{ $item->portalSystem->fullname }}</td>
                                             <td>{{ $item->created_at->setTimezone('Asia/Bangkok')->format('d/m/Y เวลา H:i:s') }}
                                             </td>
@@ -48,7 +58,7 @@
                                                     <i class="fa fa-eye"></i> ดูเอกสารแนบ
                                                 </button>
                                                 <button class="btn btn-warning"
-                                                    onclick="approved({{ $item->id }}, '{{ $item->portalSystem->id }}')">
+                                                    onclick="approved({{ $item->user->id }}, '{{ $item->portalSystem->id }}')">
                                                     <i class="fa fa-pencil"></i> อนุมัติผู้ใช้งาน
                                                 </button>
                                                 {{-- <button class="btn btn-danger"

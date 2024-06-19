@@ -18,7 +18,10 @@ class UserRequestNewSysController extends Controller
      */
     public function index()
     {
+        // Retrieve the authenticated user
         $user = Auth::user();
+
+        // Retrieve menu items
         $menuItems = MenuService::getMenuItems();
 
         // Retrieve managed systems for the authenticated user
@@ -26,15 +29,15 @@ class UserRequestNewSysController extends Controller
 
         // Extract the system IDs from the managed systems
         $systemIds = $managedSystems->pluck('system_id');
+        $systemNames = System::whereIn('id', $systemIds)->pluck('fullname');
 
         // Retrieve request_user records with related user and portal system details
         $request_user = UserReqSys::where('approved', '0')
             ->whereIn('portal_system_id', $systemIds)
             ->with(['user', 'portalSystem']) // Eager load the related user and portal system
             ->get();
-        dd($request_user);
 
-        return view('admin.portal_user.user_request_sys', compact('menuItems', 'request_user', 'managedSystems'));
+        return view('admin.portal_user.user_request_sys', compact('menuItems', 'request_user', 'managedSystems', 'systemNames'));
     }
 
     /**

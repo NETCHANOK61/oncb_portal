@@ -108,7 +108,7 @@ Route::middleware(['auth'])->name('portal.')->prefix('portal')->group(function (
     Route::get('/reject_user_list', [UserRequestPortalcontroller::class, 'rejectList'])->name('rejectUserList');
     Route::post('/reject_user_portal/{id}', [UserRequestPortalcontroller::class, 'reject'])->name('rejectUserPortal');
 
-    Route::get('/request_new_system', [UserRequestNewSysController::class, 'index'])->name('requestNewSystemList');
+    Route::get('/request_new_list', [UserRequestNewSysController::class, 'index'])->name('requestNewSystemList');
     Route::post('/approve_new_system/{id}/{sys_id}', [UserRequestNewSysController::class, 'approve'])->name('approveNewSystem');
 
     // Route::get('/add_system', [PortalSystemController::class, 'addSystem'])->name('addSystem')->middleware(['auth', 'role:admin|superAdmin']);

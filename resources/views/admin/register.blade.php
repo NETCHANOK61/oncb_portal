@@ -180,7 +180,7 @@
                             <div id="surname-error-message" class="error-message" style="display: none;"></div>
                         </div>
                         <div class="mb-3">
-                            <label for="phone" class="form-label">เบอร์โทรศัพท์</label>
+                            <label for="phone" class="form-label">เบอร์มือถือ</label>
                             <input type="text" class="form-control" id="phone" name="phone" required
                                 size="10" maxlength="10">
                             <div id="phone-error-message" class="error-message" style="display: none;"></div>
@@ -527,7 +527,7 @@
 
             if (!isNumeric) {
                 $('#phone').addClass('error_box');
-                $('#phone-error-message').text('เบอร์โทรศัพท์ต้องมีความยาว 10 หลัก และเป็นตัวเลขเท่านั้น')
+                $('#phone-error-message').text('เบอร์มือถือต้องมีความยาว 10 หลัก และเป็นตัวเลขเท่านั้น')
                     .show();
                 return false;
             } else {
