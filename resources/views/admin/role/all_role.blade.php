@@ -31,8 +31,8 @@
                                     <tr align="center">
                                         <th class="text-center">ลำดับ</th>
                                         <th class="text-center">ชื่อบทบาท</th>
-                                        <th class="text-center">สิทธิ์</th>
-                                        {{-- <th class="text-center">สถานะ</th> --}}
+                                        <th class="text-center">สิทธิ์พื้นฐาน</th>
+                                        <th class="text-center">สถานะ</th>
                                         <th class="text-center">การจัดการ</th>
                                     </tr>
                                 </thead>
@@ -46,7 +46,11 @@
                                                     <span class="badge badge-pill badge-default">{{ $prem->name }}</span>
                                                 @endforeach
                                             </td>
-                                            {{-- <td>{{ $item->status }}</td> --}}
+                                            <td>
+                                                <span class="badge badge-pill badge-default"><span
+                                                        class="{{ $item->status ? 'able_animation' : 'unable_animation' }}"></span>
+                                                    {{ $item->status ? 'เปิด' : 'ปิด' }}</span>
+                                            </td>
                                             <td>
                                                 {{-- <a href="#" class="btn btn-info"><i class="fa fa-eye"></i>
                                                     รายละเอียด</a> --}}

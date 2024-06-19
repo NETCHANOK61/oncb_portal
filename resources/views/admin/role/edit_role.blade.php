@@ -80,11 +80,11 @@
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col-12">
-                                                    <h3>Role Permission</h3>
+                                                    <h3>กำหนดสิทธิ์การใช้งานพื้นฐานให้กับบทบาท</h3>
                                                     <label class="custom-control custom-checkbox" for="checkDefaultmain">
                                                         <input type="checkbox" class="custom-control-input"
                                                             id="checkDefaultmain">
-                                                        <span class="custom-control-label">Permission All</span>
+                                                        <span class="custom-control-label">สิทธิ์ทั้งหมด</span>
                                                     </label>
                                                 </div>
                                             </div>
@@ -101,8 +101,28 @@
                                                             <input type="checkbox" class="custom-control-input"
                                                                 name="group_permissions[]" value="{{ $group->group_name }}"
                                                                 {{ in_array($group->group_name, $rolePermissions) ? 'checked' : '' }}>
-                                                            <span
-                                                                class="custom-control-label">{{ $group->group_name }}</span>
+                                                            <span class="custom-control-label">
+                                                                @switch($group->group_name)
+                                                                    @case('data_recording')
+                                                                        การบันทึกข้อมูล
+                                                                    @break
+
+                                                                    @case('data_status')
+                                                                        สถานะการนำเข้าข้อมูล
+                                                                    @break
+
+                                                                    @case('data_report')
+                                                                        รายงาน
+                                                                    @break
+
+                                                                    @case('other_system')
+                                                                        เชื่อมโยงระบบอื่น ๆ
+                                                                    @break
+
+                                                                    @default
+                                                                        {{ $group->group_name }}
+                                                                @endswitch
+                                                            </span>
                                                         </label>
                                                     </div>
                                                     <div class="col-9">

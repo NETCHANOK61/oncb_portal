@@ -1,7 +1,6 @@
 @extends('admin.dashboard')
 @section('admin')
     <div class="side-app">
-
         <!-- PAGE-HEADER -->
         <div class="page-header">
             <ol class="breadcrumb">
@@ -33,7 +32,7 @@
                                         <th class="text-center">ชื่อสิทธิ์</th>
                                         <th class="text-center">กลุ่มสิทธิ์</th>
                                         {{-- <th class="text-center">บทบาท</th> --}}
-                                        {{-- <th class="text-center">สถานะ</th> --}}
+                                        <th class="text-center">สถานะ</th>
                                         <th class="text-center">การจัดการ</th>
                                     </tr>
                                 </thead>
@@ -42,22 +41,45 @@
                                         <tr align="center">
                                             <td>{{ $key + 1 }}</td>
                                             <td>{{ $item->name }}</td>
-                                            <td>{{ $item->group_name }}</td>
+                                            <td>
+                                                @switch($item->group_name)
+                                                    @case('data_recording')
+                                                        การบันทึกข้อมูล
+                                                    @break
+
+                                                    @case('data_status')
+                                                        สถานะการนำเข้าข้อมูล
+                                                    @break
+
+                                                    @case('data_report')
+                                                        รายงาน
+                                                    @break
+
+                                                    @case('other_system')
+                                                        เชื่อมโยงระบบอื่น ๆ
+                                                    @break
+
+                                                    @default
+                                                        {{ $item->group_name }}
+                                                @endswitch
+                                            </td>
                                             {{-- <td>
                                                 @foreach ($item->roles as $prem)
                                                     <span class="badge badge-pill badge-default">{{ $prem->name }}</span>
                                                 @endforeach
                                             </td> --}}
                                             <td>
-                                                {{-- <a href="#" class="btn btn-success"><i
-                                                        class="fa fa-eye"></i>
-                                                    ดู</a> --}}
+                                                <span class="badge badge-pill badge-default">
+                                                    <span
+                                                        class="{{ $item->status ? 'able_animation' : 'unable_animation' }}"></span>
+                                                    {{ $item->status ? 'เปิด' : 'ปิด' }}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                {{-- <a href="#" class="btn btn-success"><i class="fa fa-eye"></i> ดู</a> --}}
                                                 <a href="{{ route('admin.permissions.edit', $item->id) }}"
-                                                    class="btn btn-warning"><i class="fa fa-pencil"></i>
-                                                    แก้ไข</a>
-                                                {{-- <a href="{{ route('delete.permission', $item->id) }}"
-                                                    class="btn btn-danger"><i class="fa fa-trash"></i>
-                                                    ลบ</a> --}}
+                                                    class="btn btn-warning"><i class="fa fa-pencil"></i> แก้ไข</a>
+                                                {{-- <a href="{{ route('delete.permission', $item->id) }}" class="btn btn-danger"><i class="fa fa-trash"></i> ลบ</a> --}}
                                             </td>
                                         </tr>
                                     @endforeach

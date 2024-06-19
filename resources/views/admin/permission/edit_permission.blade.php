@@ -4,10 +4,10 @@
         <!-- PAGE-HEADER -->
         <div class="page-header">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ route('admin.permissions.index') }}">บริหารจัดการบทบาท
+                <li class="breadcrumb-item"><a href="{{ route('admin.permissions.index') }}">บริหารจัดการสิทธิ์
                     </a></li>
                 <li class="breadcrumb-item active" aria-current="page">
-                    แก้ไขข้อมูลบทบาท
+                    แก้ไขข้อมูลสิทธิ์
                 </li>
             </ol>
         </div>
@@ -35,9 +35,14 @@
                                                 <div class="col-6">
                                                     <div class="form-group">
                                                         <label for="exampleInputEmail1">สิทธิ์</label>
-                                                        <input type="text" class="form-control" id="permissionName"
-                                                            name="permissionName" value="{{ $permission->name }}" />
+                                                        <input type="text"
+                                                            class="form-control @error('permissionName') is-invalid @enderror"
+                                                            id="permissionName" name="permissionName"
+                                                            value="{{ $permission->name }}" />
                                                     </div>
+                                                    @error('permissionName')
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
                                                 </div>
                                                 <div class="col-6">
                                                     <div class="form-group">
