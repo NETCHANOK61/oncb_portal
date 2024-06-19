@@ -32,6 +32,7 @@ class UserRequestNewSysController extends Controller
             ->whereIn('portal_system_id', $systemIds)
             ->with(['user', 'portalSystem']) // Eager load the related user and portal system
             ->get();
+        dd($request_user);
 
         return view('admin.portal_user.user_request_sys', compact('menuItems', 'request_user', 'managedSystems'));
     }

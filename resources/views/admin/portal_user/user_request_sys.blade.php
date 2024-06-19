@@ -38,8 +38,8 @@
                                     @foreach ($request_user as $key => $item)
                                         <tr align="center">
                                             <td>{{ $key + 1 }}</td>
-                                            <td>{{ $item->user->name . ' ' . $item->user->surname }}</td>
-                                            <td>{{ $item->user->email }}</td>
+                                            <td>{{ $item->name . ' ' . $item->surname }}</td>
+                                            <td>{{ $item->email }}</td>
                                             <td>{{ $item->portalSystem->fullname }}</td>
                                             <td>{{ $item->created_at->setTimezone('Asia/Bangkok')->format('d/m/Y เวลา H:i:s') }}
                                             </td>
@@ -48,7 +48,7 @@
                                                     <i class="fa fa-eye"></i> ดูเอกสารแนบ
                                                 </button>
                                                 <button class="btn btn-warning"
-                                                    onclick="approved({{ $item->user->id }}, '{{ $item->portalSystem->id }}')">
+                                                    onclick="approved({{ $item->id }}, '{{ $item->portalSystem->id }}')">
                                                     <i class="fa fa-pencil"></i> อนุมัติผู้ใช้งาน
                                                 </button>
                                                 {{-- <button class="btn btn-danger"
