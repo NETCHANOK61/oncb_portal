@@ -310,9 +310,8 @@ class IndexController extends Controller
         $userapi = $this->callApi($req);
         $userObject = $userapi;
 
-        if (!is_null($userapi) || isset($userapi['login'])) {
-            // $authen = $userapi['login'];
-            $authen = true;
+        if (!is_null($userapi) && isset($userapi['login'])) {
+            $authen = $userapi['login'];
             if ($authen) {
                 $user = User::where('userid', $username)->first();
 
@@ -323,6 +322,8 @@ class IndexController extends Controller
                 } else {
                     return back()->with('error', 'ไม่พบบัญชีผู้ใช้งาน');
                 }
+            } else {
+                return back()->with('error', 'ไม่สามารถเข้าสู่ระบบได้');
             }
         } else {
             if (Auth::attempt(['username' => $username, 'password' => $password])) {
