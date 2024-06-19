@@ -1,7 +1,9 @@
 (function($) {
 	"use strict";
 	//basic
-	$('.multi-select').multipleSelect();
+	$('.multi-select').multipleSelect(
+		{filter: true}
+	);
 
 	//optiongroup
 	$('.optmulti-select').multipleSelect({

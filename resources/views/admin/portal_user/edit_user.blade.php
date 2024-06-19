@@ -48,10 +48,10 @@
                                                                     value="{{ $user->surname }}" />
                                                             </div>
                                                         </div>
-                                                        <div class="col-6">
+                                                        <div class="col-12">
                                                             <div class="form-group">
                                                                 <label for="systemGroup">ระบบที่มีสิทธิ์เข้าถึงได้</label>
-                                                                <select name="systemGroup[]" class="multi-select" multiple>
+                                                                <select name="systemGroup[]" class="multi-select" style="width: 100%">
                                                                     @foreach ($data as $item)
                                                                         @php
                                                                             $system_name = $item->en_name;
