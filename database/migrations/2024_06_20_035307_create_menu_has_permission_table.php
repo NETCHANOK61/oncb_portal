@@ -11,14 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('menus', function (Blueprint $table) {
+        Schema::create('menu_has_permission', function (Blueprint $table) {
+            //
             $table->id();
-            $table->string('name');
-            $table->string('icon')->nullable();
-            $table->string('route');
-            $table->enum('type', ['named', 'url']);
-            $table->enum('status_menu', [0, 1, 2])->default(1);
-            $table->unsignedBigInteger('parent_id')->nullable();
+            $table->foreignId('menu_id')->constrained()->onDelete('cascade');
+            $table->foreignId('permission_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -28,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('menus');
+        Schema::dropIfExists('menu_has_permission');
     }
 };

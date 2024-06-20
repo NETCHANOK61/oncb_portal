@@ -16,13 +16,11 @@ class MenuController extends Controller
     //
     public function index()
     {
-        $menu = Menu::all();
-
         // menuTab
         // $menuItems = Menu::where('status_menu', 1)->get();
         $menuItems = MenuService::getMenuItems();
-
-        return view('admin.menu.all_menu', compact('menu', 'menuItems'));
+        $menus = Menu::with('children.children')->whereNull('parent_id')->get();
+        return view('admin.menu.all_menu', compact('menus', 'menuItems'));
     }
 
     public function AddMenu()
@@ -41,7 +39,7 @@ class MenuController extends Controller
         // Validation
         $validatedData = $request->validate(['menu_name' => 'required|max:200', 'menu_icon' => 'required', 'secondary_menu' => 'max:200', 'sub_menu' => 'max:200']);
 
-        Menu::create([
+        Test::create([
             'menu_name' => $validatedData['menu_name'],
             'menu_icon' => $validatedData['menu_icon'],
             'secondary_menu' => $validatedData['secondary_menu'],

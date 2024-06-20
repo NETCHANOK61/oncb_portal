@@ -5,10 +5,8 @@
         <!-- PAGE-HEADER -->
         <div class="page-header">
             <ol class="breadcrumb">
-                {{-- <li class="breadcrumb-item"><a href="#">บริหารจัดการผู้ใช้งาน</a></li> --}}
                 <li class="breadcrumb-item active" aria-current="page">บริหารจัดการเมนู</li>
             </ol>
-
         </div>
 
         <!-- COL END -->
@@ -19,9 +17,9 @@
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <div class="card-title">บริหารจัดการเมนู</div>
                         <div class="btn-list">
-                            <a href="{{ route('admin.add.menu') }}" class="btn btn-primary ml-auto"><i
-                                    class="fa fa-plus"></i>
-                                เพิ่มข้อมูล</a>
+                            <a href="{{ route('admin.add.menu') }}" class="btn btn-primary ml-auto">
+                                <i class="fa fa-plus"></i> เพิ่มข้อมูล
+                            </a>
                         </div>
                     </div>
                     <div class="card-body">
@@ -32,33 +30,88 @@
                                         <th class="text-center">ลำดับ</th>
                                         <th class="text-center">ชื่อเมนู</th>
                                         <th class="text-center">ไอคอน</th>
-                                        <th class="text-center">เมนูรอง</th>
-                                        <th class="text-center">เมนูย่อย</th>
+                                        <th class="text-center">ระดับของเมนู</th>
                                         <th class="text-center">สถานะ</th>
                                         <th class="text-center">การจัดการ</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($menu as $key => $item)
+                                    @php
+                                        $counter = 1;
+                                    @endphp
+                                    @foreach ($menus as $menu)
+                                        @php
+                                            $level = 1;
+                                        @endphp
                                         <tr align="center">
-                                            <td>{{ $key + 1 }}</td>
-                                            <td>{{ $item->menu_name }}</td>
-                                            <td><i class="{{ $item->menu_icon }}" style="font-size: 25px"></i></td>
-                                            <td>{{ $item->secondary_menu == null ? '-' : $item->secondary_menu }}</td>
-                                            <td>{{ $item->sub_menu == null ? '-' : $item->sub_menu }}</td>
+                                            <td>{{ $counter++ }}</td>
+                                            <td>{{ $menu->name }}</td>
+                                            <td><i class="{{ $menu->icon }}" style="font-size: 25px"></i></td>
+                                            <td>ระดับ {{ $level }}</td>
                                             <td>
-                                                <span class="badge badge-pill badge-default"><span
-                                                        class="{{ $item->status_menu ? 'able_animation' : 'unable_animation' }}"></span>
-                                                    {{ $item->status_menu ? 'เปิด' : 'ปิด' }}</span>
+                                                <span class="badge badge-pill badge-default">
+                                                    <span
+                                                        class="{{ $menu->status_menu ? 'able_animation' : 'unable_animation' }}"></span>
+                                                    {{ $menu->status_menu ? 'เปิด' : 'ปิด' }}
+                                                </span>
                                             </td>
                                             <td>
                                                 <a href="#" class="btn btn-info"><i class="fa fa-eye"></i>
                                                     รายละเอียด</a>
-                                                <a href="{{ route('admin.edit.menu', $item->id) }}"
-                                                    class="btn btn-warning"><i class="fa fa-pencil"></i>
-                                                    แก้ไข</a>
+                                                <a href="{{ route('admin.edit.menu', $menu->id) }}"
+                                                    class="btn btn-warning"><i class="fa fa-pencil"></i> แก้ไข</a>
                                             </td>
                                         </tr>
+
+                                        @foreach ($menu->children as $child)
+                                            @php
+                                                $level = 2;
+                                            @endphp
+                                            <tr align="center">
+                                                <td>{{ $counter++ }}</td>
+                                                <td>{{ $child->name }}</td>
+                                                <td><i class="{{ $child->icon }}" style="font-size: 25px"></i></td>
+                                                <td>ระดับ {{ $level }}</td>
+                                                <td>
+                                                    <span class="badge badge-pill badge-default">
+                                                        <span
+                                                            class="{{ $child->status_menu ? 'able_animation' : 'unable_animation' }}"></span>
+                                                        {{ $child->status_menu ? 'เปิด' : 'ปิด' }}
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <a href="#" class="btn btn-info"><i class="fa fa-eye"></i>
+                                                        รายละเอียด</a>
+                                                    <a href="{{ route('admin.edit.menu', $child->id) }}"
+                                                        class="btn btn-warning"><i class="fa fa-pencil"></i> แก้ไข</a>
+                                                </td>
+                                            </tr>
+
+                                            @foreach ($child->children as $subChild)
+                                                @php
+                                                    $level = 3;
+                                                @endphp
+                                                <tr align="center">
+                                                    <td>{{ $counter++ }}</td>
+                                                    <td>{{ $subChild->name }}</td>
+                                                    <td><i class="{{ $subChild->icon }}" style="font-size: 25px"></i></td>
+                                                    <td>ระดับ {{ $level }}</td>
+                                                    <td>
+                                                        <span class="badge badge-pill badge-default">
+                                                            <span
+                                                                class="{{ $subChild->status_menu ? 'able_animation' : 'unable_animation' }}"></span>
+                                                            {{ $subChild->status_menu ? 'เปิด' : 'ปิด' }}
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <a href="#" class="btn btn-info"><i class="fa fa-eye"></i>
+                                                            รายละเอียด</a>
+                                                        <a href="{{ route('admin.edit.menu', $subChild->id) }}"
+                                                            class="btn btn-warning"><i class="fa fa-pencil"></i> แก้ไข</a>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        @endforeach
                                     @endforeach
                                 </tbody>
                             </table>

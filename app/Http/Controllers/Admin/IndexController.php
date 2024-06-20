@@ -30,7 +30,7 @@ class IndexController extends Controller
     {
         //
         $menuItems = MenuService::getMenuItems();
-
+        // dd($menuItems);
         return view('admin.dashboard', compact('menuItems'));
     }
 

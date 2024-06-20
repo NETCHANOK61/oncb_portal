@@ -8,37 +8,61 @@ class MenuService
 {
     public static function getMenuItems()
     {
-        $menuData = Menu::where('status_menu', 1)->get();
+        // Retrieve all menus with their nested children and permissions
+        $menuData = Menu::where('status_menu', '1')
+            ->with('children', 'children.children', 'permissions') // Eager load all levels of children and permissions
+            ->whereNull('parent_id') // Start with the top-level menus
+            ->get();
+
         $menuItems = [];
 
-        foreach ($menuData as $i) {
-            $menuName = $i->menu_name;
-            $secondaryMenu = $i->secondary_menu;
-            $subMenu = $i->sub_menu;
-            $menuIcon = $i->menu_icon;
-            $urlMenu = $i->url_menu;
-
-            if (!isset($menuItems[$menuName])) {
+        foreach ($menuData as $menu) {
+            $menuName = $menu->name;
+            $menuIcon = $menu->icon;
+            // Check permissions for the main menu item
+            if ($menu->permissions->pluck('name')->some(fn($permission) => auth()->user()->can($permission))) {
                 $menuItems[$menuName] = [
                     'menu_icon' => $menuIcon,
-                    'secondary_menus' => [
-                        $secondaryMenu => ['sub_menu' => [['name' => $subMenu, 'url_menu' => $urlMenu]]],
-                    ],
+                    "status_menu" => $menu->status_menu, 
+                    'secondary_menus' => self::mapChildren($menu->children)
                 ];
-            } else {
-                if (!isset($menuItems[$menuName]['secondary_menus'][$secondaryMenu])) {
-                    $menuItems[$menuName]['secondary_menus'][$secondaryMenu] = [
-                        'sub_menu' => [['name' => $subMenu, 'url_menu' => $urlMenu]],
-                    ];
-                } else {
-                    $menuItems[$menuName]['secondary_menus'][$secondaryMenu]['sub_menu'] = array_merge(
-                        $menuItems[$menuName]['secondary_menus'][$secondaryMenu]['sub_menu'],
-                        [['name' => $subMenu, 'url_menu' => $urlMenu]]
-                    );
-                }
+            }
+        }
+        return $menuItems;
+    }
+
+    private static function mapChildren($children)
+    {
+        $result = [];
+
+        foreach ($children as $child) {
+            $secondaryMenuName = $child->name;
+
+            // Check permissions for the secondary menu item
+            if ($child->permissions->pluck('name')->some(fn($permission) => auth()->user()->can($permission))) {
+                $result[$secondaryMenuName] = [
+                    'sub_menu' => self::mapSubChildren($child->children)
+                ];
             }
         }
 
-        return $menuItems;
+        return $result;
+    }
+
+    private static function mapSubChildren($subChildren)
+    {
+        $result = [];
+
+        foreach ($subChildren as $subChild) {
+            // Check permissions for the sub-menu item
+            if ($subChild->permissions->pluck('name')->some(fn($permission) => auth()->user()->can($permission))) {
+                $result[] = [
+                    'name' => $subChild->name,
+                    'route_menu' => $subChild->route
+                ];
+            }
+        }
+
+        return $result;
     }
 }
