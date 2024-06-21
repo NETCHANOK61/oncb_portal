@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('tbl_form_input', function (Blueprint $table) {
+        Schema::table('permissions', function (Blueprint $table) {
             //
-            $table->string('table_name', 255)->nullable();
+            $table->string('operations')->nullable();
         });
     }
 
@@ -22,9 +22,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('tbl_form_input', function (Blueprint $table) {
+        Schema::table('permissions', function (Blueprint $table) {
             //
-            $table->dropColumn('table_name');
+            $table->dropColumn('operations');
         });
     }
 };

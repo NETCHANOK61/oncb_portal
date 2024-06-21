@@ -24,7 +24,8 @@
 
 	//Single Row
 	$('.single-select').multipleSelect({
-		single: true
+		single: true,
+		filter: true
 	});
 
 	//filter-multiple

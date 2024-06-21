@@ -40,7 +40,7 @@
                                     @foreach ($permissions as $key => $item)
                                         <tr align="center">
                                             <td>{{ $key + 1 }}</td>
-                                            <td>{{ $item->name }}</td>
+                                            <td>{{ $item->th_name }}</td>
                                             <td>
                                                 @switch($item->group_name)
                                                     @case('data_recording')
@@ -57,6 +57,10 @@
 
                                                     @case('other_system')
                                                         เชื่อมโยงระบบอื่น ๆ
+                                                    @break
+
+                                                    @case('data_management')
+                                                        บริหารจัดการ
                                                     @break
 
                                                     @default

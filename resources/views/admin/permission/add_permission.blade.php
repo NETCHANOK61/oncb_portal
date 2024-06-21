@@ -34,14 +34,60 @@
                                             <div class="row">
                                                 <div class="col-6">
                                                     <div class="form-group">
-                                                        <label for="exampleInputEmail1">สิทธิ์</label>
+                                                        {{-- <label for="exampleInputEmail1">สิทธิ์</label>
                                                         <input type="text"
                                                             class="form-control @error('permissionName') is-invalid @enderror"
                                                             id="permissionName" name="permissionName"
                                                             placeholder="ชื่อสิทธิ์" value="{{ old('permissionName') }}" />
                                                         @error('permissionName')
                                                             <span class="text-danger">{{ $message }}</span>
-                                                        @enderror
+                                                        @enderror --}}
+                                                        <label for="menuInput">เมนู</label>
+                                                        <span>
+                                                            <div class="form-group">
+                                                                <select name="menu" class="single-select">
+                                                                    <option value="" selected>
+                                                                        -เลือกเมนู-
+                                                                    </option>
+                                                                    @foreach ($menus as $menu_item)
+                                                                        <option value="{{ $menu_item->id }}">
+                                                                            {{ $menu_item->th_name }}
+                                                                            @if ($menu_item->route == '#')
+                                                                                <<กลุ่มเมนู>>
+                                                                            @endif
+                                                                        </option>
+                                                                    @endforeach
+                                                                </select>
+                                                                @error('menu')
+                                                                    <span class="text-danger">{{ $message }}</span>
+                                                                @enderror
+                                                            </div>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label for="abilityInput">ความสามารถของสิทธิ์</label>
+                                                        <span>
+                                                            <div class="form-group">
+                                                                <select name="ability" class="single-select">
+                                                                    <option value="" selected>
+                                                                        -เลือกความสามารถของสิทธิ์-
+                                                                    </option>
+                                                                    <option value="view">ดูรายการข้อมูลทั้งหมด</option>
+                                                                    <option value="create">สร้าง / เพิ่มข้อมูล
+                                                                    </option>
+                                                                    <option value="edit">แก้ไข / ปรับปรุงข้อมูล</option>
+                                                                    <option value="delete">ลบข้อมูล
+                                                                    </option>
+                                                                    <option value="download">ดาวน์โหลด
+                                                                    </option>
+                                                                </select>
+                                                                @error('ability')
+                                                                    <span class="text-danger">{{ $message }}</span>
+                                                                @enderror
+                                                            </div>
+                                                        </span>
                                                     </div>
                                                 </div>
                                                 <div class="col-6">
@@ -49,8 +95,7 @@
                                                         <label for="exampleInputname1">กลุ่มสิทธิ์</label>
                                                         <span>
                                                             <div class="form-group">
-                                                                <select name="permissionGroup" multiple="multiple"
-                                                                    class="single-select">
+                                                                <select name="permissionGroup" class="single-select">
                                                                     <option value="" selected>-เลือกกลุ่มสิทธิ์-
                                                                     </option>
                                                                     <option value="data_recording">การบันทึกข้อมูล</option>
@@ -58,6 +103,8 @@
                                                                     </option>
                                                                     <option value="data_report">รายงาน</option>
                                                                     <option value="other_system">เชื่อมโยงระบบอื่น ๆ
+                                                                    </option>
+                                                                    <option value="data_management">บริหารจัดการ
                                                                     </option>
                                                                 </select>
                                                                 @error('permissionGroup')

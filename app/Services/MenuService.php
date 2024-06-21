@@ -17,7 +17,7 @@ class MenuService
         $menuItems = [];
 
         foreach ($menuData as $menu) {
-            $menuName = $menu->name;
+            $menuName = $menu->th_name;
             $menuIcon = $menu->icon;
             // Check permissions for the main menu item
             if ($menu->permissions->pluck('name')->some(fn($permission) => auth()->user()->can($permission))) {
@@ -36,7 +36,7 @@ class MenuService
         $result = [];
 
         foreach ($children as $child) {
-            $secondaryMenuName = $child->name;
+            $secondaryMenuName = $child->th_name;
 
             // Check permissions for the secondary menu item
             if ($child->permissions->pluck('name')->some(fn($permission) => auth()->user()->can($permission))) {
@@ -57,7 +57,7 @@ class MenuService
             // Check permissions for the sub-menu item
             if ($subChild->permissions->pluck('name')->some(fn($permission) => auth()->user()->can($permission))) {
                 $result[] = [
-                    'name' => $subChild->name,
+                    'name' => $subChild->th_name,
                     'route_menu' => $subChild->route
                 ];
             }

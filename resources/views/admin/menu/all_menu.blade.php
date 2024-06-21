@@ -45,7 +45,7 @@
                                         @endphp
                                         <tr align="center">
                                             <td>{{ $counter++ }}</td>
-                                            <td>{{ $menu->name }}</td>
+                                            <td>{{ $menu->th_name }}</td>
                                             <td><i class="{{ $menu->icon }}" style="font-size: 25px"></i></td>
                                             <td>ระดับ {{ $level }}</td>
                                             <td>
@@ -69,7 +69,7 @@
                                             @endphp
                                             <tr align="center">
                                                 <td>{{ $counter++ }}</td>
-                                                <td>{{ $child->name }}</td>
+                                                <td>{{ $child->th_name }}</td>
                                                 <td><i class="{{ $child->icon }}" style="font-size: 25px"></i></td>
                                                 <td>ระดับ {{ $level }}</td>
                                                 <td>
@@ -93,7 +93,7 @@
                                                 @endphp
                                                 <tr align="center">
                                                     <td>{{ $counter++ }}</td>
-                                                    <td>{{ $subChild->name }}</td>
+                                                    <td>{{ $subChild->th_name }}</td>
                                                     <td><i class="{{ $subChild->icon }}" style="font-size: 25px"></i></td>
                                                     <td>ระดับ {{ $level }}</td>
                                                     <td>

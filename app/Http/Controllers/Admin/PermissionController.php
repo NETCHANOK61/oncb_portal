@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Menu;
+use App\Models\MenuHasPermission;
 use App\Services\MenuService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -37,8 +38,9 @@ class PermissionController extends Controller
         // menuTab
         // $menuItems = Menu::where('status_menu', 1)->get();
         $menuItems = MenuService::getMenuItems();
+        $menus = Menu::where('status_menu', '1')->get();
 
-        return view('admin.permission.add_permission', compact('menuItems'));
+        return view('admin.permission.add_permission', compact('menuItems', 'menus'));
     }
 
     /**
@@ -46,20 +48,33 @@ class PermissionController extends Controller
      */
     public function store(Request $request)
     {
-        // Define validation rules
-        $rules = [
-            'permissionName' => 'required|string|max:255|unique:permissions,name',
-            'permissionGroup' => 'required|string|max:255'
+        $abilityTitles = [
+            'view' => 'ดูรายการข้อมูลทั้งหมด',
+            'create' => 'สร้าง / เพิ่มข้อมูล',
+            'edit' => 'แก้ไข / ปรับปรุงข้อมูล',
+            'delete' => 'ลบข้อมูล',
+            'download' => 'ดาวน์โหลด',
         ];
 
-        // Custom error messages
+        $selected_menu = Menu::find($request->menu);
+        $en_name = $selected_menu->name . '.' . $request->ability;
+        $th_name = $selected_menu->th_name . '.' . $abilityTitles[$request->ability];
+
+        // Define validation rules
+        $rules = [
+            'menu' => 'required|exists:menus,id',
+            'ability' => 'required|in:view,create,edit,delete,download',
+            'permissionGroup' => 'required',
+        ];
+
+        // // Custom error messages
         $messages = [
-            'permissionName.required' => 'กรุณากรอกชื่อสิทธิ์',
-            'permissionName.unique' => 'ชื่อสิทธิ์นี้มีอยู่แล้วในระบบ',
+            'menu.required' => 'กรุณาเลือกเมนู',
+            'ability.required' => 'กรุณาเลือกความสามารถ',
             'permissionGroup.required' => 'กรุณาเลือกกลุ่มสิทธิ์',
         ];
 
-        // Validate input
+        // // Validate input
         $validator = Validator::make($request->all(), $rules, $messages);
 
         if ($validator->fails()) {
@@ -68,10 +83,15 @@ class PermissionController extends Controller
                 ->withInput();
         }
 
+        $check_existing = Permission::where('name', $en_name)->where('group_name', $request->permissionGroup)->get();
+        if ($check_existing) {
+            $validator->errors()->add('ability', 'การผูกเมนูกับสิทธิ์นี้มีในระบบแล้ว');
+        }
 
-        Permission::create(['name' => $request->permissionName, 'group_name' => $request->permissionGroup, 'note' => $request->note, 'status' => $request->status_menu ? 1 : 0]);
+        $new_permission = Permission::create(['th_name' => $th_name, 'name' => $en_name, 'group_name' => $request->permissionGroup, 'note' => $request->note, 'status' => $request->status ? '1' : '0', 'operations' => $request->ability]);
+        $selected_menu->permissions()->attach($new_permission->id);
 
-        // return to_route('admin.permissions.index');
+        // // return to_route('admin.permissions.index');
         $notification = array(
             'message' => 'Permission Created Successfully!',
             'alert-type' => 'success'
@@ -94,13 +114,23 @@ class PermissionController extends Controller
     public function edit(Permission $permission)
     {
         //
-        $roles = Role::all();
+        // $roles = Role::all();
 
         // menuTab
         // $menuItems = Menu::where('status_menu', 1)->get();
-        $menuItems = MenuService::getMenuItems();
+        $abilities = [
+            'view' => 'ดูรายการข้อมูลทั้งหมด',
+            'create' => 'สร้าง / เพิ่มข้อมูล',
+            'edit' => 'แก้ไข / ปรับปรุงข้อมูล',
+            'delete' => 'ลบข้อมูล',
+            'download' => 'ดาวน์โหลด'
+        ];
 
-        return view('admin.permission.edit_permission', compact('permission', 'roles', 'menuItems'));
+        $menuItems = MenuService::getMenuItems();
+        $menus = Menu::where('status_menu', '1')->get();
+        $menu_of_permission = MenuHasPermission::where('permission_id', $permission->id)->first();
+
+        return view('admin.permission.edit_permission', compact('permission', 'menus', 'menuItems', 'menu_of_permission', 'abilities'));
     }
 
     /**
@@ -108,35 +138,29 @@ class PermissionController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $abilityTitles = [
+            'view' => 'ดูรายการข้อมูลทั้งหมด',
+            'create' => 'สร้าง / เพิ่มข้อมูล',
+            'edit' => 'แก้ไข / ปรับปรุงข้อมูล',
+            'delete' => 'ลบข้อมูล',
+            'download' => 'ดาวน์โหลด',
+        ];
+
+        $selected_menu = Menu::find($request->menu);
+        $en_name = $selected_menu->name . '.' . $request->ability;
+        $th_name = $selected_menu->th_name . '.' . $abilityTitles[$request->ability];
+
         // Find the permission by ID
         $permission = Permission::findOrFail($id);
 
-        // Define validation rules
-        $rules = [
-            'permissionName' => 'required|string|max:255|unique:permissions,name,' . $permission->id,
-        ];
-
-        // Custom error messages
-        $messages = [
-            'permissionName.required' => 'กรุณากรอกชื่อสิทธิ์',
-            'permissionName.unique' => 'ชื่อสิทธิ์นี้มีอยู่แล้วในระบบ',
-        ];
-
-        // Validate input
-        $validator = Validator::make($request->all(), $rules, $messages);
-
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
-
         // Update the permission
         $permission->update([
-            'name' => $request->permissionName,
+            'th_name' => $th_name,
+            'name' => $en_name,
             'group_name' => $request->permissionGroup,
             'note' => $request->note,
-            'status' => $request->status ? 1 : 0
+            'status' => $request->status ? '1' : '0',
+            'operations' => $request->ability
         ]);
 
         // Reload the permission
