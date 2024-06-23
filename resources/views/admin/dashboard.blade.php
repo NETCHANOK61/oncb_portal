@@ -237,6 +237,12 @@
             tags: true,
         });
 
+        $(".js-example-tags2").select2({
+            width: "100%",
+            tags: true,
+        });
+
+
         $(".prov-select").select2({
             width: "100%",
             tags: true,

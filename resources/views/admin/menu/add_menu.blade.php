@@ -1,19 +1,14 @@
 @extends('admin.dashboard')
+
 @section('admin')
     <div class="side-app">
-        <!-- PAGE-HEADER -->
         <div class="page-header">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ route('admin.all.menu') }}">All menu
-                    </a></li>
-                <li class="breadcrumb-item active" aria-current="page">
-                    เพิ่มข้อมูล
-                </li>
+                <li class="breadcrumb-item"><a href="{{ route('admin.all.menu') }}">เมนูทั้งหมด</a></li>
+                <li class="breadcrumb-item active" aria-current="page">เพิ่มข้อมูล</li>
             </ol>
         </div>
-        <!-- PAGE-HEADER END -->
 
-        <!-- ROW-1 OPEN -->
         <div class="row">
             <div class="card">
                 <div class="card-body p-6">
@@ -21,309 +16,67 @@
                         <div class="tab_wrapper first_tab">
                             <ul class="tab_list">
                                 <li class="active">ข้อมูลทั่วไป</li>
-                                {{-- <li>สิทธิ์การเข้าใช้งาน</li> --}}
                             </ul>
 
                             <div class="content_wrapper">
-                                {{-- tab 1 --}}
                                 <div class="tab_content">
                                     <form id="roleForm" action="{{ route('admin.store.menu') }}" method="POST">
                                         @csrf
                                         <div class="card-body">
                                             <div class="row">
-                                                <div class="col-6">
+                                                <div class="col-5">
                                                     <div class="form-group">
-                                                        <label for="menuNameInput">Menu Name</label>
+                                                        <label for="menuNameInput">เมนูหลัก</label>
                                                         <select
                                                             class="js-example-tags form-control @error('menu_name') is-invalid @enderror"
                                                             id="menu_name" name="menu_name">
-                                                            @foreach ($menu as $item)
-                                                                <option value="{{ $item->menu_name }}">
-                                                                    {{ $item->menu_name }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                        {{-- <input type="text"
-                                                            class="form-control @error('menu_name') is-invalid @enderror" id="menu_name"
-                                                            name="menu_name" placeholder="Menu Name" /> --}}
-                                                    </div>
-                                                    @error('menu_name')
-                                                        <span class="text-danger">{{ $message }}</span>
-                                                    @enderror
-                                                </div>
-                                                <div class="col-6">
-                                                    <div class="form-group">
-                                                        <label for="menuIconTnput">Menu Icon</label>
-                                                        <select class="select2-icon" id="menu_icon" name="menu_icon">
-                                                            @foreach ([
-            'typcn typcn-chart-pie-outline' => 'Chart Pie Outline',
-            'typcn typcn-chart-pie' => 'Chart Pie',
-            'typcn typcn-chevron-left-outline' => 'Chevron Left Outline',
-            'typcn typcn-chevron-left' => 'Chevron Left',
-            'typcn typcn-chevron-right-outline' => 'Chevron Right Outline',
-            'typcn typcn-chevron-right' => 'Chevron Right',
-            'typcn typcn-clipboard' => 'Clipboard',
-            'typcn typcn-cloud-storage' => 'Cloud Storage',
-            'typcn typcn-cloud-storage-outline' => 'Cloud Storage Outline',
-            'typcn typcn-cog-outline' => 'Cog Outline',
-            'typcn typcn-cog' => 'Cog',
-            'typcn typcn-compass' => 'Compass',
-            'typcn typcn-contacts' => 'Contacts',
-            'typcn typcn-credit-card' => 'Credit Card',
-            'typcn typcn-css3' => 'CSS3',
-            'typcn typcn-database' => 'Database',
-            'typcn typcn-delete-outline' => 'Delete Outline',
-            'typcn typcn-delete' => 'Delete',
-            'typcn typcn-device-desktop' => 'Desktop Device',
-            'typcn typcn-device-laptop' => 'Laptop Device',
-            'typcn typcn-device-phone' => 'Phone Device',
-            'typcn typcn-device-tablet' => 'Tablet Device',
-            'typcn typcn-directions' => 'Directions',
-            'typcn typcn-divide-outline' => 'Divide Outline',
-            'typcn typcn-divide' => 'Divide',
-            'typcn typcn-document-add' => 'Document Add',
-            'typcn typcn-document-delete' => 'Document Delete',
-            'typcn typcn-document-text' => 'Document Text',
-            'typcn typcn-document' => 'Document',
-            'typcn typcn-download-outline' => 'Download Outline',
-            'typcn typcn-download' => 'Download',
-            'typcn typcn-dropbox' => 'Dropbox',
-            'typcn typcn-edit' => 'Edit',
-            'typcn typcn-eject-outline' => 'Eject Outline',
-            'typcn typcn-eject' => 'Eject',
-            'typcn typcn-equals-outline' => 'Equals Outline',
-            'typcn typcn-equals' => 'Equals',
-            'typcn typcn-export-outline' => 'Export Outline',
-            'typcn typcn-export' => 'Export',
-            'typcn typcn-eye-outline' => 'Eye Outline',
-            'typcn typcn-eye' => 'Eye',
-            'typcn typcn-feather' => 'Feather',
-            'typcn typcn-film' => 'Film',
-            'typcn typcn-filter' => 'Filter',
-            'typcn typcn-flag-outline' => 'Flag Outline',
-            'typcn typcn-flag' => 'Flag',
-            'typcn typcn-flash-outline' => 'Flash Outline',
-            'typcn typcn-flash' => 'Flash',
-            'typcn typcn-flow-children' => 'Flow Children',
-            'typcn typcn-flow-merge' => 'Flow Merge',
-            'typcn typcn-flow-parallel' => 'Flow Parallel',
-            'typcn typcn-flow-switch' => 'Flow Switch',
-            'typcn typcn-folder-add' => 'Folder Add',
-            'typcn typcn-folder-delete' => 'Folder Delete',
-            'typcn typcn-folder-open' => 'Folder Open',
-            'typcn typcn-folder' => 'Folder',
-            'typcn typcn-gift' => 'Gift',
-            'typcn typcn-globe-outline' => 'Globe Outline',
-            'typcn typcn-globe' => 'Globe',
-            'typcn typcn-group-outline' => 'Group Outline',
-            'typcn typcn-group' => 'Group',
-            'typcn typcn-headphones' => 'Headphones',
-            'typcn typcn-heart-full-outline' => 'Heart Full Outline',
-            'typcn typcn-heart-half-outline' => 'Heart Half Outline',
-            'typcn typcn-heart-outline' => 'Heart Outline',
-            'typcn typcn-heart' => 'Heart',
-            'typcn typcn-home-outline' => 'Home Outline',
-            'typcn typcn-home' => 'Home',
-            'typcn typcn-html5' => 'HTML5',
-            'typcn typcn-image-outline' => 'Image Outline',
-            'typcn typcn-image' => 'Image',
-            'typcn typcn-infinity-outline' => 'Infinity Outline',
-            'typcn typcn-info-large-outline' => 'Info Large Outline',
-            'typcn typcn-info-large' => 'Info Large',
-            'typcn typcn-info-outline' => 'Info Outline',
-            'typcn typcn-info' => 'Info',
-            'typcn typcn-input-checked-outline' => 'Input Checked Outline',
-            'typcn typcn-input-checked' => 'Input Checked',
-            'typcn typcn-key-outline' => 'Key Outline',
-            'typcn typcn-key' => 'Key',
-            'typcn typcn-keyboard' => 'Keyboard',
-            'typcn typcn-leaf' => 'Leaf',
-            'typcn typcn-lightbulb' => 'Lightbulb',
-            'typcn typcn-link-outline' => 'Link Outline',
-            'typcn typcn-link' => 'Link',
-            'typcn typcn-location-arrow-outline' => 'Location Arrow Outline',
-            'typcn typcn-location-arrow' => 'Location Arrow',
-            'typcn typcn-location-outline' => 'Location Outline',
-            'typcn typcn-location' => 'Location',
-            'typcn typcn-lock-closed-outline' => 'Lock Closed Outline',
-            'typcn typcn-lock-closed' => 'Lock Closed',
-            'typcn typcn-lock-open-outline' => 'Lock Open Outline',
-            'typcn typcn-lock-open' => 'Lock Open',
-            'typcn typcn-mail' => 'Mail',
-            'typcn typcn-map' => 'Map',
-            'typcn typcn-media-eject-outline' => 'Media Eject Outline',
-            'typcn typcn-media-eject' => 'Media Eject',
-            'typcn typcn-media-fast-forward-outline' => 'Media Fast Forward Outline',
-            'typcn typcn-media-fast-forward' => 'Media Fast Forward',
-            'typcn typcn-media-pause-outline' => 'Media Pause Outline',
-            'typcn typcn-media-pause' => 'Media Pause',
-            'typcn typcn-media-play-outline' => 'Media Play Outline',
-            'typcn typcn-media-play-reverse-outline' => 'Media Play Reverse Outline',
-            'typcn typcn-media-play-reverse' => 'Media Play Reverse',
-            'typcn typcn-media-play' => 'Media Play',
-            'typcn typcn-media-record-outline' => 'Media Record Outline',
-            'typcn typcn-media-record' => 'Media Record',
-            'typcn typcn-media-rewind-outline' => 'Media Rewind Outline',
-            'typcn typcn-media-rewind' => 'Media Rewind',
-            'typcn typcn-media-stop-outline' => 'Media Stop Outline',
-            'typcn typcn-media-stop' => 'Media Stop',
-            'typcn typcn-message-typing' => 'Message Typing',
-            'typcn typcn-message' => 'Message',
-            'typcn typcn-messages' => 'Messages',
-            'typcn typcn-microphone-outline' => 'Microphone Outline',
-            'typcn typcn-microphone' => 'Microphone',
-            'typcn typcn-minus-outline' => 'Minus Outline',
-            'typcn typcn-minus' => 'Minus',
-            'typcn typcn-mortar-board' => 'Mortar Board',
-            'typcn typcn-news' => 'News',
-            'typcn typcn-notes-outline' => 'Notes Outline',
-            'typcn typcn-notes' => 'Notes',
-            'typcn typcn-pen' => 'Pen',
-            'typcn typcn-pencil' => 'Pencil',
-            'typcn typcn-phone-outline' => 'Phone Outline',
-            'typcn typcn-phone' => 'Phone',
-            'typcn typcn-pi-outline' => 'Pi Outline',
-            'typcn typcn-pi' => 'Pi',
-            'typcn typcn-pin-outline' => 'Pin Outline',
-            'typcn typcn-pin' => 'Pin',
-            'typcn typcn-pipette' => 'Pipette',
-            'typcn typcn-plane-outline' => 'Plane Outline',
-            'typcn typcn-plane' => 'Plane',
-            'typcn typcn-plug' => 'Plug',
-            'typcn typcn-plus-outline' => 'Plus Outline',
-            'typcn typcn-plus' => 'Plus',
-            'typcn typcn-point-of-interest-outline' => 'Point of Interest Outline',
-            'typcn typcn-point-of-interest' => 'Point of Interest',
-            'typcn typcn-power-outline' => 'Power Outline',
-            'typcn typcn-power' => 'Power',
-            'typcn typcn-printer' => 'Printer',
-            'typcn typcn-puzzle-outline' => 'Puzzle Outline',
-            'typcn typcn-puzzle' => 'Puzzle',
-            'typcn typcn-radar-outline' => 'Radar Outline',
-            'typcn typcn-radar' => 'Radar',
-            'typcn typcn-refresh-outline' => 'Refresh Outline',
-            'typcn typcn-refresh' => 'Refresh',
-            'typcn typcn-rss-outline' => 'RSS Outline',
-            'typcn typcn-rss' => 'RSS',
-            'typcn typcn-scissors-outline' => 'Scissors Outline',
-            'typcn typcn-scissors' => 'Scissors',
-            'typcn typcn-shopping-bag' => 'Shopping Bag',
-            'typcn typcn-shopping-cart' => 'Shopping Cart',
-            'typcn typcn-social-at-circular' => 'Social At Circular',
-            'typcn typcn-social-dribbble-circular' => 'Social Dribbble Circular',
-            'typcn typcn-social-dribbble' => 'Social Dribbble',
-            'typcn typcn-social-facebook-circular' => 'Social Facebook Circular',
-            'typcn typcn-social-facebook' => 'Social Facebook',
-            'typcn typcn-social-flickr-circular' => 'Social Flickr Circular',
-            'typcn typcn-social-flickr' => 'Social Flickr',
-            'typcn typcn-social-github-circular' => 'Social GitHub Circular',
-            'typcn typcn-social-github' => 'Social GitHub',
-            'typcn typcn-social-google-plus-circular' => 'Social Google Plus Circular',
-            'typcn typcn-social-google-plus' => 'Social Google Plus',
-            'typcn typcn-social-instagram-circular' => 'Social Instagram Circular',
-            'typcn typcn-social-instagram' => 'Social Instagram',
-            'typcn typcn-social-last-fm-circular' => 'Social Last FM Circular',
-            'typcn typcn-social-last-fm' => 'Social Last FM',
-            'typcn typcn-social-linkedin-circular' => 'Social LinkedIn Circular',
-            'typcn typcn-social-linkedin' => 'Social LinkedIn',
-            'typcn typcn-social-pinterest-circular' => 'Social Pinterest Circular',
-            'typcn typcn-social-pinterest' => 'Social Pinterest',
-            'typcn typcn-social-skype-outline' => 'Social Skype Outline',
-            'typcn typcn-social-skype' => 'Social Skype',
-            'typcn typcn-social-tumbler-circular' => 'Social Tumbler Circular',
-            'typcn typcn-social-tumbler' => 'Social Tumbler',
-            'typcn typcn-social-twitter-circular' => 'Social Twitter Circular',
-            'typcn typcn-social-twitter' => 'Social Twitter',
-            'typcn typcn-social-vimeo-circular' => 'Social Vimeo Circular',
-            'typcn typcn-social-vimeo' => 'Social Vimeo',
-            'typcn typcn-social-youtube-circular' => 'Social YouTube Circular',
-            'typcn typcn-social-youtube' => 'Social YouTube',
-            'typcn typcn-sort-alphabetically-outline' => 'Sort Alphabetically Outline',
-            'typcn typcn-sort-alphabetically' => 'Sort Alphabetically',
-            'typcn typcn-sort-numerically-outline' => 'Sort Numerically Outline',
-            'typcn typcn-sort-numerically' => 'Sort Numerically',
-            'typcn typcn-spanner-outline' => 'Spanner Outline',
-            'typcn typcn-spanner' => 'Spanner',
-            'typcn typcn-spiral' => 'Spiral',
-            'typcn typcn-star-full-outline' => 'Star Full Outline',
-            'typcn typcn-star-half-outline' => 'Star Half Outline',
-            'typcn typcn-star-half' => 'Star Half',
-            'typcn typcn-star-outline' => 'Star Outline',
-            'typcn typcn-star' => 'Star',
-            'typcn typcn-starburst-outline' => 'Starburst Outline',
-            'typcn typcn-starburst' => 'Starburst',
-            'typcn typcn-stopwatch' => 'Stopwatch',
-            'typcn typcn-support' => 'Support',
-            'typcn typcn-tabs-outline' => 'Tabs Outline',
-        ] as $value => $label)
-                                                                <option value="{{ $value }}"
-                                                                    data-icon="{{ $value }}">
-                                                                    {{ $label }}
+                                                            <option value="" selected>-เลือกเมนูหลัก-</option>
+                                                            @foreach ($menus as $item)
+                                                                <option value="{{ $item->th_name }}"
+                                                                    data-icon="{{ $item->icon }}">{{ $item->th_name }}
                                                                 </option>
                                                             @endforeach
                                                         </select>
+                                                        @error('menu_name')
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                        @enderror
                                                     </div>
-                                                    @error('menu_icon')
-                                                        <span class="text-danger">{{ $message }}</span>
-                                                    @enderror
                                                 </div>
-                                                <div class="col-6">
+                                                <div class="col-5">
                                                     <div class="form-group">
-                                                        <label for="secondaryMenuNameInput">Secondary Menu</label>
+                                                        <label for="menuIconTnput">Menu Icon</label>
                                                         <select
-                                                            class="js-example-tags form-control @error('secondary_menu') is-invalid @enderror"
-                                                            id="secondary_menu" name="secondary_menu">
-                                                            @foreach ($menu as $item)
-                                                                <option value="{{ $item->secondary_menu }}">
-                                                                    {{ $item->secondary_menu }}</option>
+                                                            class="select2-icon form-control @error('menu_icon') is-invalid @enderror"
+                                                            id="menu_icon" name="menu_icon">
+                                                            <option value="" selected>-เลือกไอคอนเมนู-</option>
+                                                            @foreach ($icon as $value => $label)
+                                                                <option value="{{ $value }}"
+                                                                    data-icon="{{ $value }}">{{ $label }}
+                                                                </option>
                                                             @endforeach
                                                         </select>
-                                                        {{-- <input type="text"
-                                                            class="form-control @error('secondary_menu') is-invalid @enderror"
-                                                            id="secondary_menu" name="secondary_menu" placeholder="Secondary Menu" /> --}}
+                                                        @error('menu_icon')
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                        @enderror
                                                     </div>
-                                                    @error('secondary_menu')
-                                                        <span class="text-danger">{{ $message }}</span>
-                                                    @enderror
                                                 </div>
-                                                <div class="col-6">
-                                                    <div class="form-group">
-                                                        <label for="subMenuNameInput">Sub Menu</label>
-                                                        <input type="text"
-                                                            class="form-control @error('sub_menu') is-invalid @enderror"
-                                                            id="sub_menu" name="sub_menu" placeholder="Sub Menu" />
-                                                    </div>
-                                                    @error('sub_menu')
-                                                        <span class="text-danger">{{ $message }}</span>
-                                                    @enderror
-                                                </div>
-                                                <div class="col-6">
-                                                    <div class="form-group">
-                                                        <label for="urlInput">URL Menu</label>
-                                                        <input type="text"
-                                                            class="form-control @error('url_menu') is-invalid @enderror"
-                                                            id="url_menu" name="url_menu" placeholder="URL Menu" />
-                                                    </div>
-                                                    @error('url_menu')
-                                                        <span class="text-danger">{{ $message }}</span>
-                                                    @enderror
-                                                </div>
-                                                <div class="col-6">
-                                                    <label for="subMenuNameInput">Status</label>
-                                                    <div class="form-group">
-                                                        <label class="switch">
-                                                            <input type="checkbox" checked name="status_menu">
-                                                            <span class="slider round"></span>
-                                                            <span class="status-text on-text">เปิด</span>
-                                                            <span class="status-text off-text">ปิด</span>
-                                                        </label>
+                                                <div class="col-2 d-flex align-items-end">
+                                                    <div class="form-group" id="add_secondary" style="display: none">
+                                                        <button type="button" class="btn btn-primary"
+                                                            id="add-secondary-menu">เพิ่มเมนูรอง</button>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="card-footer" align="right">
-                                                <button type="submit" class="btn btn-success-light mt-1">บันทึก</button>
-                                                <a href="{{ route('admin.users.index') }}"
-                                                    class="btn btn-danger-light mt-1">ยกเลิก</a>
+
+                                            <div id="dynamic-secondary-menu">
+                                                <!-- Secondary menu and sub-menu fields will be added here -->
                                             </div>
+                                        </div>
+
+                                        <div class="card-footer" align="right">
+                                            <button type="submit" class="btn btn-success-light mt-1">บันทึก</button>
+                                            <a href="{{ route('admin.all.menu') }}"
+                                                class="btn btn-danger-light mt-1">ยกเลิก</a>
                                         </div>
                                     </form>
                                 </div>
@@ -334,4 +87,140 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            // Function to set selected main menu icon to menu icon dropdown
+            function setMainMenuIconToMenuIcon(icon) {
+                const menuIconSelect = document.getElementById('menu_icon');
+                if (icon) {
+                    menuIconSelect.value = icon;
+                    $(menuIconSelect).trigger('change');
+                    menuIconSelect.disabled = true;
+                } else {
+                    menuIconSelect.selectedIndex = 0; // Reset to the default option
+                    $(menuIconSelect).trigger('change'); // Trigger change event if necessary
+                    menuIconSelect.disabled = false;
+                }
+            }
+
+            $('#menu_name').on('change', function() {
+                const selectedOption = $(this).find('option:selected');
+                const icon = selectedOption.data('icon');
+                setMainMenuIconToMenuIcon(icon);
+
+                const div_btn = $('#add_secondary');
+                if (selectedOption.val() !== '') {
+                    div_btn.show();
+                } else {
+                    div_btn.hide();
+                }
+            });
+
+            // Event listener for secondary menu select change
+            $(document).on('change', '.js-example-tags', function() {
+                const selectedOption = $(this).find('option:selected');
+                const url = selectedOption.data('url');
+                const urlInput = $(this).closest('.row').find(
+                    '#urlText'); // Adjusted selector to match your HTML structure
+
+                if (url) {
+                    urlInput.val(url); // Set the URL value to the input field
+                    urlInput.prop('readonly', true); // Make the input field read-only
+                } else {
+                    urlInput.val(''); // Reset the input field if no URL is available
+                    urlInput.prop('readonly', false); // Allow input if no URL is available
+                }
+            });
+
+
+            // Function to add new secondary menu with sub-menus
+            document.getElementById('add-secondary-menu').addEventListener('click', function() {
+                var secondaryMenuContainer = document.getElementById('dynamic-secondary-menu');
+                var index = secondaryMenuContainer.children.length;
+
+                var newSecondaryMenuGroup = document.createElement('div');
+                newSecondaryMenuGroup.className = 'secondary-menu-group';
+                newSecondaryMenuGroup.innerHTML = `
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-5">
+                                <div class="form-group">
+                                    <label for="secondaryMenuNameInput">เมนูรอง</label>
+                                    <select id="secondary_menu" class="js-example-tags form-control @error('secondary_menu[${index}][name]') is-invalid @enderror" name="secondary_menu[${index}][name]">
+                                        <option value="">-เลือกเมนูรอง-</option>
+                                        @foreach ($menus as $menu)
+                                            @foreach ($menu->children as $child)
+                                                <option value="{{ $child->th_name }}" data-url="{{ $child->route }}">{{ $child->th_name }}</option>
+                                            @endforeach
+                                        @endforeach
+                                    </select>
+                                    @error('secondary_menu[${index}][name]')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-5">
+                                <div class="form-group">
+                                    <label for="urlSecondaryInput">route/URL ของเมนูรอง</label>
+                                    <input id="urlText" type="text" class="form-control @error('secondary_menu[${index}][url]') is-invalid @enderror" name="secondary_menu[${index}][url]" placeholder="route/URL ของเมนู" />
+                                    @error('secondary_menu[${index}][url]')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-2 d-flex align-items-end">
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-secondary add-sub-menu" data-index="${index}">เพิ่มเมนูย่อย</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sub-menu-group" data-index="${index}">
+                            <!-- Sub-menu fields will be added here -->
+                        </div>
+                    </div>
+                `;
+
+                secondaryMenuContainer.appendChild(newSecondaryMenuGroup);
+                $('.js-example-tags').select2({
+                    tags: true,
+                });
+            });
+
+            // Event delegation to handle sub-menu addition
+            document.getElementById('dynamic-secondary-menu').addEventListener('click', function(e) {
+                if (e.target.classList.contains('add-sub-menu')) {
+                    var index = e.target.dataset.index;
+                    var subMenuGroup = document.querySelector(`.sub-menu-group[data-index="${index}"]`);
+                    var subIndex = subMenuGroup.children.length;
+
+                    var newSubMenu = document.createElement('div');
+                    newSubMenu.className = 'row';
+                    newSubMenu.innerHTML = `
+                        <div class="col-5">
+                            <div class="form-group">
+                                <label for="subMenuNameInput">เมนูย่อย</label>
+                                <input type="text" class="form-control @error('secondary_menu[${index}][sub_menu][${subIndex}][name]') is-invalid @enderror" name="secondary_menu[${index}][sub_menu][${subIndex}][name]" placeholder="เมนูย่อย" />
+                                @error('secondary_menu[${index}][sub_menu][${subIndex}][name]')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-5">
+                            <div class="form-group">
+                                <label for="subUrlInput">route/URL ของเมนูย่อย</label>
+                                <input type="text" class="form-control @error('secondary_menu[${index}][sub_menu][${subIndex}][url]') is-invalid @enderror" name="secondary_menu[${index}][sub_menu][${subIndex}][url]" placeholder="route/URL ของเมนู" />
+                                @error('secondary_menu[${index}][sub_menu][${subIndex}][url]')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                    `;
+
+                    subMenuGroup.appendChild(newSubMenu);
+                }
+            });
+        });
+    </script>
 @endsection
