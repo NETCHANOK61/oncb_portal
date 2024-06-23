@@ -26,7 +26,7 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table id="example" class="table table-striped table-bordered text-nowrap w-100">
+                            <table id="example" class="table table-striped table-bordered">
                                 <thead>
                                     <tr align="center">
                                         <th class="text-center">ลำดับ</th>
@@ -41,9 +41,12 @@
                                         <tr align="center">
                                             <td>{{ $key + 1 }}</td>
                                             <td>{{ $item->name }}</td>
-                                            <td>
+                                            <td style="text-align: left;">
                                                 @foreach ($item->permissions as $prem)
-                                                    <span class="badge badge-pill badge-default">{{ $prem->name }}</span>
+                                                    <div class="p-1">
+                                                        <span
+                                                            class="badge badge-pill badge-default">{{ $prem->th_name }}</span>
+                                                    </div>
                                                 @endforeach
                                             </td>
                                             <td>

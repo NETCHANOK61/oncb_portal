@@ -135,7 +135,7 @@
                                                                     value="{{ $permission->name }}"
                                                                     {{ in_array($permission->id, $rolePermissions) ? 'checked' : '' }}>
                                                                 <span
-                                                                    class="custom-control-label">{{ $permission->name }}</span>
+                                                                    class="custom-control-label">{{ $permission->th_name }}</span>
                                                             </label>
                                                         @endforeach
                                                         <br>
