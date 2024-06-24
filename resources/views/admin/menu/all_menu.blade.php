@@ -10,12 +10,12 @@
         </div>
 
         <!-- SEARCH FORM -->
-        <div class="card">
+        <div class="card" id="search_box">
             <div class="card-body">
                 <div class="row mb-3">
                     <div class="col-md-5">
                         <label for="menuSelect" class="form-label">เลือกเมนู:</label>
-                        <select id="menuSelect" class="form-control">
+                        <select id="menuSelect" class="menus-select form-control">
                             <option value="">ทั้งหมด</option>
                             @foreach ($menus as $menu)
                                 <option value="{{ $menu->id }}">{{ $menu->th_name }}</option>
@@ -23,8 +23,8 @@
                         </select>
                     </div>
                     <div class="col-md-5">
-                        <label for="searchInput" class="form-label">ค้นหา:</label>
-                        <input type="text" id="searchInput" class="form-control" placeholder="ค้นหา...">
+                        <label for="searchInput" class="form-label">ค้นหาด้วยชื่อเมนู:</label>
+                        <input type="text" id="searchInput" class="form-control" placeholder="ค้นหาด้วยชื่อเมนู">
                     </div>
                     <div class="col-md-auto d-flex align-items-end">
                         <a href="{{ route('admin.add.menu') }}" class="btn btn-primary w-full">
@@ -40,7 +40,8 @@
             <div class="card" id="menuSection_{{ $menu->id }}">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <div>
-                        <h5 class="card-title"><i class="{{ $menu->icon }}" style="font-size: 30px"></i> {{ $menu->th_name }}
+                        <h5 class="card-title"><i class="{{ $menu->icon }}" style="font-size: 30px"></i>
+                            {{ $menu->th_name }}
                             <span class="badge badge-pill badge-default">
                                 <span class="{{ $menu->status_menu ? 'able_animation' : 'unable_animation' }}"></span>
                                 {{ $menu->status_menu ? 'เปิด' : 'ปิด' }}
@@ -89,8 +90,8 @@
                                             </span>
                                         </td>
                                         <td>
-                                            <a href="{{ route('admin.edit.child', $child->id) }}" class="btn btn-warning"><i
-                                                    class="fa fa-pencil"></i> แก้ไข</a>
+                                            <a href="{{ route('admin.edit.child', $child->id) }}"
+                                                class="btn btn-warning"><i class="fa fa-pencil"></i> แก้ไข</a>
                                         </td>
                                     </tr>
 
@@ -145,25 +146,43 @@
                     }));
                 @endforeach
 
+                $(`.menus-select`).select2({
+                    closeOnSelect: false,
+                    width: "100%",
+                });
+
                 // Global search across all tables
-                $('#searchInput').on('keyup', function() {
-                    var searchText = $(this).val().toLowerCase();
+                function filterMenuSections() {
+                    var searchText = $('#searchInput').val().trim().toLowerCase();
                     var selectedMenuId = $('#menuSelect').val();
+
                     $('.card').each(function() {
                         var cardId = $(this).attr('id');
-                        var menuId = cardId.split('_')[1];
-                        var cardTitle = $(this).find('.card-title').text().toLowerCase();
-                        var showCard = true;
-                        if (selectedMenuId && selectedMenuId !== menuId) {
-                            showCard = false;
-                        }
-                        if (showCard && cardTitle.includes(searchText)) {
-                            $(this).show();
+                        var menuId = cardId ? cardId.split('_')[1] : null;
+                        var cardTitle = $(this).find('.card-title').text().trim().toLowerCase();
+
+                        // Check if the card should be shown based on search text and selected menu
+                        if ((selectedMenuId === '' || selectedMenuId === menuId) && cardTitle.includes(
+                                searchText)) {
+                            $('#menuSection_' + menuId).show();
                         } else {
-                            $(this).hide();
+                            $('#menuSection_' + menuId).hide();
                         }
                     });
+                }
+
+                // Trigger filtering on keyup in search input
+                $('#searchInput').on('keyup', function() {
+                    filterMenuSections();
                 });
+
+                // Trigger filtering on change in menu select
+                $('#menuSelect').on('change', function() {
+                    filterMenuSections();
+                });
+
+                // Initial filter trigger
+                filterMenuSections();
             });
         </script>
 
