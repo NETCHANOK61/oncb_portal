@@ -147,7 +147,6 @@
                 @endforeach
 
                 $(`.menus-select`).select2({
-                    closeOnSelect: false,
                     width: "100%",
                 });
 
