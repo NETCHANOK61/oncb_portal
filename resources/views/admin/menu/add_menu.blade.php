@@ -87,7 +87,6 @@
             </div>
         </div>
     </div>
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
 
@@ -109,7 +108,6 @@
                 const selectedOption = $(this).find('option:selected');
                 const icon = selectedOption.data('icon');
                 setMainMenuIconToMenuIcon(icon);
-
                 const div_btn = $('#add_secondary');
                 if (selectedOption.val() !== '') {
                     div_btn.show();
@@ -118,23 +116,6 @@
                 }
             });
 
-            // Event listener for secondary menu select change
-            $(document).on('change', '.js-example-tags', function() {
-                const selectedOption = $(this).find('option:selected');
-                const url = selectedOption.data('url');
-                const urlInput = $(this).closest('.row').find(
-                    '#urlText'); // Adjusted selector to match your HTML structure
-
-                if (url) {
-                    urlInput.val(url); // Set the URL value to the input field
-                    urlInput.prop('readonly', true); // Make the input field read-only
-                } else {
-                    urlInput.val(''); // Reset the input field if no URL is available
-                    urlInput.prop('readonly', false); // Allow input if no URL is available
-                }
-            });
-
-
             // Function to add new secondary menu with sub-menus
             document.getElementById('add-secondary-menu').addEventListener('click', function() {
                 var secondaryMenuContainer = document.getElementById('dynamic-secondary-menu');
@@ -142,13 +123,15 @@
 
                 var newSecondaryMenuGroup = document.createElement('div');
                 newSecondaryMenuGroup.className = 'secondary-menu-group';
+                newSecondaryMenuGroup.setAttribute('data-index', index);
                 newSecondaryMenuGroup.innerHTML = `
-                    <div class="card-body">
+                    <div class="">
                         <div class="row">
                             <div class="col-5">
                                 <div class="form-group">
                                     <label for="secondaryMenuNameInput">เมนูรอง</label>
-                                    <select id="secondary_menu" class="js-example-tags form-control @error('secondary_menu[${index}][name]') is-invalid @enderror" name="secondary_menu[${index}][name]">
+                                    <select class="secondary_menu_${index} form-control secondary-menu" data-index="${index}"
+                                            name="secondary_menu[${index}][name]">
                                         <option value="">-เลือกเมนูรอง-</option>
                                         @foreach ($menus as $menu)
                                             @foreach ($menu->children as $child)
@@ -164,15 +147,18 @@
                             <div class="col-5">
                                 <div class="form-group">
                                     <label for="urlSecondaryInput">route/URL ของเมนูรอง</label>
-                                    <input id="urlText" type="text" class="form-control @error('secondary_menu[${index}][url]') is-invalid @enderror" name="secondary_menu[${index}][url]" placeholder="route/URL ของเมนู" />
+                                    <input id="urlText_${index}" type="text"
+                                            class="form-control @error('secondary_menu[${index}][url]') is-invalid @enderror"
+                                            name="secondary_menu[${index}][url]" placeholder="route/URL ของเมนู" />
                                     @error('secondary_menu[${index}][url]')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                             </div>
                             <div class="col-2 d-flex align-items-end">
-                                <div class="form-group">
-                                    <button type="button" class="btn btn-secondary add-sub-menu" data-index="${index}">เพิ่มเมนูย่อย</button>
+                                <div class="form-group" id="add_sub_${index}" style="display: none">
+                                    <button type="button" class="btn btn-secondary add-sub-menu"
+                                            data-index="${index}">เพิ่มเมนูย่อย</button>
                                 </div>
                             </div>
                         </div>
@@ -183,8 +169,33 @@
                 `;
 
                 secondaryMenuContainer.appendChild(newSecondaryMenuGroup);
-                $('.js-example-tags').select2({
+
+                // Initialize Select2 for the newly added secondary menu dropdown
+                $(`.secondary_menu_${index}`).select2({
                     tags: true,
+                    width: "100%",
+                });
+
+                // Event listener for secondary menu select change
+                $(document).on('change', `.secondary_menu_${index}`, function() {
+                    const selectedOption = $(this).find('option:selected');
+                    const url = selectedOption.data('url');
+                    const urlInput = $(this).closest('.row').find(`#urlText_${index}`);
+
+                    if (url) {
+                        urlInput.val(url);
+                        urlInput.prop('readonly', true);
+                    } else {
+                        urlInput.val('');
+                        urlInput.prop('readonly', false);
+                    }
+
+                    const div_btn = $(`#add_sub_${index}`);
+                    if (selectedOption.val() !== '') {
+                        div_btn.show();
+                    } else {
+                        div_btn.hide();
+                    }
                 });
             });
 
@@ -201,7 +212,8 @@
                         <div class="col-5">
                             <div class="form-group">
                                 <label for="subMenuNameInput">เมนูย่อย</label>
-                                <input type="text" class="form-control @error('secondary_menu[${index}][sub_menu][${subIndex}][name]') is-invalid @enderror" name="secondary_menu[${index}][sub_menu][${subIndex}][name]" placeholder="เมนูย่อย" />
+                                <input type="text" class="form-control @error('secondary_menu[${index}][sub_menu][${subIndex}][name]') is-invalid @enderror"
+                                        name="secondary_menu[${index}][sub_menu][${subIndex}][name]" placeholder="เมนูย่อย" />
                                 @error('secondary_menu[${index}][sub_menu][${subIndex}][name]')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -210,15 +222,37 @@
                         <div class="col-5">
                             <div class="form-group">
                                 <label for="subUrlInput">route/URL ของเมนูย่อย</label>
-                                <input type="text" class="form-control @error('secondary_menu[${index}][sub_menu][${subIndex}][url]') is-invalid @enderror" name="secondary_menu[${index}][sub_menu][${subIndex}][url]" placeholder="route/URL ของเมนู" />
+                                <input type="text" class="form-control @error('secondary_menu[${index}][sub_menu][${subIndex}][url]') is-invalid @enderror"
+                                        name="secondary_menu[${index}][sub_menu][${subIndex}][url]" placeholder="route/URL ของเมนู" />
                                 @error('secondary_menu[${index}][sub_menu][${subIndex}][url]')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
                         </div>
+                        <div class="col-2 d-flex align-items-end">
+                            <div class="form-group">
+                                <button type="button" class="btn btn-danger cancel-menu">X</button>
+                            </div>
+                        </div>
                     `;
 
                     subMenuGroup.appendChild(newSubMenu);
+                }
+            });
+
+            // Event delegation to handle sub-menu deletion
+            document.getElementById('dynamic-secondary-menu').addEventListener('click', function(e) {
+                if (e.target.classList.contains('cancel-menu')) {
+                    e.target.closest('.row').remove();
+
+                    // Re-enable the corresponding option in the secondary menu dropdown
+                    const index = e.target.closest('.secondary-menu-group').getAttribute('data-index');
+                    const deletedSubIndex = e.target.closest('.row').querySelector('input[type="text"]')
+                        .getAttribute('name').match(/\d+/g)[1];
+                    const deletedSubMenuName =
+                        `secondary_menu[${index}][sub_menu][${deletedSubIndex}][name]`;
+                    $(`.secondary_menu_${index} option[value="${deletedSubMenuName}"]`).prop('disabled',
+                        false);
                 }
             });
         });

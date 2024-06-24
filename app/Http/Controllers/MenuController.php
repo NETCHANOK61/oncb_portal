@@ -362,12 +362,10 @@ class MenuController extends Controller
         //
         $menuItems = MenuService::getMenuItems();
         $data = Menu::findOrFail($id);
-        $menus = Menu::with('children')
-            ->whereNull('parent_id')
-            ->get();
+        $childMenus = Menu::where('parent_id', $id)->get();
         $icon = self::$icon;
 
-        return view('admin.menu.add_child_menu', compact('menuItems', 'data', 'icon', 'menus'));
+        return view('admin.menu.add_child_menu', compact('menuItems', 'data', 'icon', 'childMenus'));
     }
 
     public function StoreChildMenu(Request $request, string $id)
