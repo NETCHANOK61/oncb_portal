@@ -51,7 +51,7 @@
                         <a href="{{ route('admin.edit.menu', $menu->id) }}" class="btn btn-warning">
                             <i class="fa fa-pencil"></i> แก้ไข
                         </a>
-                        <a href="{{ route('admin.add.menu') }}" class="btn btn-primary">
+                        <a href="{{ route('admin.add.child', $menu->id) }}" class="btn btn-primary">
                             <i class="fa fa-plus"></i> เพิ่มเมนูรอง / เมนูย่อย
                         </a>
                     </div>
@@ -89,8 +89,7 @@
                                             </span>
                                         </td>
                                         <td>
-                                            <a href="#" class="btn btn-info"><i class="fa fa-eye"></i> รายละเอียด</a>
-                                            <a href="{{ route('admin.edit.menu', $child->id) }}" class="btn btn-warning"><i
+                                            <a href="{{ route('admin.edit.child', $child->id) }}" class="btn btn-warning"><i
                                                     class="fa fa-pencil"></i> แก้ไข</a>
                                         </td>
                                     </tr>
@@ -111,9 +110,7 @@
                                                 </span>
                                             </td>
                                             <td>
-                                                <a href="#" class="btn btn-info"><i class="fa fa-eye"></i>
-                                                    รายละเอียด</a>
-                                                <a href="{{ route('admin.edit.menu', $subChild->id) }}"
+                                                <a href="{{ route('admin.edit.child', $subChild->id) }}"
                                                     class="btn btn-warning"><i class="fa fa-pencil"></i> แก้ไข</a>
                                             </td>
                                         </tr>

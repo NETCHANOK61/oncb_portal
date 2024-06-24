@@ -143,6 +143,10 @@ Route::middleware(['auth'])->name('admin.')->prefix('admin')->group(function () 
         Route::post('/store_menu', 'StoreMenu')->name('store.menu');
         Route::get('/edit_menu/{id}', 'EditMenu')->name('edit.menu');
         Route::post('/update_menu/{id}', 'UpdateMenu')->name('update.menu');
+        Route::get('/add_child_menu/{id}', 'AddChildMenu')->name('add.child');
+        Route::post('/add_child_menu/{id}', 'StoreChildMenu')->name('store.child');
+        Route::get('/update_child_menu/{id}', 'EditChildMenu')->name('edit.child');
+        Route::post('/update_child_menu/{id}', 'UpdateChildMenu')->name('update.child');
     });
 
     // เป้าหมายโรงเรียน
