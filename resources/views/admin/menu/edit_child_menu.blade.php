@@ -140,6 +140,8 @@
                             mainMenu.show();
                         }
                     });
+                }else{
+                    mainMenu.hide();
                 }
             });
             $(`.move_to_select`).select2({
