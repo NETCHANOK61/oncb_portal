@@ -346,6 +346,7 @@ class MenuController extends Controller
 
         $menu->update([
             'th_name' => $request->th_name,
+            'icon' => $request->menu_icon,
             'status_menu' => $request->status_menu ? '1' : '0'
         ]);
 
@@ -428,28 +429,80 @@ class MenuController extends Controller
         return redirect()->route('admin.all.menu')->with('success', 'Menu created successfully');
     }
 
+    // public function EditChildMenu($id)
+    // {
+    //     //
+    //     $menuItems = MenuService::getMenuItems();
+    //     $currentMenu = Menu::findOrFail($id);
+    //     $mainMenus = Menu::whereNull('parent_id')->with('children')->get();
+
+    //     // Determine the type of the current menu
+    //     $currentMenuIsMain = $currentMenu->parent_id === null;
+    //     $currentMenuIsSecondary = !$currentMenuIsMain && $mainMenus->contains('id', $currentMenu->parent_id);
+    //     $currentMenuIsSub = !$currentMenuIsMain && !$currentMenuIsSecondary;
+
+    //     // Filter menus based on the type of the current menu
+    //     if ($currentMenuIsSecondary) {
+    //         // If the current menu is secondary, we only need the main menus
+    //         $filteredMenus = $mainMenus;
+    //         $currentMenu_level = 2;
+    //     } elseif ($currentMenuIsSub) {
+    //         // If the current menu is sub, we need the secondary menus
+    //         $filteredMenus = $mainMenus->flatMap->children;
+    //         $currentMenu_level = 3;
+    //     } else {
+    //         $filteredMenus = collect(); // Empty collection if it's a main menu or unknown type
+    //     }
+
+    //     return view('admin.menu.edit_child_menu', compact('menuItems', 'mainMenus', 'currentMenu', 'filteredMenus', 'currentMenu_level'));
+    // }
     public function EditChildMenu($id)
     {
-        //
         $menuItems = MenuService::getMenuItems();
-        $data = Menu::findOrFail($id);
-        $mainMenus = Menu::whereNull('parent_id')->with('children')->get();
+        $currentMenu = Menu::findOrFail($id);
 
-        return view('admin.menu.edit_child_menu', compact('menuItems', 'data', 'mainMenus'));
+        // Fetch all menus with their children (secondary and sub-menus)
+        $allMenus = Menu::with('children')->get();
+
+        // Fetch all main menus
+        $mainMenus = $allMenus->whereNull('parent_id');
+
+        // Determine the type of the current menu
+        $currentMenuIsMain = $currentMenu->parent_id === null;
+        $currentMenuIsSecondary = !$currentMenuIsMain && $mainMenus->contains('id', $currentMenu->parent_id);
+        $currentMenuIsSub = !$currentMenuIsMain && !$currentMenuIsSecondary;
+
+        // Filter menus based on the type of the current menu
+        $filteredMenus = collect();
+        if ($currentMenuIsSecondary) {
+            // If the current menu is secondary, we only need the main menus
+            $filteredMenus = $mainMenus;
+            $currentMenu_level = 2;
+        } elseif ($currentMenuIsSub) {
+            // If the current menu is sub, we need the secondary menus
+            $filteredMenus = $allMenus->whereIn('parent_id', $mainMenus->pluck('id'));
+            $currentMenu_level = 3;
+        } else {
+            // If the current menu is main, filteredMenus remains empty
+            $currentMenu_level = 1;
+        }
+
+        return view('admin.menu.edit_child_menu', compact('menuItems', 'mainMenus', 'currentMenu', 'filteredMenus', 'currentMenu_level'));
     }
+
+
     public function UpdateChildMenu(Request $request, string $id)
     {
         $menu = Menu::findOrFail($id);
         // Define validation rules
         $rules = [
-            'th_name' => 'required|max:200|unique:menus,th_name,' . $id,
+            'th_name' => 'required|max:200|',
             'urlText' => 'required|max:200|',
         ];
 
         // Custom error messages
         $messages = [
             'th_name.required' => 'กรุณากรอกชื่อเมนู',
-            'th_name.unique' => 'ชื่อ "' . $request->th_name . '" มีอยู่แล้วในระบบ',
             'urlText.required' => 'กรุณาระบุ route/URL ของเมนู'
         ];
 
@@ -465,7 +518,7 @@ class MenuController extends Controller
         $menu->update([
             'th_name' => $request->th_name,
             'route' => $request->urlText,
-            'status_menu' => $request->status_menu ? '1' : '0',
+            'status_menu' => $request->new_parent_id ? '1' : ($request->status_menu ? '1' : '0'),
             'parent_id' => $request->new_parent_id ? $request->new_parent_id : $menu->parent_id
         ]);
 

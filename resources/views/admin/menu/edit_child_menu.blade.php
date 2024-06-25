@@ -20,11 +20,10 @@
                             <ul class="tab_list">
                                 <li class="active">ข้อมูลทั่วไป</li>
                             </ul>
-
                             <div class="content_wrapper">
                                 {{-- tab 1 --}}
                                 <div class="tab_content">
-                                    <form id="roleForm" action="{{ route('admin.update.child', $data->id) }}"
+                                    <form id="roleForm" action="{{ route('admin.update.child', $currentMenu->id) }}"
                                         method="POST">
                                         @csrf
                                         <div class="card-body">
@@ -34,7 +33,8 @@
                                                         <label for="menuNameInput">ชื่อเมนู</label>
                                                         <input type="text"
                                                             class="form-control @error('th_name') is-invalid @enderror"
-                                                            id="th_name" name="th_name" value="{{ $data->th_name }}" />
+                                                            id="th_name" name="th_name"
+                                                            value="{{ $currentMenu->th_name }}" />
                                                         @error('th_name')
                                                             <span class="text-danger">{{ $message }}</span>
                                                         @enderror
@@ -45,7 +45,7 @@
                                                         <label for="urlInput">route/URL ของเมนู</label>
                                                         <input id="urlText" type="text"
                                                             class="form-control @error('urlText') is-invalid @enderror"
-                                                            name="urlText" value="{{ $data->route }}" />
+                                                            name="urlText" value="{{ $currentMenu->route }}" />
                                                         @error('urlText')
                                                             <span class="text-danger">{{ $message }}</span>
                                                         @enderror
@@ -56,8 +56,8 @@
                                                     <div class="form-group">
                                                         <label class="switch">
                                                             <input type="checkbox" value="1"
-                                                                {{ $data->status_menu ? 'checked' : '' }} name="status_menu"
-                                                                id="status_menu">
+                                                                {{ $currentMenu->status_menu ? 'checked' : '' }}
+                                                                name="status_menu" id="status_menu">
                                                             <span class="slider round"></span>
                                                             <span class="status-text on-text">เปิด</span>
                                                             <span class="status-text off-text">ปิด</span>
@@ -66,14 +66,33 @@
                                                 </div>
                                                 <div class="col-12" id="menuSelector" style="display: none">
                                                     <label for="menuSelector">ย้ายเมนูไปที่</label>
-                                                    <select class="form-control mb-3" name="new_parent_id">
-                                                        <option value="" selected>เลือกเมนูหลักหรือเมนูรองที่ต้องการ</option>
-                                                        @foreach ($mainMenus as $menu)
-                                                            <option value="{{ $menu->id }}">{{ $menu->th_name }}</option>
-                                                            @foreach ($menu->children as $child)
-                                                                <option value="{{ $child->id }}">
-                                                                    &nbsp;&nbsp;&nbsp;{{ $child->th_name }}</option>
-                                                            @endforeach
+                                                    <select class="move_to_select form-control mb-3" name="new_parent_id">
+                                                        <option value="" selected>เลือกเมนูหลักหรือเมนูรองที่ต้องการ
+                                                        </option>
+                                                        @foreach ($filteredMenus as $menu)
+                                                            @if ($menu->children->isNotEmpty())
+                                                                <optgroup label="{{ $menu->th_name }}">
+                                                                    <option value="{{ $menu->id }}">
+                                                                        (เมนูหลัก)
+                                                                        {{ $menu->th_name }}
+                                                                    </option>
+                                                                    @foreach ($menu->children as $child)
+                                                                        @if ($currentMenu->id != $child->id && $currentMenu_level != 2)
+                                                                            <option value="{{ $child->id }}">
+                                                                                (เมนูรอง)
+                                                                                {{ $child->th_name }}
+                                                                            </option>
+                                                                        @endif
+                                                                    @endforeach
+                                                                </optgroup>
+                                                            @else
+                                                                <optgroup label="{{ $menu->th_name }}">
+                                                                    <option value="{{ $menu->id }}">
+                                                                        (เมนูหลัก)
+                                                                        {{ $menu->th_name }}
+                                                                    </option>
+                                                                </optgroup>
+                                                            @endif
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -122,6 +141,10 @@
                         }
                     });
                 }
+            });
+            $(`.move_to_select`).select2({
+                tags: true,
+                width: "100%",
             });
         });
     </script>
