@@ -31,6 +31,22 @@ class UserRequestPortalcontroller extends Controller
     {
         $request_user = RequestedUser::find($id);
 
+        // Check if a user with the same email or userid already exists
+        $existing_user = User::where('email', $request_user->email)
+            ->orWhere('userid', $request_user->userid)
+            ->first();
+
+        if ($existing_user) {
+            // If the user already exists, update the request_user as approved without creating a new user
+            $request_user->update([
+                'approved' => '1'
+            ]);
+
+            // Optionally, you can redirect to the existing user edit page or handle it as per your requirement
+            return redirect()->route('portal.editUser', $existing_user);
+        }
+
+        // Create a new user if no existing user is found
         $user = User::create([
             'name' => $request_user->name,
             'email' => $request_user->email,
@@ -50,21 +66,8 @@ class UserRequestPortalcontroller extends Controller
         ]);
 
         return redirect()->route('portal.editUser', $user);
-
-        // $menuItems = MenuService::getMenuItems();
-        // $request_user = RequestedUser::all();
-        // return view('admin.user.request_user', compact('menuItems', 'request_user'));
-        // Retrieve the username and password from the form submission
-        // $username = $request->input('username');
-        // $password = $request->input('password');
-
-        // dd($request);
-
-        // Process the approval logic here
-
-        // Redirect back or return a response
-        // return redirect()->back()->with('success', 'User request approved successfully.');
     }
+
 
     public function reject($id, Request $request)
     {
