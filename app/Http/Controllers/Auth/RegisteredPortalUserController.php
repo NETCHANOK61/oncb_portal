@@ -66,19 +66,35 @@ class RegisteredPortalUserController extends Controller
 
     public function checkEmail(Request $request)
     {
-        $isAvailable = !User::where('email', $request->value)->exists();
+        $email = $request->value;
+
+        $userExists = User::where('email', $email)->exists();
+        $requestedUserExists = RequestedUser::where('email', $email)->exists();
+
+        $isAvailable = !$userExists && !$requestedUserExists;
+
         return response()->json(['isAvailable' => $isAvailable]);
     }
 
     public function checkCard_id(Request $request)
     {
-        $isAvailable = !User::where('card_id', $request->value)->exists();
+        $card_id = $request->value;
+
+        $userExists = !User::where('card_id', $card_id)->exists();
+        $requestedUserExists = RequestedUser::where('card_id', $card_id)->exists();
+
+        $isAvailable = !$userExists && !$requestedUserExists;
         return response()->json(['isAvailable' => $isAvailable]);
     }
 
     public function checkUser_id(Request $request)
     {
-        $isAvailable = !User::where('userid', $request->value)->exists();
+        $userid = $request->value;
+        
+        $userExists = !User::where('userid', $userid)->exists();
+        $requestedUserExists = RequestedUser::where('userid', $userid)->exists();
+
+        $isAvailable = !$userExists && !$requestedUserExists;
         return response()->json(['isAvailable' => $isAvailable]);
     }
 
