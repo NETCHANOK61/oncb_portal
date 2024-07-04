@@ -70,6 +70,17 @@
                                                         <option value="" selected>เลือกเมนูหลักหรือเมนูรองที่ต้องการ
                                                         </option>
                                                         @foreach ($filteredMenus as $menu)
+                                                            <option value="{{ $menu->id }}">
+                                                                @if ($currentMenu_level == 2)
+                                                                    (เมนูหลัก)
+                                                                @elseif ($currentMenu_level == 3)
+                                                                    (เมนูรอง)
+                                                                @endif
+                                                                {{ $menu->th_name }}
+                                                            </option>
+                                                        @endforeach
+
+                                                        {{-- @foreach ($filteredMenus as $menu)
                                                             @if ($menu->children->isNotEmpty())
                                                                 <optgroup label="{{ $menu->th_name }}">
                                                                     <option value="{{ $menu->id }}">
@@ -88,12 +99,11 @@
                                                             @else
                                                                 <optgroup label="{{ $menu->th_name }}">
                                                                     <option value="{{ $menu->id }}">
-                                                                        (เมนูหลัก)
-                                                                        {{ $menu->th_name }}
+                                                                        (เมนูหลัก) {{ $menu->th_name }}
                                                                     </option>
                                                                 </optgroup>
                                                             @endif
-                                                        @endforeach
+                                                        @endforeach --}}
                                                     </select>
                                                 </div>
                                             </div>
@@ -140,7 +150,7 @@
                             mainMenu.show();
                         }
                     });
-                }else{
+                } else {
                     mainMenu.hide();
                 }
             });

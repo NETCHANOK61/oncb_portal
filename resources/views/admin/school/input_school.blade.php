@@ -22,15 +22,15 @@
                 @foreach ($notice as $key => $item)
                     <div class="carousel-item @if ($key === 0) active @endif">
                         <div class="row">
-                            <div class="col-12">
+                            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
                                 <div class="card">
                                     <div class="card-body" style="padding-top:5%">
                                         <div class="row">
-                                            <div class="col-2" style="text-align: center; padding-top:5%">
+                                            <div class="col-2" style="text-align: center;">
                                                 <i class="{{ $item->type_icon }} text-{{ $item->type }}"
                                                     style="font-size:100px"></i>
                                             </div>
-                                            <div class="col-9" style="text-align: left;">
+                                            <div class="col-10" style="text-align: left;">
                                                 <h2 class="text-{{ $item->type }}">ประกาศ: <span
                                                         style="text-decoration: underline;">{{ $item->type_name }}</span>
                                                 </h2>
@@ -41,7 +41,7 @@
                                                 </button>
                                                 <p style="text-align: right; color: darkgrey">
                                                     ประกาศเมื่อวันที่:
-                                                    {{ $item->created_at->locale('th')->isoFormat('lll') }}
+                                                    {{ $item->created_at->locale('th')->isoFormat('ll') }}
                                                 </p>
                                             </div>
                                         </div>

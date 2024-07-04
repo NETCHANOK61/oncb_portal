@@ -236,164 +236,166 @@
                                 {{-- tab 6 --}}
                                 <div class="tab_content">
                                     <br>
-                                    <table class="table table-bordered text-nowrap w-100">
-                                        <tr>
-                                            <th>
-                                                <h4>
-                                                    18.
-                                                    การรณรงค์ประชาสัมพันธ์และการให้ความรู้เกี่ยวกับยาเสพติดผ่านรูปแบบต่างๆ
-                                                </h4>
-                                            </th>
-                                            <th colspan="4" style="text-align: center">ช่วงเวลากิจกรรม</th>
-                                        </tr>
-                                        <tr align="center">
-                                            <td></td>
-                                            <td>ระหว่างเรียน</td>
-                                            <td>หลังเรียน</td>
-                                            <td>ปิดภาคเรียน</td>
-                                            <td>อื่น ๆ</td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="row">
-                                                    <div class="col-8">
-                                                        <h4>18.1 ผ่านการอบรม/กิจกรรมค่ายต่างๆ ฯลฯ</h4>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered text-nowrap w-100">
+                                            <tr>
+                                                <th>
+                                                    <h4>
+                                                        18.
+                                                        การรณรงค์ประชาสัมพันธ์และการให้ความรู้เกี่ยวกับยาเสพติดผ่านรูปแบบต่างๆ
+                                                    </h4>
+                                                </th>
+                                                <th colspan="4" style="text-align: center">ช่วงเวลากิจกรรม</th>
+                                            </tr>
+                                            <tr align="center">
+                                                <td></td>
+                                                <td>ระหว่างเรียน</td>
+                                                <td>หลังเรียน</td>
+                                                <td>ปิดภาคเรียน</td>
+                                                <td>อื่น ๆ</td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="row">
+                                                        <div class="col-8">
+                                                            <h4>18.1 ผ่านการอบรม/กิจกรรมค่ายต่างๆ ฯลฯ</h4>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <input type="radio" name="PR181_ck" value="1"> มี
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <input type="radio" name="PR181_ck" value="0"> ไม่มี
+                                                        </div>
                                                     </div>
-                                                    <div class="col-2">
-                                                        <input type="radio" name="PR181_ck" value="1"> มี
-                                                    </div>
-                                                    <div class="col-2">
-                                                        <input type="radio" name="PR181_ck" value="0"> ไม่มี
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td align="center">
-                                                <input type="checkbox" name="PR181_be_class" value="1">
-                                            </td>
-                                            <td align="center">
-                                                <input type="checkbox" name="PR181_af_class" value="1">
-                                            </td>
-                                            <td align="center">
-                                                <input type="checkbox" name="PR181_close_class" value="1">
-                                            </td>
-                                            <td align="center">
-                                                <input type="checkbox" name="PR181_other_class" value="1">
-                                            </td>
-                                        </tr>
+                                                </td>
+                                                <td align="center">
+                                                    <input type="checkbox" name="PR181_be_class" value="1">
+                                                </td>
+                                                <td align="center">
+                                                    <input type="checkbox" name="PR181_af_class" value="1">
+                                                </td>
+                                                <td align="center">
+                                                    <input type="checkbox" name="PR181_close_class" value="1">
+                                                </td>
+                                                <td align="center">
+                                                    <input type="checkbox" name="PR181_other_class" value="1">
+                                                </td>
+                                            </tr>
 
-                                        <tr>
-                                            <td>
-                                                <div class="row">
-                                                    <div class="col-8">
-                                                        <h4>18.2 ผ่านช่องทางสื่อออนไลน์</h4>
+                                            <tr>
+                                                <td>
+                                                    <div class="row">
+                                                        <div class="col-8">
+                                                            <h4>18.2 ผ่านช่องทางสื่อออนไลน์</h4>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <input type="radio" name="PR182_ck" value="1"> มี
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <input type="radio" name="PR182_ck" value="0"> ไม่มี
+                                                        </div>
                                                     </div>
-                                                    <div class="col-2">
-                                                        <input type="radio" name="PR182_ck" value="1"> มี
-                                                    </div>
-                                                    <div class="col-2">
-                                                        <input type="radio" name="PR182_ck" value="0"> ไม่มี
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td align="center">
-                                                <input type="checkbox" name="PR182_be_class" value="1">
-                                            </td>
-                                            <td align="center">
-                                                <input type="checkbox" name="PR182_af_class" value="1">
-                                            </td>
-                                            <td align="center">
-                                                <input type="checkbox" name="PR182_close_class" value="1">
-                                            </td>
-                                            <td align="center">
-                                                <input type="checkbox" name="PR182_other_class" value="1">
-                                            </td>
-                                        </tr>
+                                                </td>
+                                                <td align="center">
+                                                    <input type="checkbox" name="PR182_be_class" value="1">
+                                                </td>
+                                                <td align="center">
+                                                    <input type="checkbox" name="PR182_af_class" value="1">
+                                                </td>
+                                                <td align="center">
+                                                    <input type="checkbox" name="PR182_close_class" value="1">
+                                                </td>
+                                                <td align="center">
+                                                    <input type="checkbox" name="PR182_other_class" value="1">
+                                                </td>
+                                            </tr>
 
-                                        <tr>
-                                            <td>
-                                                <div class="row">
-                                                    <div class="col-8">
-                                                        <h4>18.3 ผ่านสื่อทั่วไป</h4>
+                                            <tr>
+                                                <td>
+                                                    <div class="row">
+                                                        <div class="col-8">
+                                                            <h4>18.3 ผ่านสื่อทั่วไป</h4>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <input type="radio" name="PR183_ck" value="1"> มี
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <input type="radio" name="PR183_ck" value="0"> ไม่มี
+                                                        </div>
                                                     </div>
-                                                    <div class="col-2">
-                                                        <input type="radio" name="PR183_ck" value="1"> มี
-                                                    </div>
-                                                    <div class="col-2">
-                                                        <input type="radio" name="PR183_ck" value="0"> ไม่มี
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td align="center">
-                                                <input type="checkbox" name="PR183_be_class" value="1">
-                                            </td>
-                                            <td align="center">
-                                                <input type="checkbox" name="PR183_af_class" value="1">
-                                            </td>
-                                            <td align="center">
-                                                <input type="checkbox" name="PR183_close_class" value="1">
-                                            </td>
-                                            <td align="center">
-                                                <input type="checkbox" name="PR183_other_class" value="1">
-                                            </td>
-                                        </tr>
+                                                </td>
+                                                <td align="center">
+                                                    <input type="checkbox" name="PR183_be_class" value="1">
+                                                </td>
+                                                <td align="center">
+                                                    <input type="checkbox" name="PR183_af_class" value="1">
+                                                </td>
+                                                <td align="center">
+                                                    <input type="checkbox" name="PR183_close_class" value="1">
+                                                </td>
+                                                <td align="center">
+                                                    <input type="checkbox" name="PR183_other_class" value="1">
+                                                </td>
+                                            </tr>
 
-                                        <tr>
-                                            <td>
-                                                <div class="row">
-                                                    <div class="col-8">
-                                                        <h4>19. ศูนย์เพื่อนใจ TO BE NUMBER ONE</h4>
+                                            <tr>
+                                                <td>
+                                                    <div class="row">
+                                                        <div class="col-8">
+                                                            <h4>19. ศูนย์เพื่อนใจ TO BE NUMBER ONE</h4>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <input type="radio" name="ToBeNo_1_ck" value="1"> มี
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <input type="radio" name="ToBeNo_1_ck" value="0">
+                                                            ไม่มี
+                                                        </div>
                                                     </div>
-                                                    <div class="col-2">
-                                                        <input type="radio" name="ToBeNo_1_ck" value="1"> มี
-                                                    </div>
-                                                    <div class="col-2">
-                                                        <input type="radio" name="ToBeNo_1_ck" value="0"> ไม่มี
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td align="center">
-                                                <input type="checkbox" name="ToBeNo_1_be_class" value="1">
-                                            </td>
-                                            <td align="center">
-                                                <input type="checkbox" name="ToBeNo_1_af_class" value="1">
-                                            </td>
-                                            <td align="center">
-                                                <input type="checkbox" name="ToBeNo_1_close_class" value="1">
-                                            </td>
-                                            <td align="center">
-                                                <input type="checkbox" name="ToBeNo_1_other_class" value="1">
-                                            </td>
-                                        </tr>
+                                                </td>
+                                                <td align="center">
+                                                    <input type="checkbox" name="ToBeNo_1_be_class" value="1">
+                                                </td>
+                                                <td align="center">
+                                                    <input type="checkbox" name="ToBeNo_1_af_class" value="1">
+                                                </td>
+                                                <td align="center">
+                                                    <input type="checkbox" name="ToBeNo_1_close_class" value="1">
+                                                </td>
+                                                <td align="center">
+                                                    <input type="checkbox" name="ToBeNo_1_other_class" value="1">
+                                                </td>
+                                            </tr>
 
-                                        <tr>
-                                            <td>
-                                                <div class="row">
-                                                    <div class="col-8">
-                                                        <h4>20. กลุ่มเพื่อนที่ปรึกษาเพื่อน(Youth Consuler)</h4>
+                                            <tr>
+                                                <td>
+                                                    <div class="row">
+                                                        <div class="col-8">
+                                                            <h4>20. กลุ่มเพื่อนที่ปรึกษาเพื่อน(Youth Consuler)</h4>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <input type="radio" name="friend_ck" value="1"> มี
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <input type="radio" name="friend_ck" value="0"> ไม่มี
+                                                        </div>
                                                     </div>
-                                                    <div class="col-2">
-                                                        <input type="radio" name="friend_ck" value="1"> มี
-                                                    </div>
-                                                    <div class="col-2">
-                                                        <input type="radio" name="friend_ck" value="0"> ไม่มี
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td align="center">
-                                                <input type="checkbox" name="friend_be_class" value="1">
-                                            </td>
-                                            <td align="center">
-                                                <input type="checkbox" name="friend_af_class" value="1">
-                                            </td>
-                                            <td align="center">
-                                                <input type="checkbox" name="friend_close_class" value="1">
-                                            </td>
-                                            <td align="center">
-                                                <input type="checkbox" name="friend_other_class" value="1">
-                                            </td>
-                                        </tr>
-                                    </table>
-
+                                                </td>
+                                                <td align="center">
+                                                    <input type="checkbox" name="friend_be_class" value="1">
+                                                </td>
+                                                <td align="center">
+                                                    <input type="checkbox" name="friend_af_class" value="1">
+                                                </td>
+                                                <td align="center">
+                                                    <input type="checkbox" name="friend_close_class" value="1">
+                                                </td>
+                                                <td align="center">
+                                                    <input type="checkbox" name="friend_other_class" value="1">
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
                                 </div>
 
                                 {{-- tab 7 --}}

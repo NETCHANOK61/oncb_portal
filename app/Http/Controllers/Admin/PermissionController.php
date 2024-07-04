@@ -48,6 +48,60 @@ class PermissionController extends Controller
      */
     public function store(Request $request)
     {
+        // Validate input
+        $request->validate([
+            'ability' => 'required|in:view,create,edit,delete,download',
+            'permissionGroup' => 'required|string|max:255',
+            'permissionName' => 'required|string|max:255 ',
+        ], [
+            'ability.required' => 'กรุณาเลือกความสามารถ',
+            'permissionGroup.required' => 'กรุณาระบุกลุ่มสิทธิ์',
+            'permissionName.required' => 'กรุณาระบุชื่อสิทธิ์',
+        ]);
+
+        // Construct names
+        $selected_menu = Menu::find($request->permissionName);
+        $en_name = $selected_menu->name . '.' . $request->ability;
+        $th_name = $selected_menu->th_name . '.' . $this->getAbilityTitle($request->ability);
+
+        // Check if en_name or group_name already exists
+        $check_existing = Permission::where('name', $en_name)->exists();
+
+        if ($check_existing) {
+            return redirect()->back()->withErrors(['permissionName' => 'พบข้อมูลการผูกเมนูกับสิทธิ์ "' . $selected_menu->th_name . ' ในระบบแล้ว.']);
+        }
+
+        // Create new permission
+        $new_permission = Permission::create([
+            'th_name' => $th_name,
+            'name' => $en_name,
+            'group_name' => $request->permissionGroup,
+            'note' => $request->note,
+            'status' => $request->status ? '1' : '0',
+            'operations' => $request->ability
+        ]);
+
+        // Attach permission to menu
+        $selected_menu->permissions()->attach($new_permission->id);
+
+        // Set notification message
+        $notification = [
+            'message' => 'Permission Created Successfully!',
+            'alert-type' => 'success'
+        ];
+
+        // Redirect to the index page with notification
+        return redirect()->route('admin.permissions.index')->with($notification);
+    }
+
+    /**
+     * Helper function to get ability title based on key
+     *
+     * @param string $abilityKey
+     * @return string
+     */
+    private function getAbilityTitle($abilityKey)
+    {
         $abilityTitles = [
             'view' => 'ดูรายการข้อมูลทั้งหมด',
             'create' => 'สร้าง / เพิ่มข้อมูล',
@@ -56,49 +110,9 @@ class PermissionController extends Controller
             'download' => 'ดาวน์โหลด',
         ];
 
-        $selected_menu = Menu::find($request->menu);
-        $en_name = $selected_menu->name . '.' . $request->ability;
-        $th_name = $selected_menu->th_name . '.' . $abilityTitles[$request->ability];
-
-        // Define validation rules
-        $rules = [
-            'menu' => 'required|exists:menus,id',
-            'ability' => 'required|in:view,create,edit,delete,download',
-            'permissionGroup' => 'required',
-        ];
-
-        // // Custom error messages
-        $messages = [
-            'menu.required' => 'กรุณาเลือกเมนู',
-            'ability.required' => 'กรุณาเลือกความสามารถ',
-            'permissionGroup.required' => 'กรุณาเลือกกลุ่มสิทธิ์',
-        ];
-
-        // // Validate input
-        $validator = Validator::make($request->all(), $rules, $messages);
-
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
-
-        $check_existing = Permission::where('name', $en_name)->where('group_name', $request->permissionGroup)->get();
-        if ($check_existing) {
-            $validator->errors()->add('ability', 'การผูกเมนูกับสิทธิ์นี้มีในระบบแล้ว');
-        }
-
-        $new_permission = Permission::create(['th_name' => $th_name, 'name' => $en_name, 'group_name' => $request->permissionGroup, 'note' => $request->note, 'status' => $request->status ? '1' : '0', 'operations' => $request->ability]);
-        $selected_menu->permissions()->attach($new_permission->id);
-
-        // // return to_route('admin.permissions.index');
-        $notification = array(
-            'message' => 'Permission Created Successfully!',
-            'alert-type' => 'success'
-        );
-
-        return redirect()->route('admin.permissions.index')->with($notification);
+        return $abilityTitles[$abilityKey] ?? '';
     }
+
 
     /**
      * Display the specified resource.
@@ -125,12 +139,21 @@ class PermissionController extends Controller
             'delete' => 'ลบข้อมูล',
             'download' => 'ดาวน์โหลด'
         ];
+        $dataGroup = [
+            'data_recording' => 'การบันทึกข้อมูล',
+            'data_status' => 'สถานะการนำเข้าข้อมูล',
+            'data_report' => 'รายงาน',
+            'other_system' => 'เชื่อมโยงระบบอื่น ๆ',
+            'data_management' => 'บริหารจัดการ',
+        ];
 
         $menuItems = MenuService::getMenuItems();
         $menus = Menu::where('status_menu', '1')->get();
         $menu_of_permission = MenuHasPermission::where('permission_id', $permission->id)->first();
+        $permission_name_parts = explode('.', $permission->th_name);
+        $permission_name_display = $permission_name_parts[0];
 
-        return view('admin.permission.edit_permission', compact('permission', 'menus', 'menuItems', 'menu_of_permission', 'abilities'));
+        return view('admin.permission.edit_permission', compact('permission', 'permission_name_display', 'menuItems', 'menu_of_permission', 'abilities', 'dataGroup'));
     }
 
     /**
@@ -138,20 +161,30 @@ class PermissionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $abilityTitles = [
-            'view' => 'ดูรายการข้อมูลทั้งหมด',
-            'create' => 'สร้าง / เพิ่มข้อมูล',
-            'edit' => 'แก้ไข / ปรับปรุงข้อมูล',
-            'delete' => 'ลบข้อมูล',
-            'download' => 'ดาวน์โหลด',
-        ];
+        // Define validation rules
+        $request->validate([
+            'ability' => 'required|in:view,create,edit,delete,download',
+            'permissionGroup' => 'required|string|max:255',
+            'note' => 'nullable|string|max:255',
+            'permissionName' => 'string|max:255|not_regex:/\./', // Ensure th_name does not contain a dot
+        ], [
+            'permissionName.not_regex' => 'ชื่อสิทธิ์ห้ามมีเครื่องหมาย . ',
+            'permissionGroup.required' => 'กรุณาระบุกลุ่มสิทธิ์',
+            'ability.required' => 'กรุณาระบุความสามารถของสิทธิ์',
+        ]);
 
-        $selected_menu = Menu::find($request->menu);
+        $menu_of_permission = MenuHasPermission::where('permission_id', $id)->first();
+        $selected_menu = Menu::find($menu_of_permission->menu_id);
         $en_name = $selected_menu->name . '.' . $request->ability;
-        $th_name = $selected_menu->th_name . '.' . $abilityTitles[$request->ability];
-
+        $th_name = $request->permissionName . '.' . $this->getAbilityTitle($request->ability);
         // Find the permission by ID
         $permission = Permission::findOrFail($id);
+
+        // Check if en_name is already used by another permission
+        $existingPermission = Permission::where('name', $en_name)->first();
+        if ($existingPermission) {
+            return redirect()->back()->withErrors(['permissionName' => 'พบข้อมูลการผูกเมนูกับสิทธิ์ "' . $request->permissionName . ' ในระบบแล้ว.']);
+        }
 
         // Update the permission
         $permission->update([
@@ -163,9 +196,6 @@ class PermissionController extends Controller
             'operations' => $request->ability
         ]);
 
-        // Reload the permission
-        $permission = Permission::findOrFail($id);
-
         // Set notification message
         $notification = [
             'message' => 'Permission Updated Informations Successfully!',
@@ -173,8 +203,9 @@ class PermissionController extends Controller
         ];
 
         // Redirect to the edit page with notification
-        return redirect()->route('admin.permissions.edit', ['permission' => $permission])->with($notification);
+        return redirect()->route('admin.permissions.index')->with($notification);
     }
+
 
     /**
      * Remove the specified resource from storage.

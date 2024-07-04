@@ -42,17 +42,10 @@
                                                         @error('permissionName')
                                                             <span class="text-danger">{{ $message }}</span>
                                                         @enderror --}}
+                                                        <label for="menuInput">เมนู</label>
                                                         <span>
-                                                            <label for="exampleInputEmail1">สิทธิ์</label>
                                                             <div class="form-group">
-                                                                <input type="text"
-                                                                    class="form-control @error('permissionName') is-invalid @enderror"
-                                                                    id="permissionName" name="permissionName"
-                                                                    value="{{ $permission_name_display }}" />
-                                                                @error('permissionName')
-                                                                    <span class="text-danger">{{ $message }}</span>
-                                                                @enderror
-                                                                {{-- <select name="menu" class="single-select">
+                                                                <select name="menu" class="single-select">
                                                                     <option value="" selected>
                                                                         -เลือกเมนู-
                                                                     </option>
@@ -65,7 +58,7 @@
                                                                             @endif
                                                                         </option>
                                                                     @endforeach
-                                                                </select> --}}
+                                                                </select>
                                                                 @error('menu')
                                                                     <span class="text-danger">{{ $message }}</span>
                                                                 @enderror
@@ -105,7 +98,13 @@
                                                                 <select name="permissionGroup" class="single-select">
                                                                     <option value="" selected>-เลือกกลุ่มสิทธิ์-
                                                                     </option>
-                                                                    @foreach ($dataGroup as $value => $label)
+                                                                    @foreach ([
+            'data_recording' => 'การบันทึกข้อมูล',
+            'data_status' => 'สถานะการนำเข้าข้อมูล',
+            'data_report' => 'รายงาน',
+            'other_system' => 'เชื่อมโยงระบบอื่น ๆ',
+            'data_management' => 'บริหารจัดการ',
+        ] as $value => $label)
                                                                         <option value="{{ $value }}"
                                                                             {{ $permission->group_name == $value ? 'selected' : '' }}>
                                                                             {{ $label }}

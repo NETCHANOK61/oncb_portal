@@ -33,7 +33,7 @@
                                             <div class="row">
                                                 <div class="col-6">
                                                     <div class="form-group">
-                                                        <label for="fieldInput">ชื่อฟีลด์ข้อมูล</label>
+                                                        <label for="fieldInput">ชื่อฟีลด์ข้อมูล (ภาษาอังกฤษเท่านั้น)</label>
                                                         <input type="text"
                                                             class="form-control @error('field_name') is-invalid @enderror"
                                                             id="field_name" name="field_name" />

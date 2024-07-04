@@ -6,7 +6,7 @@
         <div class="page-header">
             <ol class="breadcrumb">
                 {{-- <li class="breadcrumb-item"><a href="#">บริหารจัดการผู้ใช้งาน</a></li> --}}
-                <li class="breadcrumb-item active" aria-current="page">All Property Type</li>
+                <li class="breadcrumb-item active" aria-current="page">ป้ายประกาศทั้งหมด</li>
             </ol>
 
         </div>
@@ -17,7 +17,7 @@
             <div class="col-md-12 col-lg-12">
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <div class="card-title">All Property Type</div>
+                        <div class="card-title">รายการป้ายประกาศทั้งหมด</div>
                         <div class="btn-list">
                             <a href="{{ route('admin.show.type') }}" class="btn btn-info ml-auto"><i class="fa fa-play"></i>
                                 Preview</a>

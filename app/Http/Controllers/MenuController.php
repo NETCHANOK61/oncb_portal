@@ -240,10 +240,12 @@ class MenuController extends Controller
 
     public function StoreMenu(Request $request)
     {
+        $menu = Menu::where('th_name', $request->menu_name)->first();
+
         // Validate incoming requests
         $request->validate([
-            'menu_name' => 'required',
-            'menu_icon' => 'required',
+            'menu_name' => ['required', $menu ? '' : 'unique:menus,th_name'],
+            'menu_icon' => $menu && $menu->icon ? 'nullable' : 'required',
             'secondary_menu.*.name' => 'nullable',
             'secondary_menu.*.url' => 'nullable',
             'secondary_menu.*.sub_menu.*.name' => 'nullable',
@@ -260,7 +262,8 @@ class MenuController extends Controller
                 'name' => 'main_' . time(),
                 'icon' => $request->menu_icon,
                 'status_menu' => '1',
-                'route' => '#'
+                'route' => '#',
+                'type' => 'named'
             ]
         );
 
@@ -279,7 +282,8 @@ class MenuController extends Controller
                             'icon' => null,
                             'status_menu' => '1',
                             'route' => $secondaryMenu['url'],
-                            'parent_id' => $main->id
+                            'parent_id' => $main->id,
+                            'type' => 'named'
                         ]
                     );
 
@@ -298,7 +302,8 @@ class MenuController extends Controller
                                         'icon' => null,
                                         'status_menu' => '1',
                                         'route' => $subMenu['url'],
-                                        'parent_id' => $secondary->id
+                                        'parent_id' => $secondary->id,
+                                        'type' => 'named'
                                     ]
                                 );
                             }
@@ -412,7 +417,7 @@ class MenuController extends Controller
                                     ],
                                     [
                                         'th_name' => $subMenu['name'],
-                                        'name' => 'sub_' . time() . '_' . $index_sub,
+                                        'name' => 'sub_' . time() . '_' . $index_sub . '_' . $secondary->id,
                                         'icon' => null,
                                         'status_menu' => '1',
                                         'route' => $subMenu['url'],
@@ -480,16 +485,16 @@ class MenuController extends Controller
             $currentMenu_level = 2;
         } elseif ($currentMenuIsSub) {
             // If the current menu is sub, we need the secondary menus
-            $filteredMenus = $allMenus->whereIn('parent_id', $mainMenus->pluck('id'));
+            $secondaryMenus = $allMenus->whereIn('parent_id', $mainMenus->pluck('id'));
+            $filteredMenus = $secondaryMenus;
             $currentMenu_level = 3;
         } else {
             // If the current menu is main, filteredMenus remains empty
             $currentMenu_level = 1;
         }
-
+        // dd($filteredMenus);
         return view('admin.menu.edit_child_menu', compact('menuItems', 'mainMenus', 'currentMenu', 'filteredMenus', 'currentMenu_level'));
     }
-
 
     public function UpdateChildMenu(Request $request, string $id)
     {
@@ -550,29 +555,60 @@ class MenuController extends Controller
 
     public function storeColumn(Request $request)
     {
+        // Define validation rules
+        $rules = [
+            'field_name' => 'required|max:255|regex:/^[A-Za-z]+$/',
+            'dataType' => 'required',
+            'field_size' => 'required|numeric',
+            'label_name' => 'required',
+            'table_name' => 'required',
+            'displayType' => 'required',
+        ];
+
+        // Custom error messages
+        $messages = [
+            'field_name.required' => 'กรุณากรอกชื่อฟีลด์ข้อมูล',
+            'field_name.regex' => 'ชื่อฟีลด์ข้อมูลต้องประกอบด้วยตัวอักษรภาษาอังกฤษเท่านั้น',
+            'field_size.required' => 'กรุณากรอกขนาดของฟีลด์ข้อมูล',
+            'field_size.numeric' => 'ขนาดของฟีลด์ข้อมูลต้องเป็นตัวเลขเท่านั้น',
+            'label_name.required' => 'กรุณากรอกป้ายฟีลด์ข้อมูล',
+        ];
+
+        // Validate input
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        FormInput::create([
+            'field_name' => $request->field_name,
+            'label_name' => $request->label_name,
+            'field_type' => $request->dataType,
+            'field_size' => $request->field_size,
+            'table_name' => $request->table_name,
+            'comment' => $request->comment,
+            'displayFormat' => $request->displayType
+        ]);
+
         $columnName = $request->field_name;
         $dataType = $request->dataType;
         $size = $request->field_size;
-        $tableName = $request->table_name;
         $comment = $request->comment;
-        $displayType = $request->displayType;
-
-        FormInput::create([
-            'field_name' => $columnName,
-            'label_name' => $request->label_name,
-            'field_type' => $dataType,
-            'field_size' => $size,
-            'table_name' => $tableName,
-            'comment' => $comment,
-            'displayFormat' => $displayType
-        ]);
 
         Schema::table('tbl_Pr_school_test', function ($table) use ($columnName, $dataType, $size, $comment) {
             $table->{$dataType}($columnName, $size)->nullable()->comment($comment);
         });
 
+        $notification = array(
+            'message' => 'Fields created and tbl_Pr_school_test Updated Successfully!',
+            'alert-type' => 'success'
+        );
+
         // return $this->allColumn();
-        return redirect()->route('admin.allColumn');
+        return redirect()->route('admin.allColumn')->with($notification);
     }
 
     public function deleteColumn(string $id)
