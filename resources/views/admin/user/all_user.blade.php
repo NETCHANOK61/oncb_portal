@@ -18,9 +18,9 @@
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <div class="card-title">บริหารจัดการผู้ใช้งาน</div>
                         <div class="btn-list">
-                            <a href="{{ route('admin.users.create') }}" class="btn btn-primary ml-auto"><i
+                            {{-- <a href="{{ route('admin.users.create') }}" class="btn btn-primary ml-auto"><i
                                     class="fa fa-plus"></i>
-                                เพิ่มข้อมูล</a>
+                                เพิ่มข้อมูล</a> --}}
                         </div>
                     </div>
                     <div class="card-body">

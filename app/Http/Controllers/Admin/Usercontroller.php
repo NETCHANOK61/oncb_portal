@@ -16,8 +16,19 @@ class Usercontroller extends Controller
     //
     public function index()
     {
-        //
-        $users = User::all();
+    // Get the currently logged-in user
+    $loggedInUser = auth()->user();
+
+    // Check if PROV_ID is null or empty
+    if (empty($loggedInUser->PROV_ID)) {
+        // Fetch all users
+        $users = User::where('id', '!=', $loggedInUser->id)->get();
+    } else {
+        // Fetch all users with the same PROV_ID as the logged-in user
+        $users = User::where('PROV_ID', $loggedInUser->PROV_ID)
+            ->where('id', '!=', $loggedInUser->id)
+            ->get();
+    }
 
         // menuTab
         // $menuItems = Menu::where('status_menu', 1)->get();
